@@ -37,7 +37,13 @@ public class CityRestService
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
-        return Response.ok().build();
+        PostBean[] postBeans = controller.getFirstPostOfCity();
+        try{
+            return  Response.ok(mapper.writeValueAsString( postBeans )).build();
+        }catch ( Exception e ){
+
+        }
+        return Response.ok("42").build();
     }
 
 
@@ -48,7 +54,7 @@ public class CityRestService
     @Path( "/{id}/{userId}/" )
     public Response CreatePost( @PathParam( "id" ) long timestamp,
                                 @PathParam( "userId" ) long userId ) {
-        return Response.ok().build();
+        return Response.ok("42").build();
     }
 
 

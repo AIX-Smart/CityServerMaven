@@ -29,6 +29,8 @@
       <root url="jar://$PROJECT_DIR$/lib/stax2-api.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/streambuffer.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/woodstox-core-asl.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jersey-bundle-1.17.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/liquibase.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
