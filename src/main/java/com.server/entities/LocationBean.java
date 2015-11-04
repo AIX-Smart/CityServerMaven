@@ -1,4 +1,4 @@
-package com.aix.server.entities;
+package com.server.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

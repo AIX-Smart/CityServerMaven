@@ -1,6 +1,6 @@
-package com.aix.server;
+package com.server;
 
-import com.aix.server.controller.LocationController;
+import com.server.controller.LocationController;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;

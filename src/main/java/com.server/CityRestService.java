@@ -1,11 +1,11 @@
-package com.aix.server;
+package com.server;
 
 /**
  * Created by jp on 02.11.15.
  */
 
-import com.aix.server.controller.CityController;
-import com.aix.server.entities.PostBean;
+import com.server.controller.CityController;
+import com.server.entities.PostBean;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -58,9 +58,9 @@ public class CityRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/{postNum}" )
     public Response getPost( @PathParam( "id" ) long id,
-                                             @PathParam( "userId" ) long userId,
+                             @PathParam( "userId" ) long userId,
                                              @PathParam( "postNum" ) int postNum ) {
-       PostBean [] postBeans = controller.getFirstPostOfCity();
+       PostBean[] postBeans = controller.getFirstPostOfCity();
         try{
             return  Response.ok(mapper.writeValueAsString( postBeans )).build();
         }catch ( Exception e ){

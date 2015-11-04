@@ -1,4 +1,4 @@
-package com.aix.server.entities;
+package com.server.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,38 +12,52 @@ import java.sql.Date;
  * Created by jp on 02.11.15.
  */
 
+
 @NamedQueries( {
-        @NamedQuery( name = PostBean.GET, query = "SELECT d FROM Post d " ),
+        @NamedQuery( name = CommentBean.GET, query = "SELECT d FROM Comment d " ),
+
 } )
 @Entity
-public class PostBean {
+public class CommentBean {
 
-    public static final String GET = "Post.get";
+
+    public static final String GET = "Comment.get";
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private int postId;
+    private int commentId;
 
     private String content;
+
+    private long postId;
 
     private Date date;
 
     private long userId;
 
-    private long locationId;
-
     private int likes;
 
 
 
+    public int getLikes() {
+        return likes;
+    }
 
-    public int getPostId() {
+
+
+    public void setLikes( int likes ) {
+        this.likes = likes;
+    }
+
+
+
+    public long getPostId() {
         return postId;
     }
 
 
 
-    public void setPostId( int postId ) {
+    public void setPostId( long postId ) {
         this.postId = postId;
     }
 
@@ -61,6 +75,18 @@ public class PostBean {
 
 
 
+    public int getCommentId() {
+        return commentId;
+    }
+
+
+
+    public void setCommentId( int commentId ) {
+        this.commentId = commentId;
+    }
+
+
+
     public Date getDate() {
         return date;
     }
@@ -69,18 +95,6 @@ public class PostBean {
 
     public void setDate( Date date ) {
         this.date = date;
-    }
-
-
-
-    public long getLocationId() {
-        return locationId;
-    }
-
-
-
-    public void setLocationId( long locationId ) {
-        this.locationId = locationId;
     }
 
 
@@ -94,20 +108,6 @@ public class PostBean {
     public void setUserId( long userId ) {
         this.userId = userId;
     }
-
-
-
-    public int getLikes() {
-        return likes;
-    }
-
-
-
-    public void setLikes( int likes ) {
-        this.likes = likes;
-    }
-
-
 
 
 

@@ -1,4 +1,4 @@
-package com.aix.server;
+package com.server;
 
 import org.apache.log4j.Logger;
 

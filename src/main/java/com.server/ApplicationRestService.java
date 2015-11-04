@@ -1,4 +1,4 @@
-package com.aix.server;
+package com.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -1,6 +1,6 @@
-package com.aix.server.controller;
+package com.server.controller;
 
-import com.aix.server.entities.PostBean;
+import com.server.entities.PostBean;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
