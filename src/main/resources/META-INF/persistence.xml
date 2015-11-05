@@ -1,0 +1,14 @@
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             version="1.0" xmlns="http://java.sun.com/xml/ns/persistence"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+    <persistence-unit name="Postgres">
+        <!-- START SNIPPET: data source -->
+        <jta-data-source>jdbc/Postgres</jta-data-source>
+        <!-- END SNIPPET: data source -->
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="eclipselink.ddl-generation" value="create-tables"/>
+            <!--<property name="eclipselink.logging.level" value="FINE"/>-->
+        </properties>
+    </persistence-unit>
+</persistence>
