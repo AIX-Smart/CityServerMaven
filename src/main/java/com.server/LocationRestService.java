@@ -39,8 +39,8 @@ public class LocationRestService
 
 
         try {
-            Location[] locationBeanses = controller.getLocationOfCity();
-            return  Response.ok(mapper.writeValueAsString( locationBeanses )).build();
+            Location[] locationBeans = controller.getLocationOfCity();
+            return  Response.ok(mapper.writeValueAsString( locationBeans )).build();
         } catch ( JsonProcessingException e ) {
             e.printStackTrace();
         }
