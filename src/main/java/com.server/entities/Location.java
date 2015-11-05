@@ -24,13 +24,13 @@ public class Location {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private long id;
+    private int id;
 
     private String name;
 
     private String stadt;
 
-    private String straße;
+    private String strasse;
 
     private int hausnummer;
 
@@ -80,14 +80,14 @@ public class Location {
 
 
 
-    public String getStraße() {
-        return straße;
+    public String getStrasse() {
+        return strasse;
     }
 
 
 
-    public void setStraße( String straße ) {
-        this.straße = straße;
+    public void setStrasse( String straße ) {
+        this.strasse = straße;
     }
 
 
@@ -104,7 +104,7 @@ public class Location {
 
 
 
-    public void setId( long locationId ) {
+    public void setId( int locationId ) {
         this.id = locationId;
     }
 

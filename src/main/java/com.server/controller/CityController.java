@@ -1,8 +1,6 @@
 package com.server.controller;
 
-import com.server.entities.Location;
 import com.server.entities.Post;
-import com.server.entities.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,19 +30,16 @@ public class CityController {
     }
 
     public Post getExamplePost(){
-        Location location = new Location();
-        location.setId( 1l );
-        User user = new User();
-        user.setId( 1l );
+
 
         Post post = new Post();
         post.setContent("BeispielPost");
         Calendar today = Calendar.getInstance();
         post.setDate(today);
         post.setLikes( 2 );
-        post.setLocationId(location);
+        post.setLocationId(1);
         post.setId(1);
-        post.setUserId(user);
+        post.setUserId( 1 );
         return post;
 //
 //        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GET, Post.class );

@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -32,14 +31,12 @@ public class Comment {
 
     private String content;
 
-    @ManyToOne
-    private Post post;
+    private int postId;
 
     @Temporal( TemporalType.DATE )
     private Calendar date;
 
-    @ManyToOne
-    private User user;
+    private int appuserId;
 
     private int likes;
 
@@ -57,14 +54,14 @@ public class Comment {
 
 
 
-    public Post getPostId() {
-        return post;
+    public int getPostId() {
+        return postId;
     }
 
 
 
-    public void setPostId( Post post ) {
-        this.post = post;
+    public void setPostId( int post ) {
+        this.postId = post;
     }
 
 
@@ -105,14 +102,14 @@ public class Comment {
 
 
 
-    public User getUserId() {
-        return user;
+    public int getUserId() {
+        return appuserId;
     }
 
 
 
-    public void setUserId( User user ) {
-        this.user = user;
+    public void setUserId( int appuser ) {
+        this.appuserId = appuser;
     }
 
 

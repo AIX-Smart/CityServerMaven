@@ -5,7 +5,7 @@ package com.server;
  */
 
 import com.server.controller.UserController;
-import com.server.entities.User;
+import com.server.entities.AppUser;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -35,14 +35,14 @@ public class UserRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
 
-        User post = controller.getUser();
+        AppUser post = controller.getUser();
         try {
             return Response.ok( mapper.writeValueAsString( post ) ).build();
         } catch ( Exception e ) {
+            return Response.ok( "No User found" ).build();
 
         }
 
-        return Response.ok( "No User found" ).build();
     }
 
 

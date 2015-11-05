@@ -11,23 +11,23 @@ import javax.persistence.NamedQuery;
  * Created by jp on 02.11.15.
  */
 @NamedQueries( {
-        @NamedQuery( name = User.GET, query = "SELECT u FROM User u " )
+        @NamedQuery( name = AppUser.GET, query = "SELECT u FROM AppUser u " )
       } )
 @Entity
-public class User {
+public class AppUser {
 
-    public static final String GET = "User.get";
+    public static final String GET = "AppUser.get";
 
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private long id;
+    private int id;
 
-    private long handyId;
+    private int smartPhoneId;
 
     private int permission;
 
-    private long businessId;
+    private int businessId;
 
 
 
@@ -37,20 +37,20 @@ public class User {
 
 
 
-    public void setId( long userId ) {
+    public void setId( int userId ) {
         this.id = userId;
     }
 
 
 
     public long getHandyId() {
-        return handyId;
+        return smartPhoneId;
     }
 
 
 
-    public void setHandyId( long handyId ) {
-        this.handyId = handyId;
+    public void setHandyId( int smartPhoneId ) {
+        this.smartPhoneId = smartPhoneId;
     }
 
 
@@ -73,7 +73,7 @@ public class User {
 
 
 
-    public void setBusinessId( long businessId ) {
+    public void setBusinessId( int businessId ) {
         this.businessId = businessId;
     }
 }

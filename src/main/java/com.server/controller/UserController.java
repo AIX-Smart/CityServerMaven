@@ -1,6 +1,6 @@
 package com.server.controller;
 
-import com.server.entities.User;
+import com.server.entities.AppUser;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -18,11 +18,11 @@ public class UserController {
 
 
 
-    public User getUser() {
+    public AppUser getUser() {
 
-        TypedQuery<User> query = entityManager.createNamedQuery( User.GET, User.class );
-        User user = query.getSingleResult();
-        return user;
+        TypedQuery<AppUser> query = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
+        AppUser appUser = query.getSingleResult();
+        return appUser;
 
     }
 }
