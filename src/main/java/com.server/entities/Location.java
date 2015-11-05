@@ -13,14 +13,16 @@ import javax.persistence.NamedQuery;
 
 
 @NamedQueries( {
-        @NamedQuery( name = Location.GET, query = "SELECT l FROM Location l " )
+        @NamedQuery( name = Location.GETALL, query = "SELECT l FROM Location l " ),
+        @NamedQuery( name = Location.GET, query = "SELECT l FROM Location l WHERE l.id = :id  " )
+
 } )
 @Entity
 public class Location {
 
 
+    public static final String GETALL = "Location.getAll";
     public static final String GET = "Location.get";
-
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
@@ -93,7 +95,7 @@ public class Location {
 
 
     public static String getGET() {
-        return GET;
+        return GETALL;
     }
 
 

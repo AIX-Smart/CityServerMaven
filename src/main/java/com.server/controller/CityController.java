@@ -20,7 +20,7 @@ public class CityController {
 
     //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Post aus der Tabelle wieder
     public Post[] getAllPost(){
-        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GET, Post.class );
+        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GETALL, Post.class );
         if(query.getResultList() == null){
             throw new NullPointerException(  );
         }

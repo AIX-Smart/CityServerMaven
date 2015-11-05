@@ -22,7 +22,7 @@ public class LocationController {
 
     //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Post aus der Tabelle wieder
     public Location[] getAllLocation() {
-        TypedQuery<Location> query = entityManager.createNamedQuery( Location.GET, Location.class );
+        TypedQuery<Location> query = entityManager.createNamedQuery( Location.GETALL, Location.class );
         if ( query.getResultList() == null ) {
             throw new NullPointerException(  );
         }

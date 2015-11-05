@@ -15,12 +15,20 @@ import java.util.Calendar;
  */
 
 @NamedQueries( {
-        @NamedQuery( name = Post.GET, query = "SELECT d FROM Post d " )
+        @NamedQuery( name = Post.GETALL, query = "SELECT d FROM Post d " ),
+        @NamedQuery( name = Post.GET, query = "SELECT d FROM Post d WHERE d.id = :id" ),
+        @NamedQuery( name = Post.GETUSER, query = "SELECT d FROM Post d WHERE d.appuserId = :appuserId" ),
+        @NamedQuery( name = Post.GETLOCATION, query = "SELECT d FROM Post d WHERE d.locationId = :locationId" )
 } )
 @Entity
 public class Post {
 
-    public static final String GET = "Post.get";
+    public static final String GETALL = "Post.get";
+    public static final String GET    = "Post.get";
+    public static final String GETUSER    = "Post.getUser";
+    public static final String GETLOCATION    = "Post.getLocation";
+
+
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
