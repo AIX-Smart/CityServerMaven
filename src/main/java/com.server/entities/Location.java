@@ -13,10 +13,10 @@ import javax.persistence.NamedQuery;
 
 
 @NamedQueries( {
-        @NamedQuery( name = LocationBean.GET, query = "SELECT d FROM Location d " ),
+        @NamedQuery( name = Location.GET, query = "SELECT l FROM Location l " )
 } )
 @Entity
-public class LocationBean {
+public class Location {
 
 
     public static final String GET = "Location.get";
@@ -24,44 +24,34 @@ public class LocationBean {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private long locationId;
+    private long id;
 
     private String name;
 
-    private long cityId;
+    private String stadt;
 
-    private String Straße;
+    private String straße;
 
-    private int housenr;
+    private int hausnummer;
+
+    private long telefon;
 
     private int plz;
 
-    private long phone;
-
     private int likes;
 
+    private String GPS;
 
 
-    public long getGPS() {
+
+    public String getGPS() {
         return GPS;
     }
 
 
 
-    public void setGPS( long GPS ) {
+    public void setGPS( String GPS ) {
         this.GPS = GPS;
-    }
-
-
-
-    public long getPhone() {
-        return phone;
-    }
-
-
-
-    public void setPhone( long phone ) {
-        this.phone = phone;
     }
 
 
@@ -78,38 +68,26 @@ public class LocationBean {
 
 
 
-    public int getHousenr() {
-        return housenr;
+    public int getHausnummer() {
+        return hausnummer;
     }
 
 
 
-    public void setHousenr( int housenr ) {
-        this.housenr = housenr;
+    public void setHausnummer( int hausnummer ) {
+        this.hausnummer = hausnummer;
     }
 
 
 
     public String getStraße() {
-        return Straße;
+        return straße;
     }
 
 
 
     public void setStraße( String straße ) {
-        Straße = straße;
-    }
-
-
-
-    public long getCityId() {
-        return cityId;
-    }
-
-
-
-    public void setCityId( long cityId ) {
-        this.cityId = cityId;
+        this.straße = straße;
     }
 
 
@@ -120,14 +98,14 @@ public class LocationBean {
 
 
 
-    public long getLocationId() {
-        return locationId;
+    public long getId() {
+        return id;
     }
 
 
 
-    public void setLocationId( long locationId ) {
-        this.locationId = locationId;
+    public void setId( long locationId ) {
+        this.id = locationId;
     }
 
 
@@ -156,7 +134,27 @@ public class LocationBean {
 
 
 
-    private long GPS;
+    public String getStadt() {
+        return stadt;
+    }
+
+
+
+    public void setStadt( String stadt ) {
+        this.stadt = stadt;
+    }
+
+
+
+    public long getTelefon() {
+        return telefon;
+    }
+
+
+
+    public void setTelefon( long telefon ) {
+        this.telefon = telefon;
+    }
 
 
 }

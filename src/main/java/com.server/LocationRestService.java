@@ -1,6 +1,8 @@
 package com.server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.controller.LocationController;
+import com.server.entities.Location;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -33,7 +35,18 @@ public class LocationRestService
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
-        return Response.ok().build();
+
+
+
+        try {
+            Location[] locationBeanses = controller.getLocationOfCity();
+            return  Response.ok(mapper.writeValueAsString( locationBeanses )).build();
+        } catch ( JsonProcessingException e ) {
+            e.printStackTrace();
+        }
+
+
+        return Response.ok("42").build();
     }
 
 

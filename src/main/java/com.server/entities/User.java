@@ -11,17 +11,17 @@ import javax.persistence.NamedQuery;
  * Created by jp on 02.11.15.
  */
 @NamedQueries( {
-        @NamedQuery( name = UserBean.GET, query = "SELECT d FROM User d " ),
+        @NamedQuery( name = User.GET, query = "SELECT u FROM User u " )
       } )
 @Entity
-public class UserBean {
+public class User {
 
     public static final String GET = "User.get";
 
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private long userId;
+    private long id;
 
     private long handyId;
 
@@ -31,14 +31,14 @@ public class UserBean {
 
 
 
-    public long getUserId() {
-        return userId;
+    public long getId() {
+        return id;
     }
 
 
 
-    public void setUserId( long userId ) {
-        this.userId = userId;
+    public void setId( long userId ) {
+        this.id = userId;
     }
 
 

@@ -4,9 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import java.sql.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Calendar;
 
 /**
  * Created by jp on 02.11.15.
@@ -14,26 +17,29 @@ import java.sql.Date;
 
 
 @NamedQueries( {
-        @NamedQuery( name = CommentBean.GET, query = "SELECT d FROM Comment d " ),
+        @NamedQuery( name = Comment.GET, query = "SELECT c FROM Comment c " )
 
 } )
 @Entity
-public class CommentBean {
+public class Comment {
 
 
     public static final String GET = "Comment.get";
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private int commentId;
+    private int id;
 
     private String content;
 
-    private long postId;
+    @ManyToOne
+    private Post post;
 
-    private Date date;
+    @Temporal( TemporalType.DATE )
+    private Calendar date;
 
-    private long userId;
+    @ManyToOne
+    private User user;
 
     private int likes;
 
@@ -51,14 +57,14 @@ public class CommentBean {
 
 
 
-    public long getPostId() {
-        return postId;
+    public Post getPostId() {
+        return post;
     }
 
 
 
-    public void setPostId( long postId ) {
-        this.postId = postId;
+    public void setPostId( Post post ) {
+        this.post = post;
     }
 
 
@@ -75,38 +81,38 @@ public class CommentBean {
 
 
 
-    public int getCommentId() {
-        return commentId;
+    public int getId() {
+        return id;
     }
 
 
 
-    public void setCommentId( int commentId ) {
-        this.commentId = commentId;
+    public void setId( int commentId ) {
+        this.id = commentId;
     }
 
 
 
-    public Date getDate() {
+    public Calendar getDate() {
         return date;
     }
 
 
 
-    public void setDate( Date date ) {
+    public void setDate( Calendar date ) {
         this.date = date;
     }
 
 
 
-    public long getUserId() {
-        return userId;
+    public User getUserId() {
+        return user;
     }
 
 
 
-    public void setUserId( long userId ) {
-        this.userId = userId;
+    public void setUserId( User user ) {
+        this.user = user;
     }
 
 

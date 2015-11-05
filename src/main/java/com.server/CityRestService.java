@@ -5,7 +5,7 @@ package com.server;
  */
 
 import com.server.controller.CityController;
-import com.server.entities.PostBean;
+import com.server.entities.Post;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -37,9 +37,10 @@ public class CityRestService
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
-        PostBean[] postBeans = controller.getFirstPostOfCity();
+
         try{
-            return  Response.ok(mapper.writeValueAsString( postBeans )).build();
+            Post[] posts = controller.getFirstPostOfCity();
+            return  Response.ok(mapper.writeValueAsString( posts )).build();
         }catch ( Exception e ){
 
         }
@@ -66,9 +67,9 @@ public class CityRestService
     public Response getPost( @PathParam( "id" ) long id,
                              @PathParam( "userId" ) long userId,
                                              @PathParam( "postNum" ) int postNum ) {
-       PostBean[] postBeans = controller.getFirstPostOfCity();
+       Post[] posts = controller.getFirstPostOfCity();
         try{
-            return  Response.ok(mapper.writeValueAsString( postBeans )).build();
+            return  Response.ok(mapper.writeValueAsString( posts )).build();
         }catch ( Exception e ){
 
         }
@@ -76,6 +77,23 @@ public class CityRestService
         return Response.status( Response.Status.NOT_FOUND ).build();
 
     }
+
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/example" )
+    public Response getPost( ) {
+
+        Post post = controller.getExamplePost();
+        try{
+            return  Response.ok(mapper.writeValueAsString( post )).build();
+        }catch ( Exception e ){
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();
+
+    }
+
 
 
     //Get following post from last PostId on
