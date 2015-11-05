@@ -37,14 +37,13 @@ public class CityRestService
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
-
+        Post[] posts = controller.getAllPost();
         try{
-            Post[] posts = controller.getFirstPostOfCity();
             return  Response.ok(mapper.writeValueAsString( posts )).build();
         }catch ( Exception e ){
 
         }
-        return Response.ok("42").build();
+        return Response.status( Response.Status.NOT_FOUND ).build();
     }
 
 
@@ -52,10 +51,12 @@ public class CityRestService
     //Create Post
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/" )
-    public Response CreatePost( @PathParam( "id" ) long timestamp,
-                                @PathParam( "userId" ) long userId ) {
-        return Response.ok("42").build();
+    @Path( "{id}/{userId}/{text}" )
+    public Response CreatePost( @PathParam( "id" ) int id,
+                                @PathParam( "userId" ) int userId,
+                                @PathParam( "text" ) String text ) {
+        controller.createPost( id, userId, text );
+        return Response.ok().build();
     }
 
 
@@ -64,10 +65,10 @@ public class CityRestService
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/{postNum}" )
-    public Response getPost( @PathParam( "id" ) long id,
-                             @PathParam( "userId" ) long userId,
-                                             @PathParam( "postNum" ) int postNum ) {
-       Post[] posts = controller.getFirstPostOfCity();
+    public Response getPost( @PathParam( "id" ) int id,
+                             @PathParam( "userId" ) int userId,
+                             @PathParam( "postNum" ) int postNum ) {
+       Post[] posts = controller.getFirstPosts( id, userId, postNum );
         try{
             return  Response.ok(mapper.writeValueAsString( posts )).build();
         }catch ( Exception e ){
@@ -77,6 +78,39 @@ public class CityRestService
         return Response.status( Response.Status.NOT_FOUND ).build();
 
     }
+
+
+
+
+
+    //Get following post from last PostId on
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{userId}/{postNum}/{lastPostId}" )
+    public Response getPost( @PathParam( "id" ) int id,
+                                @PathParam( "userId" ) int userId,
+                                @PathParam( "postNum" ) int postNum,
+                                @PathParam( "lastPostId" ) int lastPostId
+    ) {
+        Post[] posts = controller.getNextPosts( id, userId, postNum, lastPostId );
+        try{
+            return  Response.ok(mapper.writeValueAsString( posts )).build();
+        }catch ( Exception e ){
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();
+
+    }
+
+    //Get cityInformation
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}" )
+    public Response get( @PathParam( "id" ) long id ) {
+        return Response.ok().build();
+    }
+
 
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
@@ -93,30 +127,5 @@ public class CityRestService
         return Response.status( Response.Status.NOT_FOUND ).build();
 
     }
-
-
-
-    //Get following post from last PostId on
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{postNum}/{lastPostId}" )
-    public Response getPost( @PathParam( "id" ) long id,
-                                @PathParam( "userId" ) long userId,
-                                @PathParam( "postNum" ) int postNum,
-                                @PathParam( "lastPostId" ) long lastPostId
-    ) {
-        return Response.ok().build();
-    }
-
-    //Get cityInformation
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}" )
-    public Response get( @PathParam( "id" ) long id ) {
-        return Response.ok().build();
-    }
-
-
-
 
 }

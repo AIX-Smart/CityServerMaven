@@ -1,5 +1,7 @@
 package com.server.controller;
 
+import com.server.entities.Comment;
+
 import javax.ejb.Stateless;
 
 /**
@@ -8,4 +10,13 @@ import javax.ejb.Stateless;
 @Stateless
 public class CommentController {
 
+    public Comment[] allOwnComments( int userId ) {
+        return new Comment[ 0 ];
+    }
+
+
+
+    public void deleteComments( int id, int userId ) {
+
+    }
 }

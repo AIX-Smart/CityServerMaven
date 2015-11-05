@@ -19,7 +19,7 @@ public class CityController {
     private EntityManager entityManager;
 
     //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Post aus der Tabelle wieder
-    public Post[] getFirstPostOfCity(){
+    public Post[] getAllPost(){
         TypedQuery<Post> query = entityManager.createNamedQuery( Post.GET, Post.class );
         if(query.getResultList() == null){
             throw new NullPointerException(  );
@@ -41,10 +41,22 @@ public class CityController {
         post.setId(1);
         post.setUserId( 1 );
         return post;
-//
-//        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GET, Post.class );
-//        Post post = query.getSingleResult();
-//        return post;
     }
 
+
+
+    public void createPost(int cityId, int userId, String text ) {
+    }
+
+
+
+    public Post[] getFirstPosts( int cityId, int userId, int postNum ) {
+        return new Post[0];
+    }
+
+
+
+    public Post[] getNextPosts( int cityid, int userId, int postNum, int lastPostId ) {
+        return new Post[0];
+    }
 }

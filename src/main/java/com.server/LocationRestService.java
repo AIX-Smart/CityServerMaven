@@ -3,6 +3,7 @@ package com.server;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.controller.LocationController;
 import com.server.entities.Location;
+import com.server.entities.Post;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -31,22 +32,22 @@ public class LocationRestService
     private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 
+
     // Get all locations?
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
 
-
+        Location[] locationBeans = controller.getAllLocation();
 
         try {
-            Location[] locationBeans = controller.getLocationOfCity();
-            return  Response.ok(mapper.writeValueAsString( locationBeans )).build();
+            return Response.ok( mapper.writeValueAsString( locationBeans ) ).build();
         } catch ( JsonProcessingException e ) {
             e.printStackTrace();
         }
 
 
-        return Response.ok("42").build();
+        return Response.status( Response.Status.NOT_FOUND ).build();
     }
 
 
@@ -54,36 +55,57 @@ public class LocationRestService
     //Create Post
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/" )
-    public Response createPost( @PathParam( "id" ) long timestamp,
-                                @PathParam( "userId" ) long userId) {
+    @Path( "/{id}/{userId}/{text}" )
+    public Response createPost( @PathParam( "id" ) int id,
+                                @PathParam( "userId" ) int userId,
+                                @PathParam( "text" ) String text) {
+        controller.createPost( id, userId, text );
         return Response.ok().build();
+
     }
+
 
 
     //Get first Posts
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/{postNum}" )
-    public Response getPost( @PathParam( "id" ) long id,
-                                @PathParam( "userId" ) long userId,
-                                @PathParam( "postNum" ) int postNum
+    public Response getPost( @PathParam( "id" ) int id,
+                             @PathParam( "userId" ) int userId,
+                             @PathParam( "postNum" ) int postNum
     ) {
-        return Response.ok().build();
+        Post[] posts = controller.getNextPosts( id, userId, postNum );
+        try{
+            return  Response.ok(mapper.writeValueAsString( posts )).build();
+        }catch ( Exception e ){
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();
+
     }
+
 
 
     //Get following post from last PostId on
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/{postNum}/{lastPostId}" )
-    public Response getPost( @PathParam( "id" ) long id,
-                                @PathParam( "userId" ) long userId,
-                                @PathParam( "postNum" ) int postNum,
-                                @PathParam( "lastPostId" ) long lastPostId
+    public Response getPost( @PathParam( "id" ) int id,
+                             @PathParam( "userId" ) int userId,
+                             @PathParam( "postNum" ) int postNum,
+                             @PathParam( "lastPostId" ) int lastPostId
     ) {
-        return Response.ok().build();
-    }
+        Post[] posts = controller.getNextPosts( id, userId, postNum, lastPostId );
+        try{
+            return  Response.ok(mapper.writeValueAsString( posts )).build();
+        }catch ( Exception e ){
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();    }
+
+
 
     //Get locationInformation
     @GET
@@ -92,8 +114,6 @@ public class LocationRestService
     public Response get( @PathParam( "id" ) long id ) {
         return Response.ok().build();
     }
-
-
 
 
 }

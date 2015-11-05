@@ -1,6 +1,8 @@
 package com.server;
 
-import com.server.controller.LocationController;
+import com.server.controller.PostController;
+import com.server.entities.Comment;
+import com.server.entities.Post;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -26,7 +28,7 @@ public class PostRestService
         extends ApplicationRestService {
 
     @EJB
-    private LocationController controller;
+    private PostController controller;
     private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 
@@ -35,8 +37,16 @@ public class PostRestService
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "{userId}/" )
-    public Response getAll(@PathParam( "userId" ) long userId) {
-        return Response.ok().build();
+    public Response getAll( @PathParam( "userId" ) int userId ) {
+
+        Post[] posts = controller.allOwnPosts( userId );
+        try {
+            return Response.ok( mapper.writeValueAsString( posts ) ).build();
+        } catch ( Exception e ) {
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();
     }
 
 
@@ -44,9 +54,13 @@ public class PostRestService
     //Create Comment
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "{id}/{userId}/" )
-    public Response createComment( @PathParam( "id" ) long id,
-                                @PathParam( "userId" ) long userId ) {
+    @Path( "{id}/{userId}/{text}" )
+    public Response createComment( @PathParam( "id" ) int id,
+                                   @PathParam( "userId" ) int userId,
+                                   @PathParam("text") String text
+
+    ) {
+        controller.createComment( id, userId, text );
         return Response.ok().build();
     }
 
@@ -55,25 +69,38 @@ public class PostRestService
     //Get first Comments
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{postNum}" )
-    public Response getComment( @PathParam( "id" ) long id,
-                                @PathParam( "userId" ) long userId,
-                                @PathParam( "postNum" ) int postNum ) {
-        return Response.ok().build();
-    }
+    @Path( "/{id}/{userId}/{comNum}" )
+    public Response getComment( @PathParam( "id" ) int id,
+                                @PathParam( "userId" ) int userId,
+                                @PathParam( "comNum" ) int comNum ) {
+        Comment[] comments = controller.getNextComments( id, userId, comNum );
+        try{
+            return  Response.ok(mapper.writeValueAsString( comments )).build();
+        }catch ( Exception e ){
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();    }
+
 
 
     //Get following comment from last commentId on
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{commentNum}/{lastCommentId}" )
-    public Response getComment( @PathParam( "id" ) long id,
-                                @PathParam( "userId" ) long userId,
-                                @PathParam( "commentNum" ) int commentNum,
-                                @PathParam( "lastCommentId" ) long lastCommentId
+    @Path( "/{id}/{userId}/{comNum}/{lastCommentId}" )
+    public Response getComment( @PathParam( "id" ) int id,
+                                @PathParam( "userId" ) int userId,
+                                @PathParam( "comNum" ) int comNum,
+                                @PathParam( "lastCommentId" ) int lastCommentId
     ) {
-        return Response.ok().build();
-    }
+        Comment[] comments = controller.getNextComments( id, userId, comNum, lastCommentId );
+        try{
+            return  Response.ok(mapper.writeValueAsString( comments )).build();
+        }catch ( Exception e ){
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();      }
 
 
 
@@ -81,9 +108,10 @@ public class PostRestService
     @DELETE
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/" )
-    public Response deletePost( @PathParam( "id" ) long id,
-                                 @PathParam( "userId" ) long userId
-                                   ) {
+    public Response deletePost( @PathParam( "id" ) int id,
+                                @PathParam( "userId" ) int userId
+    ) {
+        controller.deletePost(id, userId);
         return Response.ok().build();
     }
 

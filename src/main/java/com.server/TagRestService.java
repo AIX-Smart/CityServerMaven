@@ -1,6 +1,8 @@
 package com.server;
 
-import com.server.controller.LocationController;
+import com.server.controller.TagController;
+import com.server.entities.Location;
+import com.server.entities.Post;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -24,7 +26,7 @@ public class TagRestService
         extends ApplicationRestService {
 
     @EJB
-    private LocationController controller;
+    private TagController controller;
     private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 
@@ -37,53 +39,79 @@ public class TagRestService
     }
 
 
-    //Get first Posts with tag
+
+    //Get first Location with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{postNum}" )
-    public Response getPost( @PathParam( "id" ) long id,
-                              @PathParam( "userId" ) long userId,
-                              @PathParam( "postNum" ) int postNum
+    @Path( "/{id}/{userId}/{locationNum}" )
+    public Response getLocation( @PathParam( "id" ) int id,
+                             @PathParam( "userId" ) int userId,
+                             @PathParam( "locationNum" ) int locationNum
     ) {
-        return Response.ok().build();
-    }
+        Location[] locations = controller.getNextLocations( id, userId, locationNum );
+        try{
+            return  Response.ok(mapper.writeValueAsString( locations )).build();
+        }catch ( Exception e ){
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();    }
 
 
-    //Get following post from last PostId on with tag
+
+    //Get following Location from lastLocationId on with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/{postNum}/{lastPostId}" )
-    public Response getPost( @PathParam( "id" ) long id,
-                              @PathParam( "userId" ) long userId,
+    public Response getLocation( @PathParam( "id" ) int id,
+                              @PathParam( "userId" ) int userId,
                               @PathParam( "postNum" ) int postNum,
-                              @PathParam( "lastPostId" ) long lastPostId
+                              @PathParam( "lastPostId" ) int lastPostId
     ) {
-        return Response.ok().build();
-    }
+        Location[] locations = controller.getNextLocations( id, userId, postNum, lastPostId );
+        try{
+            return  Response.ok(mapper.writeValueAsString( locations )).build();
+        }catch ( Exception e ){
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();    }
 
     //Get first Posts with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/location/{userId}/{locationNum}" )
-    public Response getLocation( @PathParam( "id" ) long id,
-                              @PathParam( "userId" ) long userId,
+    public Response getPost( @PathParam( "id" ) int id,
+                              @PathParam( "userId" ) int userId,
                               @PathParam( "locationNum" ) int postNum
     ) {
-        return Response.ok().build();
-    }
+        Post[] posts = controller.getNextPosts( id, userId, postNum );
+        try{
+            return  Response.ok(mapper.writeValueAsString( posts )).build();
+        }catch ( Exception e ){
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();    }
 
 
     //Get following post from last PostId on with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/location/{userId}/{locationNum}/{lastLocationId}" )
-    public Response getLocatioin( @PathParam( "id" ) long id,
-                              @PathParam( "userId" ) long userId,
+    public Response getPost( @PathParam( "id" ) int id,
+                              @PathParam( "userId" ) int userId,
                               @PathParam( "locationNum" ) int postNum,
-                              @PathParam( "lastLocationId" ) long lastPostId
+                              @PathParam( "lastLocationId" ) int lastPostId
     ) {
-        return Response.ok().build();
-    }
+        Post[] posts = controller.getNextPosts( id, userId, postNum, lastPostId );
+        try{
+            return  Response.ok(mapper.writeValueAsString( posts )).build();
+        }catch ( Exception e ){
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();    }
 
     //Get tag
     @GET
