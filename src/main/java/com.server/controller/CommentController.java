@@ -19,4 +19,9 @@ public class CommentController {
     public void deleteComments( int id, int userId ) {
 
     }
+
+
+
+    public void likeComment( int id, int userId ) {
+    }
 }

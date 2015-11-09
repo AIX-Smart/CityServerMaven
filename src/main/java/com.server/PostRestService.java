@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -61,6 +62,19 @@ public class PostRestService
 
     ) {
         controller.createComment( id, userId, text );
+        return Response.ok().build();
+    }
+
+
+    //like Post
+    @POST
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "{id}/{userId}" )
+    public Response likePost( @PathParam( "id" ) int id,
+                                   @PathParam( "userId" ) int userId
+
+    ) {
+        controller.likePost( id, userId  );
         return Response.ok().build();
     }
 

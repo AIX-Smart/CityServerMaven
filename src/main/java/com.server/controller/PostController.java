@@ -45,4 +45,9 @@ public class PostController {
     public void deletePost( int id, int userId ) {
 
     }
+
+
+
+    public void likePost( int id, int userId ) {
+    }
 }
