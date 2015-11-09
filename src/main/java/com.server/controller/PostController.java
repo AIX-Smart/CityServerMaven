@@ -6,6 +6,9 @@ import com.server.entities.Post;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by jp on 02.11.15.
@@ -19,35 +22,103 @@ public class PostController {
 
 
     public Post[] allOwnPosts( int userId ) {
-        return new Post[ 0 ];
+
+        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GETUSER, Post.class );
+        query.setParameter( "appuserId", userId );
+
+        List<Post> postList = query.getResultList();
+        return postList.toArray(new Post[ postList.size()]);
     }
 
 
 
     public void createComment( int id, int userId, String text ) {
-        
+        Comment comment = new Comment();
+        comment.setContent( text );
+        comment.setDate( Calendar.getInstance() );
+        comment.setUserId( userId );
+        comment.setPostId( id );
+
+        entityManager.persist( comment );
     }
 
 
 
     public Comment[] getNextComments( int id, int userId, int comNum ) {
-        return new Comment[ 0 ];
+
+        TypedQuery<Comment> query = entityManager.createNamedQuery( Comment.GETPOSTCOMMENTS, Comment.class );
+        query.setParameter( "postId", id);
+
+        if(query.getResultList() == null){
+            throw new NullPointerException(  );
+        }
+        List<Comment> commentList = query.getResultList();
+
+        List<Comment> returnList = commentList.subList( 0, comNum );
+
+        return returnList.toArray(new Comment[ returnList.size()]);
+
+
     }
 
 
 
     public Comment[] getNextComments( int id, int userId, int comNum, int lastCommentId ) {
-        return new Comment[ 0 ];
+
+        TypedQuery<Comment> query = entityManager.createNamedQuery( Comment.GETPOSTCOMMENTS, Comment.class );
+        query.setParameter( "postId", id);
+
+        if(query.getResultList() == null){
+            throw new NullPointerException(  );
+        }
+        List<Comment> commentList = query.getResultList();
+
+        int i = 0;
+        for( ; i < commentList.size(); i++){
+            if (commentList.get( i ).getId() == lastCommentId){
+                break;
+            }
+        }
+        if (i == commentList.size()){
+            return new Comment[0];
+        }
+
+        List<Comment> returnList = commentList.subList( i, i + comNum );
+        return returnList.toArray(new Comment[ returnList.size()]);
+
+
     }
 
 
 
     public void deletePost( int id, int userId ) {
 
+        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GET, Post.class);
+        query.setParameter( "id", id );
+
+        Post post = query.getSingleResult();
+
+        if (userId == post.getUserId()){
+            entityManager.remove( post );
+        }
+
+
     }
 
 
 
     public void likePost( int id, int userId ) {
+
+        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GET, Post.class);
+        query.setParameter( "id", id );
+
+        Post post = query.getSingleResult();
+
+        int likes = post.getLikes() + 1;
+        post.setLikes( likes );
+
+        entityManager.persist( post );
+
+
     }
 }

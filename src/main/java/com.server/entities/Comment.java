@@ -16,7 +16,8 @@ import java.util.Calendar;
 
 
 @NamedQueries( {
-        @NamedQuery( name = Comment.GET, query = "SELECT c FROM Comment c " ),
+        @NamedQuery( name = Comment.GETALL, query = "SELECT c FROM Comment c " ),
+        @NamedQuery( name = Comment.GET, query = "SELECT c FROM Comment c WHERE c.id = :id" ),
         @NamedQuery( name = Comment.GETOWN, query = "SELECT c FROM Comment c WHERE c.appuserId = :userId " ),
         @NamedQuery( name = Comment.GETPOSTCOMMENTS, query = "SELECT c FROM Comment c WHERE c.postId = :postId " )
 
@@ -24,8 +25,8 @@ import java.util.Calendar;
 @Entity
 public class Comment {
 
-
     public static final String GET = "Comment.get";
+    public static final String GETALL = "Comment.getAll";
     public static final String GETOWN = "Comment.getOwn";
     public static final String GETPOSTCOMMENTS = "Comment.getPostComments";
 

@@ -29,34 +29,59 @@ public class CityController {
 
     }
 
-    public Post getExamplePost(){
-
-
-        Post post = new Post();
-        post.setContent("BeispielPost");
-        Calendar today = Calendar.getInstance();
-        post.setDate(today);
-        post.setLikes( 2 );
-        post.setLocationId(1);
-        post.setId(1);
-        post.setUserId( 1 );
-        return post;
-    }
-
 
 
     public void createPost(int cityId, int userId, String text ) {
+
+        //zurzeit nur Aachen deswegen ist cityId egal
+
+        Post post = new Post();
+        post.setContent( text );
+        post.setDate( Calendar.getInstance() );
+        post.setUserId( userId );
+
+        entityManager.persist( post );
+
+
     }
 
 
 
     public Post[] getFirstPosts( int cityId, int userId, int postNum ) {
-        return new Post[0];
+
+        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GETALL, Post.class );
+        if(query.getResultList() == null){
+            throw new NullPointerException(  );
+        }
+        List<Post> postList = query.getResultList();
+
+        List<Post> returnList = postList.subList( 0, postNum );
+
+        return returnList.toArray(new Post[ returnList.size()]);
+
     }
 
 
 
     public Post[] getNextPosts( int cityid, int userId, int postNum, int lastPostId ) {
-        return new Post[0];
+        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GETALL, Post.class );
+        if(query.getResultList() == null){
+            throw new NullPointerException(  );
+        }
+        List<Post> postList = query.getResultList();
+
+        int i = 0;
+        for( ; i < postList.size(); i++){
+            if (postList.get( i ).getId() == lastPostId){
+                break;
+            }
+        }
+        if (i == postList.size()){
+            return new Post[0];
+        }
+
+        List<Post> returnList = postList.subList( i, i + postNum );
+
+        return returnList.toArray(new Post[ returnList.size()]);
     }
 }

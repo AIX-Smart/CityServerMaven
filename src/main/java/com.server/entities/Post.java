@@ -23,7 +23,7 @@ import java.util.Calendar;
 @Entity
 public class Post {
 
-    public static final String GETALL = "Post.get";
+    public static final String GETALL = "Post.getAll";
     public static final String GET    = "Post.get";
     public static final String GETUSER    = "Post.getUser";
     public static final String GETLOCATION    = "Post.getLocation";

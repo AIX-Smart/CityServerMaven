@@ -74,7 +74,7 @@ public class LocationRestService
                              @PathParam( "userId" ) int userId,
                              @PathParam( "postNum" ) int postNum
     ) {
-        Post[] posts = controller.getNextPosts( id, userId, postNum );
+        Post[] posts = controller.getFirstPosts( id, userId, postNum );
         try{
             return  Response.ok(mapper.writeValueAsString( posts )).build();
         }catch ( Exception e ){
