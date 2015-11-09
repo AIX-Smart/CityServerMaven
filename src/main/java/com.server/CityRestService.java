@@ -112,20 +112,5 @@ public class CityRestService
     }
 
 
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/example" )
-    public Response getPost( ) {
-
-        Post post = controller.getExamplePost();
-        try{
-            return  Response.ok(mapper.writeValueAsString( post )).build();
-        }catch ( Exception e ){
-
-        }
-
-        return Response.status( Response.Status.NOT_FOUND ).build();
-
-    }
 
 }
