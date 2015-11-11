@@ -1,5 +1,6 @@
 package com.server.controller;
 
+import com.server.entities.AppUser;
 import com.server.entities.Comment;
 
 import javax.ejb.Stateless;
@@ -36,10 +37,13 @@ public class CommentController {
 
         TypedQuery<Comment> query = entityManager.createNamedQuery( Comment.GET, Comment.class);
         query.setParameter( "id", id );
-
         Comment comment = query.getSingleResult();
 
-        if (userId == comment.getUserId()){
+        TypedQuery<AppUser> queryUser = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
+        query.setParameter( "id", userId );
+        AppUser user = queryUser.getSingleResult();
+
+        if (user.equals( comment.getUser() )){
             entityManager.remove( comment );
         }
 
@@ -51,10 +55,13 @@ public class CommentController {
 
         // es muss noch eine Abfrage hinzukommen ob der User den Comment schonmal geliked hat
 
-        TypedQuery<Comment> query = entityManager.createNamedQuery( Comment.GET, Comment.class);
+        TypedQuery<Comment> query = entityManager.createNamedQuery( Comment.GET, Comment.class );
         query.setParameter( "id", id );
-
         Comment comment = query.getSingleResult();
+
+        TypedQuery<AppUser> queryUser = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
+        query.setParameter( "id", userId );
+        AppUser user = queryUser.getSingleResult();
 
         int likes = comment.getLikes() + 1;
         comment.setLikes( likes );

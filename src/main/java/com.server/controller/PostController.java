@@ -1,5 +1,6 @@
 package com.server.controller;
 
+import com.server.entities.AppUser;
 import com.server.entities.Comment;
 import com.server.entities.Post;
 
@@ -32,11 +33,11 @@ public class PostController {
 
 
 
-    public void createComment( int id, int userId, String text ) {
+    public void createComment( int id, AppUser userId, String text ) {
         Comment comment = new Comment();
         comment.setContent( text );
         comment.setDate( Calendar.getInstance() );
-        comment.setUserId( userId );
+        comment.setUser( userId );
         comment.setPostId( id );
 
         entityManager.persist( comment );
@@ -95,10 +96,13 @@ public class PostController {
 
         TypedQuery<Post> query = entityManager.createNamedQuery( Post.GET, Post.class);
         query.setParameter( "id", id );
-
         Post post = query.getSingleResult();
 
-        if (userId == post.getUserId()){
+        TypedQuery<AppUser> queryUser = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
+        query.setParameter( "id", id );
+        AppUser user = queryUser.getSingleResult();
+
+        if (user.equals( post.getUser() )){
             entityManager.remove( post );
         }
 
@@ -111,8 +115,12 @@ public class PostController {
 
         TypedQuery<Post> query = entityManager.createNamedQuery( Post.GET, Post.class);
         query.setParameter( "id", id );
-
         Post post = query.getSingleResult();
+
+        TypedQuery<AppUser> queryUser = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
+        query.setParameter( "id", userId );
+        AppUser user = queryUser.getSingleResult();
+
 
         int likes = post.getLikes() + 1;
         post.setLikes( likes );

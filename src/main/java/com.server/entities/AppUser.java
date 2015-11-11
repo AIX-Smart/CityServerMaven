@@ -11,12 +11,14 @@ import javax.persistence.NamedQuery;
  * Created by jp on 02.11.15.
  */
 @NamedQueries( {
-        @NamedQuery( name = AppUser.GET, query = "SELECT u FROM AppUser u " )
-      } )
+        @NamedQuery( name = AppUser.GET, query = "SELECT u FROM AppUser u WHERE u.id = :id" ),
+        @NamedQuery( name = AppUser.GETALL, query = "SELECT u FROM AppUser u" )
+} )
 @Entity
 public class AppUser {
 
-    public static final String GET = "AppUser.get";
+    public static final String GET    = "AppUser.get";
+    public static final String GETALL = "AppUser.getAll";
 
 
     @Id

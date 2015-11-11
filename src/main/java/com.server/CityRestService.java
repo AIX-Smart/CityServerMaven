@@ -5,6 +5,7 @@ package com.server;
  */
 
 import com.server.controller.CityController;
+import com.server.entities.AppUser;
 import com.server.entities.Post;
 import org.apache.log4j.Logger;
 
@@ -55,7 +56,7 @@ public class CityRestService
     @Consumes("text/plain")
     @Path( "{id}/{userId}" )
     public Response CreatePost( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) int userId,
+                                @PathParam( "userId" ) AppUser userId,
                                 String text ) {
         controller.createPost( id, userId, text );
         return Response.ok().build();

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -18,16 +19,16 @@ import java.util.Calendar;
 @NamedQueries( {
         @NamedQuery( name = Comment.GETALL, query = "SELECT c FROM Comment c " ),
         @NamedQuery( name = Comment.GET, query = "SELECT c FROM Comment c WHERE c.id = :id" ),
-        @NamedQuery( name = Comment.GETOWN, query = "SELECT c FROM Comment c WHERE c.appuserId = :userId " ),
+        @NamedQuery( name = Comment.GETOWN, query = "SELECT c FROM Comment c WHERE c.appuser = :userId " ),
         @NamedQuery( name = Comment.GETPOSTCOMMENTS, query = "SELECT c FROM Comment c WHERE c.postId = :postId " )
 
 } )
 @Entity
 public class Comment {
 
-    public static final String GET = "Comment.get";
-    public static final String GETALL = "Comment.getAll";
-    public static final String GETOWN = "Comment.getOwn";
+    public static final String GET             = "Comment.get";
+    public static final String GETALL          = "Comment.getAll";
+    public static final String GETOWN          = "Comment.getOwn";
     public static final String GETPOSTCOMMENTS = "Comment.getPostComments";
 
     @Id
@@ -41,7 +42,9 @@ public class Comment {
     @Temporal( TemporalType.DATE )
     private Calendar date;
 
-    private int appuserId;
+
+    @ManyToOne
+    private AppUser appuser;
 
     private int likes;
 
@@ -107,17 +110,15 @@ public class Comment {
 
 
 
-    public int getUserId() {
-        return appuserId;
+    public AppUser getUser() {
+        return appuser;
     }
 
 
 
-    public void setUserId( int appuser ) {
-        this.appuserId = appuser;
+    public void setUser( AppUser appuser ) {
+        this.appuser = appuser;
     }
-
-
 
 
 }

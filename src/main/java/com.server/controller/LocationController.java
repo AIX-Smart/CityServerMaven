@@ -1,5 +1,6 @@
 package com.server.controller;
 
+import com.server.entities.AppUser;
 import com.server.entities.Location;
 import com.server.entities.Post;
 
@@ -34,13 +35,13 @@ public class LocationController {
 
 
 
-    public void createPost( int id, int userId, String text ) {
+    public void createPost( Location id, AppUser userId, String text ) {
         
         Post post = new Post();
         post.setContent( text );
         post.setDate( Calendar.getInstance() );
-        post.setUserId( userId );
-        post.setLocationId( id );
+        post.setUser( userId );
+        post.setLocation( id );
 
         entityManager.persist( post );
 

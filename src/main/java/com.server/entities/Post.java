@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -17,17 +18,16 @@ import java.util.Calendar;
 @NamedQueries( {
         @NamedQuery( name = Post.GETALL, query = "SELECT d FROM Post d " ),
         @NamedQuery( name = Post.GET, query = "SELECT d FROM Post d WHERE d.id = :id" ),
-        @NamedQuery( name = Post.GETUSER, query = "SELECT d FROM Post d WHERE d.appuserId = :appuserId" ),
-        @NamedQuery( name = Post.GETLOCATION, query = "SELECT d FROM Post d WHERE d.locationId = :locationId" )
+        @NamedQuery( name = Post.GETUSER, query = "SELECT d FROM Post d WHERE d.appuser = :appuserId" ),
+        @NamedQuery( name = Post.GETLOCATION, query = "SELECT d FROM Post d WHERE d.location = :locationId" )
 } )
 @Entity
 public class Post {
 
-    public static final String GETALL = "Post.getAll";
-    public static final String GET    = "Post.get";
-    public static final String GETUSER    = "Post.getUser";
-    public static final String GETLOCATION    = "Post.getLocation";
-
+    public static final String GETALL      = "Post.getAll";
+    public static final String GET         = "Post.get";
+    public static final String GETUSER     = "Post.getUser";
+    public static final String GETLOCATION = "Post.getLocation";
 
 
     @Id
@@ -39,9 +39,11 @@ public class Post {
     @Temporal( TemporalType.DATE )
     private Calendar date;
 
-    private int appuserId;
+    @ManyToOne
+    private AppUser appuser;
 
-    private int locationId;
+    @ManyToOne
+    private Location location;
 
     private int likes;
 
@@ -83,26 +85,26 @@ public class Post {
 
 
 
-    public int getLocationId() {
-        return locationId;
+    public Location getLocation() {
+        return location;
     }
 
 
 
-    public void setLocationId( int location ) {
-        this.locationId = location;
+    public void setLocation( Location location ) {
+        this.location = location;
     }
 
 
 
-    public int getUserId() {
-        return appuserId;
+    public AppUser getUser() {
+        return appuser;
     }
 
 
 
-    public void setUserId( int appuser ) {
-        this.appuserId = appuser;
+    public void setUser( AppUser appuser ) {
+        this.appuser = appuser;
     }
 
 

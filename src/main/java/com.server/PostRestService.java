@@ -1,6 +1,7 @@
 package com.server;
 
 import com.server.controller.PostController;
+import com.server.entities.AppUser;
 import com.server.entities.Comment;
 import com.server.entities.Post;
 import org.apache.log4j.Logger;
@@ -59,7 +60,7 @@ public class PostRestService
     @Consumes( "text/plain" )
     @Path( "{id}/{userId}" )
     public Response createComment( @PathParam( "id" ) int id,
-                                   @PathParam( "userId" ) int userId,
+                                   @PathParam( "userId" ) AppUser userId,
                                    String text
 
     ) {
