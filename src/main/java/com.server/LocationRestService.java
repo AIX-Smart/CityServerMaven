@@ -55,10 +55,10 @@ public class LocationRestService
     //Create Post
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{text}" )
+    @Path( "/{id}/{userId}" )
     public Response createPost( @PathParam( "id" ) int id,
                                 @PathParam( "userId" ) int userId,
-                                @PathParam( "text" ) String text) {
+                                String text ) {
         controller.createPost( id, userId, text );
         return Response.ok().build();
 
@@ -75,9 +75,9 @@ public class LocationRestService
                              @PathParam( "postNum" ) int postNum
     ) {
         Post[] posts = controller.getFirstPosts( id, userId, postNum );
-        try{
-            return  Response.ok(mapper.writeValueAsString( posts )).build();
-        }catch ( Exception e ){
+        try {
+            return Response.ok( mapper.writeValueAsString( posts ) ).build();
+        } catch ( Exception e ) {
 
         }
 
@@ -97,13 +97,14 @@ public class LocationRestService
                              @PathParam( "lastPostId" ) int lastPostId
     ) {
         Post[] posts = controller.getNextPosts( id, userId, postNum, lastPostId );
-        try{
-            return  Response.ok(mapper.writeValueAsString( posts )).build();
-        }catch ( Exception e ){
+        try {
+            return Response.ok( mapper.writeValueAsString( posts ) ).build();
+        } catch ( Exception e ) {
 
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();    }
+        return Response.status( Response.Status.NOT_FOUND ).build();
+    }
 
 
 

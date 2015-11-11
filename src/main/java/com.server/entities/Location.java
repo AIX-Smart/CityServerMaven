@@ -22,7 +22,7 @@ public class Location {
 
 
     public static final String GETALL = "Location.getAll";
-    public static final String GET = "Location.get";
+    public static final String GET    = "Location.get";
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )

@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -55,10 +56,11 @@ public class PostRestService
     //Create Comment
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "{id}/{userId}/{text}" )
+    @Consumes( "text/plain" )
+    @Path( "{id}/{userId}" )
     public Response createComment( @PathParam( "id" ) int id,
                                    @PathParam( "userId" ) int userId,
-                                   @PathParam("text") String text
+                                   String text
 
     ) {
         controller.createComment( id, userId, text );
@@ -66,15 +68,16 @@ public class PostRestService
     }
 
 
+
     //like Post
     @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "{id}/{userId}" )
     public Response likePost( @PathParam( "id" ) int id,
-                                   @PathParam( "userId" ) int userId
+                              @PathParam( "userId" ) int userId
 
     ) {
-        controller.likePost( id, userId  );
+        controller.likePost( id, userId );
         return Response.ok().build();
     }
 
@@ -88,13 +91,14 @@ public class PostRestService
                                 @PathParam( "userId" ) int userId,
                                 @PathParam( "comNum" ) int comNum ) {
         Comment[] comments = controller.getNextComments( id, userId, comNum );
-        try{
-            return  Response.ok(mapper.writeValueAsString( comments )).build();
-        }catch ( Exception e ){
+        try {
+            return Response.ok( mapper.writeValueAsString( comments ) ).build();
+        } catch ( Exception e ) {
 
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();    }
+        return Response.status( Response.Status.NOT_FOUND ).build();
+    }
 
 
 
@@ -108,13 +112,14 @@ public class PostRestService
                                 @PathParam( "lastCommentId" ) int lastCommentId
     ) {
         Comment[] comments = controller.getNextComments( id, userId, comNum, lastCommentId );
-        try{
-            return  Response.ok(mapper.writeValueAsString( comments )).build();
-        }catch ( Exception e ){
+        try {
+            return Response.ok( mapper.writeValueAsString( comments ) ).build();
+        } catch ( Exception e ) {
 
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();      }
+        return Response.status( Response.Status.NOT_FOUND ).build();
+    }
 
 
 
@@ -125,7 +130,7 @@ public class PostRestService
     public Response deletePost( @PathParam( "id" ) int id,
                                 @PathParam( "userId" ) int userId
     ) {
-        controller.deletePost(id, userId);
+        controller.deletePost( id, userId );
         return Response.ok().build();
     }
 

@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -51,10 +52,11 @@ public class CityRestService
     //Create Post
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "{id}/{userId}/{text}" )
+    @Consumes("text/plain")
+    @Path( "{id}/{userId}" )
     public Response CreatePost( @PathParam( "id" ) int id,
                                 @PathParam( "userId" ) int userId,
-                                @PathParam( "text" ) String text ) {
+                                String text ) {
         controller.createPost( id, userId, text );
         return Response.ok().build();
     }
