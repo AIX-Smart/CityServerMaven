@@ -33,7 +33,7 @@ public class PostController {
 
 
 
-    public void createComment( int id, AppUser userId, String text ) {
+    public void createComment(int id, int userId, String text ) {
         Comment comment = new Comment();
         comment.setContent( text );
         comment.setDate( Calendar.getInstance() );

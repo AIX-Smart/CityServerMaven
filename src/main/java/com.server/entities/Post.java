@@ -39,8 +39,7 @@ public class Post {
     @Temporal( TemporalType.DATE )
     private Calendar date;
 
-    @ManyToOne
-    private AppUser appuser;
+    private int appuser;
 
     @ManyToOne
     private Location location;
@@ -97,13 +96,13 @@ public class Post {
 
 
 
-    public AppUser getUser() {
+    public int getUser() {
         return appuser;
     }
 
 
 
-    public void setUser( AppUser appuser ) {
+    public void setUser(int appuser ) {
         this.appuser = appuser;
     }
 

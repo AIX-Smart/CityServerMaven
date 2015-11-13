@@ -5,7 +5,6 @@ package com.server;
  */
 
 import com.server.controller.CityController;
-import com.server.entities.AppUser;
 import com.server.entities.Post;
 import org.apache.log4j.Logger;
 
@@ -56,7 +55,7 @@ public class CityRestService
     @Consumes("text/plain")
     @Path( "{id}/{userId}" )
     public Response CreatePost( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) AppUser userId,
+                                @PathParam( "userId" ) int userId,
                                 String text ) {
         controller.createPost( id, userId, text );
         return Response.ok().build();
@@ -67,11 +66,12 @@ public class CityRestService
     //Get first Posts
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{postNum}" )
+    @Path( "/{id}/{postNum}/{userId}" )
     public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "userId" ) int userId,
-                             @PathParam( "postNum" ) int postNum ) {
+                             @PathParam( "postNum" ) int postNum,
+                             @PathParam( "userId" ) int userId,) {
        Post[] posts = controller.getFirstPosts( id, userId, postNum );
+        Events
         try{
             return  Response.ok(mapper.writeValueAsString( posts )).build();
         }catch ( Exception e ){

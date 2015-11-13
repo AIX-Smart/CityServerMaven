@@ -25,11 +25,11 @@ public class AppUser {
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private int id;
 
-    private int smartPhoneId;
+    private transient int smartPhoneId;
 
-    private int permission;
+    private transient int permission;
 
-    private int businessId;
+    private transient int businessId;
 
 
 

@@ -1,6 +1,5 @@
 package com.server.controller;
 
-import com.server.entities.AppUser;
 import com.server.entities.Post;
 
 import javax.ejb.Stateless;
@@ -32,7 +31,7 @@ public class CityController {
 
 
 
-    public void createPost(int cityId, AppUser userId, String text ) {
+    public void createPost(int cityId, int userId, String text ) {
 
         //zurzeit nur Aachen deswegen ist cityId egal
 

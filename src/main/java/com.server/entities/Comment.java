@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -43,8 +42,7 @@ public class Comment {
     private Calendar date;
 
 
-    @ManyToOne
-    private AppUser appuser;
+    private int appuser;
 
     private int likes;
 
@@ -110,13 +108,13 @@ public class Comment {
 
 
 
-    public AppUser getUser() {
+    public int getUser() {
         return appuser;
     }
 
 
 
-    public void setUser( AppUser appuser ) {
+    public void setUser(int appuser ) {
         this.appuser = appuser;
     }
 

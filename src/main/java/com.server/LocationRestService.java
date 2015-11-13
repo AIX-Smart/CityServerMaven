@@ -2,7 +2,6 @@ package com.server;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.controller.LocationController;
-import com.server.entities.AppUser;
 import com.server.entities.Location;
 import com.server.entities.Post;
 import org.apache.log4j.Logger;
@@ -58,7 +57,7 @@ public class LocationRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}" )
     public Response createPost( @PathParam( "id" ) Location id,
-                                @PathParam( "userId" ) AppUser userId,
+                                @PathParam( "userId" ) int userId,
                                 String text ) {
         controller.createPost( id, userId, text );
         return Response.ok().build();
