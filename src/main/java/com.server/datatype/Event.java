@@ -1,6 +1,7 @@
 package com.server.datatype;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.server.entities.Post;
 
 /**
  * Created by jp on 13.11.2015.
@@ -30,6 +31,19 @@ public class Event {
         this.location = location;
         this.commentCount = commentCount;
     }
+
+    public Event(Post post){
+        this.id = post.getId();
+        this.content = post.getContent();
+        this.creationTime = post.getDate().getTimeInMillis();
+        this.likeCount = post.getLikes();
+        this.authorId = post.getAppuserid();
+        this.liked = false;
+        this.location = new Location(post.getLocationid());
+        this.commentCount = 10;
+    }
+
+
 
     public int getId() {
             return id;

@@ -56,7 +56,7 @@ public class LocationRestService
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}" )
-    public Response createPost( @PathParam( "id" ) Location id,
+    public Response createPost( @PathParam( "id" ) int id,
                                 @PathParam( "userId" ) int userId,
                                 String text ) {
         controller.createPost( id, userId, text );
@@ -113,7 +113,7 @@ public class LocationRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}" )
     public Response get( @PathParam( "id" ) long id ) {
-        return Response.ok().build();
+        return Response.ok("42").build();
     }
 
 

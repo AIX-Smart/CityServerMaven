@@ -5,6 +5,7 @@ package com.server;
  */
 
 import com.server.controller.CityController;
+import com.server.datatype.Event;
 import com.server.entities.Post;
 import org.apache.log4j.Logger;
 
@@ -69,16 +70,15 @@ public class CityRestService
     @Path( "/{id}/{postNum}/{userId}" )
     public Response getPost( @PathParam( "id" ) int id,
                              @PathParam( "postNum" ) int postNum,
-                             @PathParam( "userId" ) int userId,) {
-       Post[] posts = controller.getFirstPosts( id, userId, postNum );
-        Events
+                             @PathParam( "userId" ) int userId) {
+
         try{
-            return  Response.ok(mapper.writeValueAsString( posts )).build();
+
+            Event[] events = controller.getFirstPosts( id, userId, postNum);
+            return  Response.ok(mapper.writeValueAsString( events )).build();
         }catch ( Exception e ){
-
+            return Response.ok(e.toString() ).build();
         }
-
-        return Response.status( Response.Status.NOT_FOUND ).build();
 
     }
 

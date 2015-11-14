@@ -37,7 +37,7 @@ public class PostController {
         Comment comment = new Comment();
         comment.setContent( text );
         comment.setDate( Calendar.getInstance() );
-        comment.setUser( userId );
+        comment.setAppuserid( userId );
         comment.setPostId( id );
 
         entityManager.persist( comment );
@@ -102,7 +102,7 @@ public class PostController {
         query.setParameter( "id", id );
         AppUser user = queryUser.getSingleResult();
 
-        if (user.equals( post.getUser() )){
+        if (user.equals( post.getAppuserid() )){
             entityManager.remove( post );
         }
 

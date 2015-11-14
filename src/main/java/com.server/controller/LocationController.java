@@ -34,13 +34,13 @@ public class LocationController {
 
 
 
-    public void createPost(Location id, int userId, String text ) {
+    public void createPost(int id, int userId, String text ) {
         
         Post post = new Post();
         post.setContent( text );
         post.setDate( Calendar.getInstance() );
-        post.setUser( userId );
-        post.setLocation( id );
+        post.setAppuserid( userId );
+        post.setLocationid( id );
 
         entityManager.persist( post );
 

@@ -1,13 +1,13 @@
 package com.server.controller;
 
+import com.server.datatype.Event;
 import com.server.entities.Post;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by jp on 02.11.15.
@@ -38,7 +38,7 @@ public class CityController {
         Post post = new Post();
         post.setContent( text );
         post.setDate( Calendar.getInstance() );
-        post.setUser( userId );
+        post.setAppuserid( userId );
 
         entityManager.persist( post );
 
@@ -47,18 +47,22 @@ public class CityController {
 
 
 
-    public Post[] getFirstPosts( int cityId, int userId, int postNum ) {
+    public Event[] getFirstPosts(int cityId, int userId, int postNum ) {
 
-        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GETALL, Post.class );
-        if(query.getResultList() == null){
-            throw new NullPointerException(  );
+            TypedQuery<Post> query = entityManager.createNamedQuery(Post.GETALL, Post.class);
+            if (query.getResultList() == null) {
+                throw new NullPointerException();
+            }
+            List<Post> postList = query.getResultList().subList(0, postNum);
+
+
+        Event[] events = new Event [postList.size()];
+
+        for (int i = 0; i < postList.size(); i++){
+            events[i]= new Event(postList.get(i));
         }
-        List<Post> postList = query.getResultList();
 
-        List<Post> returnList = postList.subList( 0, postNum );
-
-        return returnList.toArray(new Post[ returnList.size()]);
-
+        return events;
     }
 
 

@@ -11,6 +11,14 @@ public class Location {
         this.id = id;
         this.name = name;
     }
+    public Location(com.server.entities.Location locationEntity){
+        this.id = locationEntity.getId();
+        this.name = locationEntity.getName();
+    }
+    public Location(int id){
+        this.id = id;
+        this.name = "GinBar";
+    }
 
     public int getId() {
         return id;

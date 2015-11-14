@@ -18,7 +18,7 @@ import java.util.Calendar;
 @NamedQueries( {
         @NamedQuery( name = Comment.GETALL, query = "SELECT c FROM Comment c " ),
         @NamedQuery( name = Comment.GET, query = "SELECT c FROM Comment c WHERE c.id = :id" ),
-        @NamedQuery( name = Comment.GETOWN, query = "SELECT c FROM Comment c WHERE c.appuser = :userId " ),
+        @NamedQuery( name = Comment.GETOWN, query = "SELECT c FROM Comment c WHERE c.appuserid = :userId " ),
         @NamedQuery( name = Comment.GETPOSTCOMMENTS, query = "SELECT c FROM Comment c WHERE c.postId = :postId " )
 
 } )
@@ -42,7 +42,15 @@ public class Comment {
     private Calendar date;
 
 
-    private int appuser;
+    public int getAppuserid() {
+        return appuserid;
+    }
+
+    public void setAppuserid(int appuserid) {
+        this.appuserid = appuserid;
+    }
+
+    private int appuserid;
 
     private int likes;
 
@@ -107,16 +115,6 @@ public class Comment {
     }
 
 
-
-    public int getUser() {
-        return appuser;
-    }
-
-
-
-    public void setUser(int appuser ) {
-        this.appuser = appuser;
-    }
 
 
 }
