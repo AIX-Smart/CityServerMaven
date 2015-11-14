@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
@@ -19,7 +18,7 @@ import java.util.Calendar;
 @NamedQueries( {
         @NamedQuery( name = Comment.GETALL, query = "SELECT c FROM Comment c " ),
         @NamedQuery( name = Comment.GET, query = "SELECT c FROM Comment c WHERE c.id = :id" ),
-        @NamedQuery( name = Comment.GETOWN, query = "SELECT c FROM Comment c WHERE c.appuser = :userId " ),
+        @NamedQuery( name = Comment.GETOWN, query = "SELECT c FROM Comment c WHERE c.appuserid = :userId " ),
         @NamedQuery( name = Comment.GETPOSTCOMMENTS, query = "SELECT c FROM Comment c WHERE c.postId = :postId " )
 
 } )
@@ -43,8 +42,15 @@ public class Comment {
     private Calendar date;
 
 
-    @ManyToOne
-    private AppUser appuser;
+    public int getAppuserid() {
+        return appuserid;
+    }
+
+    public void setAppuserid(int appuserid) {
+        this.appuserid = appuserid;
+    }
+
+    private int appuserid;
 
     private int likes;
 
@@ -109,16 +115,6 @@ public class Comment {
     }
 
 
-
-    public AppUser getUser() {
-        return appuser;
-    }
-
-
-
-    public void setUser( AppUser appuser ) {
-        this.appuser = appuser;
-    }
 
 
 }

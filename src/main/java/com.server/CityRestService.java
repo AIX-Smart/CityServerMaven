@@ -5,7 +5,7 @@ package com.server;
  */
 
 import com.server.controller.CityController;
-import com.server.entities.AppUser;
+import com.server.datatype.Event;
 import com.server.entities.Post;
 import org.apache.log4j.Logger;
 
@@ -56,7 +56,7 @@ public class CityRestService
     @Consumes("text/plain")
     @Path( "{id}/{userId}" )
     public Response CreatePost( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) AppUser userId,
+                                @PathParam( "userId" ) int userId,
                                 String text ) {
         controller.createPost( id, userId, text );
         return Response.ok().build();
@@ -67,18 +67,18 @@ public class CityRestService
     //Get first Posts
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{postNum}" )
+    @Path( "/{id}/{postNum}/{userId}" )
     public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "userId" ) int userId,
-                             @PathParam( "postNum" ) int postNum ) {
-       Post[] posts = controller.getFirstPosts( id, userId, postNum );
+                             @PathParam( "postNum" ) int postNum,
+                             @PathParam( "userId" ) int userId) {
+
         try{
-            return  Response.ok(mapper.writeValueAsString( posts )).build();
+
+            Event[] events = controller.getFirstPosts( id, userId, postNum);
+            return  Response.ok(mapper.writeValueAsString( events )).build();
         }catch ( Exception e ){
-
+            return Response.ok(e.toString() ).build();
         }
-
-        return Response.status( Response.Status.NOT_FOUND ).build();
 
     }
 

@@ -43,7 +43,7 @@ public class CommentController {
         query.setParameter( "id", userId );
         AppUser user = queryUser.getSingleResult();
 
-        if (user.equals( comment.getUser() )){
+        if (user.equals( comment.getAppuserid() )){
             entityManager.remove( comment );
         }
 
