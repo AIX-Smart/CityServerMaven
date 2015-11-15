@@ -15,15 +15,21 @@ import java.util.Calendar;
  */
 
 @NamedQueries( {
-        @NamedQuery( name = Post.GETALL, query = "SELECT d FROM Post d " ),
+        @NamedQuery( name = Post.GETALL, query = "SELECT d FROM Post d ORDER BY d.id DESC" ),
+        @NamedQuery( name = Post.GETCITY, query =
+                "SELECT d " +
+                "FROM Post d JOIN Location l ON d.locationid = l.id " +
+                "WHERE d.id < :lastId AND l.stadt = :cityId " +
+                "ORDER BY d.id DESC"),
         @NamedQuery( name = Post.GET, query = "SELECT d FROM Post d WHERE d.id = :id" ),
-        @NamedQuery( name = Post.GETUSER, query = "SELECT d FROM Post d WHERE d.appuserid = :appuserid" ),
-        @NamedQuery( name = Post.GETLOCATION, query = "SELECT d FROM Post d WHERE d.locationid = :locationid" )
+        @NamedQuery( name = Post.GETUSER, query = "SELECT d FROM Post d WHERE d.appuserid = :appuserid ORDER BY d.id DESC" ),
+        @NamedQuery( name = Post.GETLOCATION, query = "SELECT d FROM Post d WHERE d.locationid = :locationid ORDER BY d.id DESC" )
 } )
 @Entity
 public class Post {
 
     public static final String GETALL      = "Post.getAll";
+    public static final String GETCITY     = "Post.getCity";
     public static final String GET         = "Post.get";
     public static final String GETUSER     = "Post.getUser";
     public static final String GETLOCATION = "Post.getLocation";
