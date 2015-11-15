@@ -33,7 +33,7 @@ public class AppUser {
 
 
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -43,19 +43,13 @@ public class AppUser {
         this.id = userId;
     }
 
-
-
-    public String getHandyId() {
+    public String getDeviceId() {
         return deviceId;
     }
 
-
-
-    public void setHandyId( String smartPhoneId ) {
-        this.deviceId = smartPhoneId;
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
-
-
 
     public int getPermission() {
         return permission;
