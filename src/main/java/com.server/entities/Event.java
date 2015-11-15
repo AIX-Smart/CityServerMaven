@@ -15,24 +15,24 @@ import java.util.Calendar;
  */
 
 @NamedQueries( {
-        @NamedQuery( name = Post.GETALL, query = "SELECT d FROM Post d ORDER BY d.id DESC" ),
-        @NamedQuery( name = Post.GETCITY, query =
+        @NamedQuery( name = Event.GETALL, query = "SELECT d FROM Event d ORDER BY d.id DESC" ),
+        @NamedQuery( name = Event.GETCITY, query =
                 "SELECT d " +
-                "FROM Post d JOIN Location l ON d.locationid = l.id " +
-                "WHERE d.id < :lastId AND l.stadt = :cityId " +
+                "FROM Event d JOIN Location l ON d.locationid = l.id " +
+                "WHERE d.id < :lastId AND l.cityId = :cityId " +
                 "ORDER BY d.id DESC"),
-        @NamedQuery( name = Post.GET, query = "SELECT d FROM Post d WHERE d.id = :id" ),
-        @NamedQuery( name = Post.GETUSER, query = "SELECT d FROM Post d WHERE d.appuserid = :appuserid ORDER BY d.id DESC" ),
-        @NamedQuery( name = Post.GETLOCATION, query = "SELECT d FROM Post d WHERE d.locationid = :locationid ORDER BY d.id DESC" )
+        @NamedQuery( name = Event.GET, query = "SELECT d FROM Event d WHERE d.id = :id" ),
+        @NamedQuery( name = Event.GETUSER, query = "SELECT d FROM Event d WHERE d.appuserid = :appuserid ORDER BY d.id DESC" ),
+        @NamedQuery( name = Event.GETLOCATION, query = "SELECT d FROM Event d WHERE d.locationid = :locationid ORDER BY d.id DESC" )
 } )
 @Entity
-public class Post {
+public class Event {
 
-    public static final String GETALL      = "Post.getAll";
-    public static final String GETCITY     = "Post.getCity";
-    public static final String GET         = "Post.get";
-    public static final String GETUSER     = "Post.getUser";
-    public static final String GETLOCATION = "Post.getLocation";
+    public static final String GETALL      = "Event.getAll";
+    public static final String GETCITY     = "Event.getCity";
+    public static final String GET         = "Event.get";
+    public static final String GETUSER     = "Event.getUser";
+    public static final String GETLOCATION = "Event.getLocation";
 
 
     @Id

@@ -5,8 +5,7 @@ package com.server;
  */
 
 import com.server.controller.CityController;
-import com.server.datatype.Event;
-import com.server.entities.Post;
+import com.server.entities.Event;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -39,9 +38,9 @@ public class CityRestService
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
-        Post[] posts = controller.getAllPost();
+        Event[] events = controller.getAllPost();
         try{
-            return  Response.ok(mapper.writeValueAsString( posts )).build();
+            return  Response.ok(mapper.writeValueAsString(events)).build();
         }catch ( Exception e ){
 
         }
@@ -50,7 +49,7 @@ public class CityRestService
 
 
 
-    //Create Post
+    //Create Event
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Consumes("text/plain")
@@ -74,7 +73,7 @@ public class CityRestService
 
         try{
 
-            Event[] events = controller.getFirstPosts( id, userId, postNum);
+            com.server.datatype.Event[] events = controller.getFirstPosts( id, userId, postNum);
             return  Response.ok(mapper.writeValueAsString( events )).build();
         }catch ( Exception e ){
             return Response.ok(e.toString() ).build();
@@ -95,9 +94,9 @@ public class CityRestService
                                 @PathParam( "postNum" ) int postNum,
                                 @PathParam( "lastPostId" ) int lastPostId
     ) {
-        Post[] posts = controller.getNextPosts( id, userId, postNum, lastPostId );
+        com.server.datatype.Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
         try{
-            return  Response.ok(mapper.writeValueAsString( posts )).build();
+            return  Response.ok(mapper.writeValueAsString(events)).build();
         }catch ( Exception e ){
 
         }

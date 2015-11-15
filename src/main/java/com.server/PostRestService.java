@@ -2,7 +2,7 @@ package com.server;
 
 import com.server.controller.PostController;
 import com.server.entities.Comment;
-import com.server.entities.Post;
+import com.server.entities.Event;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -41,9 +41,9 @@ public class PostRestService
     @Path( "{userId}/" )
     public Response getAll( @PathParam( "userId" ) int userId ) {
 
-        Post[] posts = controller.allOwnPosts( userId );
+        Event[] events = controller.allOwnPosts( userId );
         try {
-            return Response.ok( mapper.writeValueAsString( posts ) ).build();
+            return Response.ok( mapper.writeValueAsString(events) ).build();
         } catch ( Exception e ) {
 
         }
@@ -69,7 +69,7 @@ public class PostRestService
 
 
 
-    //like Post
+    //like Event
     @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "{id}/{userId}" )
@@ -123,7 +123,7 @@ public class PostRestService
 
 
 
-    //Delete Post
+    //Delete Event
     @DELETE
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/" )

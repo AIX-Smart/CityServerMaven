@@ -1,8 +1,8 @@
 package com.server;
 
 import com.server.controller.TagController;
+import com.server.entities.Event;
 import com.server.entities.Location;
-import com.server.entities.Post;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -85,9 +85,9 @@ public class TagRestService
                               @PathParam( "userId" ) int userId,
                               @PathParam( "locationNum" ) int postNum
     ) {
-        Post[] posts = controller.getNextPosts( id, userId, postNum );
+        Event[] events = controller.getNextPosts( id, userId, postNum );
         try{
-            return  Response.ok(mapper.writeValueAsString( posts )).build();
+            return  Response.ok(mapper.writeValueAsString(events)).build();
         }catch ( Exception e ){
 
         }
@@ -104,9 +104,9 @@ public class TagRestService
                               @PathParam( "locationNum" ) int postNum,
                               @PathParam( "lastLocationId" ) int lastPostId
     ) {
-        Post[] posts = controller.getNextPosts( id, userId, postNum, lastPostId );
+        Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
         try{
-            return  Response.ok(mapper.writeValueAsString( posts )).build();
+            return  Response.ok(mapper.writeValueAsString(events)).build();
         }catch ( Exception e ){
 
         }

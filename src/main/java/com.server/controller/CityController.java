@@ -1,7 +1,6 @@
 package com.server.controller;
 
-import com.server.datatype.Event;
-import com.server.entities.Post;
+import com.server.entities.Event;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -18,14 +17,14 @@ public class CityController {
     @PersistenceContext
     private EntityManager entityManager;
 
-    //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Post aus der Tabelle wieder
-    public Post[] getAllPost(){
-        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GETALL, Post.class );
+    //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Event aus der Tabelle wieder
+    public Event[] getAllPost(){
+        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GETALL, Event.class );
         if(query.getResultList() == null){
             throw new NullPointerException(  );
         }
-        List<Post> postList = query.getResultList();
-        return postList.toArray(new Post[ postList.size()]);
+        List<Event> eventList = query.getResultList();
+        return eventList.toArray(new Event[ eventList.size()]);
 
     }
 
@@ -35,76 +34,36 @@ public class CityController {
 
         //zurzeit nur Aachen deswegen ist cityId egal
 
-        Post post = new Post();
-        post.setContent( text );
-        post.setDate( Calendar.getInstance() );
-        post.setAppuserid( userId );
+        Event event = new Event();
+        event.setContent( text );
+        event.setDate( Calendar.getInstance() );
+        event.setAppuserid( userId );
 
-        entityManager.persist( post );
+        entityManager.persist(event);
 
 
     }
 
 
 
-    public Event[] getFirstPosts(int cityId, int userId, int postNum ) {
-
-        TypedQuery<Post> query = entityManager.createNamedQuery(Post.GETALL, Post.class);
-        query.setMaxResults(postNum);
-        List<Post> postList = query.getResultList();
-        if (postList == null) {
-            throw new NullPointerException();
-        }
-
-
-        Event[] events = new Event [postList.size()];
-        for (int i = 0; i < postList.size(); i++){
-            events[i]= new Event(postList.get(i));
-        }
-
-        return events;
-
-        /*return getNextPosts2(cityId, userId, postNum, Integer.MAX_VALUE);*/
+    public com.server.datatype.Event[] getFirstPosts(int cityId, int userId, int postNum ) {
+        return getNextPosts(cityId, userId, postNum, Integer.MAX_VALUE);
     }
 
-
-
-    public Post[] getNextPosts( int cityid, int userId, int postNum, int lastPostId ) {
-        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GETALL, Post.class );
-        if(query.getResultList() == null){
-            throw new NullPointerException(  );
-        }
-        List<Post> postList = query.getResultList();
-
-        int i = 0;
-        for( ; i < postList.size(); i++){
-            if (postList.get( i ).getId() == lastPostId){
-                break;
-            }
-        }
-        if (i == postList.size()){
-            return new Post[0];
-        }
-
-        List<Post> returnList = postList.subList( i, i + postNum );
-
-        return returnList.toArray(new Post[ returnList.size()]);
-    }
-
-    public Event[] getNextPosts2( int cityId, int userId, int postNum, int lastPostId ) {
-        TypedQuery<Post> query = entityManager.createNamedQuery(Post.GETCITY, Post.class);
+    public com.server.datatype.Event[] getNextPosts( int cityId, int userId, int postNum, int lastPostId ) {
+        TypedQuery<Event> query = entityManager.createNamedQuery(Event.GETCITY, Event.class);
         query.setParameter("cityId", cityId);
         query.setParameter("lastId", lastPostId);
         query.setMaxResults(postNum);
 
-        List<Post> postList = query.getResultList();
-        if(postList == null){
+        List<Event> eventList = query.getResultList();
+        if(eventList == null){
             throw new NullPointerException(  );
         }
 
-        Event[] events = new Event [postList.size()];
-        for (int i = 0; i < postList.size(); i++){
-            events[i]= new Event(postList.get(i));
+        com.server.datatype.Event[] events = new com.server.datatype.Event[eventList.size()];
+        for (int i = 0; i < eventList.size(); i++){
+            events[i]= new com.server.datatype.Event(eventList.get(i));
         }
 
 

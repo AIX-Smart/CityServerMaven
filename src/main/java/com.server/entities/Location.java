@@ -30,133 +30,97 @@ public class Location {
 
     private String name;
 
-    private String stadt;
+    private int cityId;
 
-    private String strasse;
+    private String street;
 
-    private int hausnummer;
+    private int houseNumber;
 
-    private long telefon;
-
-    private int plz;
+    private String phoneNumber;
 
     private int likes;
 
     private String GPS;
 
+    private String description;
 
-
-    public String getGPS() {
-        return GPS;
-    }
-
-
-
-    public void setGPS( String GPS ) {
-        this.GPS = GPS;
-    }
-
-
-
-    public int getPlz() {
-        return plz;
-    }
-
-
-
-    public void setPlz( int plz ) {
-        this.plz = plz;
-    }
-
-
-
-    public int getHausnummer() {
-        return hausnummer;
-    }
-
-
-
-    public void setHausnummer( int hausnummer ) {
-        this.hausnummer = hausnummer;
-    }
-
-
-
-    public String getStrasse() {
-        return strasse;
-    }
-
-
-
-    public void setStrasse( String straße ) {
-        this.strasse = straße;
-    }
-
-
-
-    public static String getGET() {
+    public static String getGETALL() {
         return GETALL;
     }
 
-
+    public static String getGET() {
+        return GET;
+    }
 
     public int getId() {
         return id;
     }
 
-
-
-    public void setId( int locationId ) {
-        this.id = locationId;
+    public void setId(int id) {
+        this.id = id;
     }
-
-
 
     public String getName() {
         return name;
     }
 
-
-
-    public void setName( String name ) {
+    public void setName(String name) {
         this.name = name;
     }
 
+    public int getCityId() {
+        return cityId;
+    }
 
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public int getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(int houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public int getLikes() {
         return likes;
     }
 
-
-
-    public void setLikes( int likes ) {
+    public void setLikes(int likes) {
         this.likes = likes;
     }
 
-
-
-    public String getStadt() {
-        return stadt;
+    public String getGPS() {
+        return GPS;
     }
 
-
-
-    public void setStadt( String stadt ) {
-        this.stadt = stadt;
+    public void setGPS(String GPS) {
+        this.GPS = GPS;
     }
 
-
-
-    public long getTelefon() {
-        return telefon;
+    public String getDescription() {
+        return description;
     }
 
-
-
-    public void setTelefon( long telefon ) {
-        this.telefon = telefon;
+    public void setDescription(String description) {
+        this.description = description;
     }
-
-
 }
