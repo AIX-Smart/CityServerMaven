@@ -18,7 +18,7 @@ import java.util.Calendar;
         @NamedQuery( name = Event.GETALL, query = "SELECT d FROM Event d ORDER BY d.id DESC" ),
         @NamedQuery( name = Event.GETCITY, query =
                 "SELECT d " +
-                "FROM Event d JOIN Location l ON d.locationid = l.id " +
+                "FROM Event d INNER JOIN Location l ON d.locationid = l.id " +
                 "WHERE d.id < :lastId AND l.cityId = :cityId " +
                 "ORDER BY d.id DESC"),
         @NamedQuery( name = Event.GET, query = "SELECT d FROM Event d WHERE d.id = :id" ),
