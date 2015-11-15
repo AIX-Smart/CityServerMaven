@@ -19,7 +19,7 @@ import java.util.Calendar;
         @NamedQuery( name = Comment.GETALL, query = "SELECT c FROM Comment c " ),
         @NamedQuery( name = Comment.GET, query = "SELECT c FROM Comment c WHERE c.id = :id" ),
         @NamedQuery( name = Comment.GETOWN, query = "SELECT c FROM Comment c WHERE c.appuserid = :userId " ),
-        @NamedQuery( name = Comment.GETPOSTCOMMENTS, query = "SELECT c FROM Comment c WHERE c.postId = :postId " )
+        @NamedQuery( name = Comment.GETPOSTCOMMENTS, query = "SELECT c FROM Comment c WHERE c.eventId = :postId " ),
 
 } )
 @Entity
@@ -36,7 +36,7 @@ public class Comment {
 
     private String content;
 
-    private int postId;
+    private int eventId;
 
     @Temporal( TemporalType.DATE )
     private Calendar date;
@@ -68,14 +68,14 @@ public class Comment {
 
 
 
-    public int getPostId() {
-        return postId;
+    public int getEventId() {
+        return eventId;
     }
 
 
 
-    public void setPostId( int post ) {
-        this.postId = post;
+    public void setEventId(int post) {
+        this.eventId = post;
     }
 
 

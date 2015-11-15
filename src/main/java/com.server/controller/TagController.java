@@ -1,7 +1,7 @@
 package com.server.controller;
 
+import com.server.entities.Event;
 import com.server.entities.Location;
-import com.server.entities.Post;
 
 import javax.ejb.Stateless;
 
@@ -23,13 +23,13 @@ public class TagController {
 
 
 
-    public Post[] getNextPosts( int tagid, int userId, int postNum, int lastPostId ) {
-        return new Post[0];
+    public Event[] getNextPosts( int tagid, int userId, int postNum, int lastPostId ) {
+        return new Event[0];
     }
 
 
 
-    public Post[] getNextPosts( int id, int userId, int postNum ) {
-        return new Post[ 0 ];
+    public Event[] getNextPosts( int id, int userId, int postNum ) {
+        return new Event[ 0 ];
     }
 }

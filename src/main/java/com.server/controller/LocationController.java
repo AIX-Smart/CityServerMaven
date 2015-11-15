@@ -1,7 +1,7 @@
 package com.server.controller;
 
+import com.server.entities.Event;
 import com.server.entities.Location;
-import com.server.entities.Post;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -21,7 +21,7 @@ public class LocationController {
 
 
 
-    //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Post aus der Tabelle wieder
+    //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Event aus der Tabelle wieder
     public Location[] getAllLocation() {
         TypedQuery<Location> query = entityManager.createNamedQuery( Location.GETALL, Location.class );
         if ( query.getResultList() == null ) {
@@ -36,56 +36,56 @@ public class LocationController {
 
     public void createPost(int id, int userId, String text ) {
         
-        Post post = new Post();
-        post.setContent( text );
-        post.setDate( Calendar.getInstance() );
-        post.setAppuserid( userId );
-        post.setLocationid( id );
+        Event event = new Event();
+        event.setContent( text );
+        event.setDate( Calendar.getInstance() );
+        event.setAppuserid( userId );
+        event.setLocationid( id );
 
-        entityManager.persist( post );
+        entityManager.persist(event);
 
 
     }
 
 
 
-    public Post[] getFirstPosts( int id, int userId, int postNum ) {
-        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GETLOCATION, Post.class );
+    public Event[] getFirstPosts( int id, int userId, int postNum ) {
+        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GETLOCATION, Event.class );
         query.setParameter( "locationId", id );
         if(query.getResultList() == null){
             throw new NullPointerException(  );
         }
-        List<Post> postList = query.getResultList();
+        List<Event> eventList = query.getResultList();
 
-        List<Post> returnList = postList.subList( 0, postNum );
+        List<Event> returnList = eventList.subList( 0, postNum );
 
-        return returnList.toArray(new Post[ returnList.size()]);
+        return returnList.toArray(new Event[ returnList.size()]);
     }
 
 
 
-    public Post[] getNextPosts( int id, int userId, int postNum, int lastPostId ) {
+    public Event[] getNextPosts( int id, int userId, int postNum, int lastPostId ) {
 
-        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GETLOCATION, Post.class );
+        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GETLOCATION, Event.class );
         query.setParameter( "locationId", id );
         if(query.getResultList() == null){
             throw new NullPointerException(  );
         }
-        List<Post> postList = query.getResultList();
+        List<Event> eventList = query.getResultList();
 
         int i = 0;
-        for( ; i < postList.size(); i++){
-            if (postList.get( i ).getId() == lastPostId){
+        for( ; i < eventList.size(); i++){
+            if (eventList.get( i ).getId() == lastPostId){
                 break;
             }
         }
-        if (i == postList.size()){
-            return new Post[0];
+        if (i == eventList.size()){
+            return new Event[0];
         }
 
-        List<Post> returnList = postList.subList( i, i + postNum );
+        List<Event> returnList = eventList.subList( i, i + postNum );
 
-        return returnList.toArray(new Post[ returnList.size()]);
+        return returnList.toArray(new Event[ returnList.size()]);
 
     }
 

@@ -3,7 +3,7 @@ package com.server;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.controller.LocationController;
 import com.server.entities.Location;
-import com.server.entities.Post;
+import com.server.entities.Event;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -52,7 +52,7 @@ public class LocationRestService
 
 
 
-    //Create Post
+    //Create Event
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}" )
@@ -74,9 +74,9 @@ public class LocationRestService
                              @PathParam( "userId" ) int userId,
                              @PathParam( "postNum" ) int postNum
     ) {
-        Post[] posts = controller.getFirstPosts( id, userId, postNum );
+        Event[] events = controller.getFirstPosts( id, userId, postNum );
         try {
-            return Response.ok( mapper.writeValueAsString( posts ) ).build();
+            return Response.ok( mapper.writeValueAsString(events) ).build();
         } catch ( Exception e ) {
 
         }
@@ -96,9 +96,9 @@ public class LocationRestService
                              @PathParam( "postNum" ) int postNum,
                              @PathParam( "lastPostId" ) int lastPostId
     ) {
-        Post[] posts = controller.getNextPosts( id, userId, postNum, lastPostId );
+        Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
         try {
-            return Response.ok( mapper.writeValueAsString( posts ) ).build();
+            return Response.ok( mapper.writeValueAsString(events) ).build();
         } catch ( Exception e ) {
 
         }

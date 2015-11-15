@@ -2,7 +2,7 @@ package com.server.controller;
 
 import com.server.entities.AppUser;
 import com.server.entities.Comment;
-import com.server.entities.Post;
+import com.server.entities.Event;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,13 +22,13 @@ public class PostController {
 
 
 
-    public Post[] allOwnPosts( int userId ) {
+    public Event[] allOwnPosts( int userId ) {
 
-        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GETUSER, Post.class );
+        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GETUSER, Event.class );
         query.setParameter( "appuserId", userId );
 
-        List<Post> postList = query.getResultList();
-        return postList.toArray(new Post[ postList.size()]);
+        List<Event> eventList = query.getResultList();
+        return eventList.toArray(new Event[ eventList.size()]);
     }
 
 
@@ -38,7 +38,7 @@ public class PostController {
         comment.setContent( text );
         comment.setDate( Calendar.getInstance() );
         comment.setAppuserid( userId );
-        comment.setPostId( id );
+        comment.setEventId(id);
 
         entityManager.persist( comment );
     }
@@ -94,16 +94,16 @@ public class PostController {
 
     public void deletePost( int id, int userId ) {
 
-        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GET, Post.class);
+        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GET, Event.class);
         query.setParameter( "id", id );
-        Post post = query.getSingleResult();
+        Event event = query.getSingleResult();
 
         TypedQuery<AppUser> queryUser = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
         query.setParameter( "id", id );
         AppUser user = queryUser.getSingleResult();
 
-        if (user.equals( post.getAppuserid() )){
-            entityManager.remove( post );
+        if (user.equals( event.getAppuserid() )){
+            entityManager.remove(event);
         }
 
 
@@ -113,19 +113,19 @@ public class PostController {
 
     public void likePost( int id, int userId ) {
 
-        TypedQuery<Post> query = entityManager.createNamedQuery( Post.GET, Post.class);
+        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GET, Event.class);
         query.setParameter( "id", id );
-        Post post = query.getSingleResult();
+        Event event = query.getSingleResult();
 
         TypedQuery<AppUser> queryUser = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
         query.setParameter( "id", userId );
         AppUser user = queryUser.getSingleResult();
 
 
-        int likes = post.getLikes() + 1;
-        post.setLikes( likes );
+        int likes = event.getLikes() + 1;
+        event.setLikes( likes );
 
-        entityManager.persist( post );
+        entityManager.persist(event);
 
 
     }
