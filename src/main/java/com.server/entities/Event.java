@@ -1,13 +1,6 @@
 package com.server.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Calendar;
 
 /**
@@ -18,8 +11,8 @@ import java.util.Calendar;
         @NamedQuery( name = Event.GETALL, query = "SELECT d FROM Event d ORDER BY d.id DESC" ),
         @NamedQuery( name = Event.GETCITY, query =
                 "SELECT d " +
-                "FROM Event d, Location lc " +
-                "WHERE d.id < :lastId AND lc.cityId = :cityId AND d.locationid = lc.id " +
+                "FROM Event d JOIN d.location lc " +
+                "WHERE d.id < :lastId AND lc.cityId = :cityId " +
                 "ORDER BY d.id DESC"),
         @NamedQuery( name = Event.GET, query = "SELECT d FROM Event d WHERE d.id = :id" ),
         @NamedQuery( name = Event.GETUSER, query = "SELECT d FROM Event d WHERE d.appuserid = :appuserid ORDER BY d.id DESC" ),
@@ -51,6 +44,9 @@ public class Event {
     private int likes;
 
     private String content;
+
+    @ManyToOne(optional=false)
+    private Location location;
 
 
 
@@ -125,9 +121,11 @@ public class Event {
     }
 
 
+    public Location getLocation() {
+        return location;
+    }
 
-
-
-
-
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 }
