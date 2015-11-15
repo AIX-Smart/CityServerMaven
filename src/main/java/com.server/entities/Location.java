@@ -34,8 +34,6 @@ public class Location {
 
     private String street;
 
-    private int houseNumber;
-
     private String phoneNumber;
 
     private int likes;
@@ -43,6 +41,9 @@ public class Location {
     private String GPS;
 
     private String description;
+
+    private String houseNumber;
+
 
     public static String getGETALL() {
         return GETALL;
@@ -84,11 +85,11 @@ public class Location {
         this.street = street;
     }
 
-    public int getHouseNumber() {
+    public String getHouseNumber() {
         return houseNumber;
     }
 
-    public void setHouseNumber(int houseNumber) {
+    public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
     }
 
