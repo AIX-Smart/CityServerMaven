@@ -1,8 +1,10 @@
 package com.server.controller;
 
+import com.server.Utils;
 import com.server.entities.AppUser;
 import com.server.entities.Comment;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,16 +21,20 @@ public class CommentController {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @EJB
+    private UserController userController;
 
 
-    public Comment[] allOwnComments( int userId ) {
+
+    public com.server.datatype.Comment[] allOwnComments( int userId ) {
 
         TypedQuery<Comment> query = entityManager.createNamedQuery( Comment.GETOWN, Comment.class );
         query.setParameter( "appuserId", userId );
 
         List<Comment> commentList = query.getResultList();
-        return commentList.toArray(new Comment[ commentList.size()]);
 
+        AppUser user = userController.getUser(userId);
+        return Utils.convertToDataCommentArray(commentList, user);
     }
 
 

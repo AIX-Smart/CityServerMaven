@@ -28,10 +28,8 @@ public class Comment{
         this.likeCount =  comment.getLikes();
         this.authorId = comment.getAppuserid();
         this.liked = liked;
-        this.liked = false;
-        this.eventId = comment.getEventId();
+        this.eventId = comment.getEvent().getId();
     }
-
 
     public int getId() {
         return id;

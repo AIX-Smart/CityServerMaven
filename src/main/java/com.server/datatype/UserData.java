@@ -15,8 +15,6 @@ public class UserData {
     public UserData(AppUser user){
         this.user = new User(user.getId());
         this.permission = user.getPermission();
-
-
     }
 
     public User getUser() {

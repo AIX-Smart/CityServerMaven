@@ -1,7 +1,10 @@
 package com.server.controller;
 
+import com.server.Utils;
+import com.server.entities.AppUser;
 import com.server.entities.Event;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,17 +20,24 @@ public class CityController {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @EJB
+    private UserController userController;
+
+
+
     //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Event aus der Tabelle wieder
-    public Event[] getAllPost(){
+    public com.server.datatype.Event[] getAllPost(){
         TypedQuery<Event> query = entityManager.createNamedQuery( Event.GETALL, Event.class );
         if(query.getResultList() == null){
             throw new NullPointerException(  );
         }
         List<Event> eventList = query.getResultList();
-        return eventList.toArray(new Event[ eventList.size()]);
+
+        AppUser user = new AppUser();
+
+        return Utils.convertToDataEventArray(eventList);
 
     }
-
 
 
     public void createPost(int cityId, int userId, String text ) {
@@ -56,17 +66,10 @@ public class CityController {
         query.setParameter("lastId", lastPostId);
         query.setMaxResults(postNum);
 
+
+        AppUser user = userController.getUser(userId);
         List<Event> eventList = query.getResultList();
-        if(eventList == null){
-            throw new NullPointerException(  );
-        }
 
-        com.server.datatype.Event[] events = new com.server.datatype.Event[eventList.size()];
-        for (int i = 0; i < eventList.size(); i++){
-            events[i]= new com.server.datatype.Event(eventList.get(i));
-        }
-
-
-        return events;
+        return Utils.convertToDataEventArray(eventList, user);
     }
 }

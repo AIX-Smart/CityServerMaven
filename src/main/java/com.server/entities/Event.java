@@ -2,6 +2,7 @@ package com.server.entities;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by jp on 02.11.15.
@@ -44,6 +45,9 @@ public class Event {
     private int likes;
 
     private String content;
+
+    @OneToMany
+    private List<Comment> comments;
 
     @ManyToOne(optional=false)
     private Location location;
@@ -127,5 +131,13 @@ public class Event {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

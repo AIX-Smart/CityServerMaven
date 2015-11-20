@@ -1,6 +1,6 @@
 package com.server;
 
-import com.server.controller.PostController;
+import com.server.controller.EventController;
 import com.server.datatype.Comment;
 import com.server.datatype.Event;
 import org.apache.log4j.Logger;
@@ -30,7 +30,7 @@ public class PostRestService
         extends ApplicationRestService {
 
     @EJB
-    private PostController controller;
+    private EventController controller;
     private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 
@@ -90,7 +90,7 @@ public class PostRestService
     public Response getComment( @PathParam( "id" ) int id,
                                 @PathParam( "userId" ) int userId,
                                 @PathParam( "comNum" ) int comNum ) {
-        Comment[] comments = controller.getNextComments( id, userId, comNum );
+        Comment[] comments = controller.getFirstComments( id, userId, comNum );
         try {
             return Response.ok( mapper.writeValueAsString( comments ) ).build();
         } catch ( Exception e ) {

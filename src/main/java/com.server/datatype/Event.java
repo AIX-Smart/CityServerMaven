@@ -31,15 +31,15 @@ public class Event {
         this.commentCount = commentCount;
     }
 
-    public Event(com.server.entities.Event event){
+    public Event(com.server.entities.Event event, boolean liked){
         this.id = event.getId();
         this.content = event.getContent();
         this.creationTime = event.getDate().getTimeInMillis();
         this.likeCount = event.getLikes();
         this.authorId = event.getAppuserid();
-        this.liked = false;
-        this.location = new Location(event.getLocationid());
-        this.commentCount = 10;
+        this.liked = liked;
+        this.location = new Location(event.getLocation());
+        this.commentCount = event.getComments().size();
     }
 
 

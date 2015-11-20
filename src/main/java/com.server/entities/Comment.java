@@ -1,13 +1,6 @@
 package com.server.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Calendar;
 
 /**
@@ -16,10 +9,14 @@ import java.util.Calendar;
 
 
 @NamedQueries( {
-        @NamedQuery( name = Comment.GETALL, query = "SELECT c FROM Comment c " ),
-        @NamedQuery( name = Comment.GET, query = "SELECT c FROM Comment c WHERE c.id = :id" ),
-        @NamedQuery( name = Comment.GETOWN, query = "SELECT c FROM Comment c WHERE c.appuserid = :userId " ),
-        @NamedQuery( name = Comment.GETPOSTCOMMENTS, query = "SELECT c FROM Comment c WHERE c.eventId = :postId " ),
+        @NamedQuery( name = Comment.GETALL, query = "SELECT c FROM Comment c ORDER BY c.id DESC" ),
+        @NamedQuery( name = Comment.GET, query = "SELECT c FROM Comment c WHERE c.id = :id ORDER BY c.id DESC" ),
+        @NamedQuery( name = Comment.GETOWN, query = "SELECT c FROM Comment c WHERE c.appuserid = :userId ORDER BY c.id DESC" ),
+        @NamedQuery( name = Comment.GETPOSTCOMMENTS, query =
+                "SELECT c " +
+                        "FROM Comment c JOIN c.event ev " +
+                        "WHERE c.id < :lastId AND ev.id = :eventId " +
+                        "ORDER BY c.id DESC"),
 
 } )
 @Entity
@@ -36,7 +33,8 @@ public class Comment {
 
     private String content;
 
-    private int eventId;
+    @ManyToOne
+    private Event event;
 
     @Temporal( TemporalType.DATE )
     private Calendar date;
@@ -66,17 +64,6 @@ public class Comment {
         this.likes = likes;
     }
 
-
-
-    public int getEventId() {
-        return eventId;
-    }
-
-
-
-    public void setEventId(int post) {
-        this.eventId = post;
-    }
 
 
 
@@ -115,6 +102,11 @@ public class Comment {
     }
 
 
+    public Event getEvent() {
+        return event;
+    }
 
-
+    public void setEvent(Event event) {
+        this.event = event;
+    }
 }

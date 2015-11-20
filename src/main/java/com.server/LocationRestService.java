@@ -3,6 +3,7 @@ package com.server;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.controller.LocationController;
 import com.server.datatype.Event;
+import com.server.datatype.Location;
 import com.server.datatype.LocationData;
 import org.apache.log4j.Logger;
 
@@ -39,7 +40,7 @@ public class LocationRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
 
-        LocationData[] locationBeans = controller.getAllLocation();
+        Location[] locationBeans = controller.getAllLocation();
 
         try {
             return Response.ok( mapper.writeValueAsString( locationBeans ) ).build();

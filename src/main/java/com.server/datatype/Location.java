@@ -15,10 +15,6 @@ public class Location {
         this.id = locationEntity.getId();
         this.name = locationEntity.getName();
     }
-    public Location(int id){
-        this.id = id;
-        this.name = "GinBar";
-    }
 
     public int getId() {
         return id;
