@@ -1,8 +1,8 @@
 package com.server;
 
 import com.server.controller.PostController;
-import com.server.entities.Comment;
-import com.server.entities.Event;
+import com.server.datatype.Comment;
+import com.server.datatype.Event;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;

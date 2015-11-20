@@ -5,7 +5,7 @@ package com.server;
  */
 
 import com.server.controller.CityController;
-import com.server.entities.Event;
+import com.server.datatype.Event;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -35,6 +35,7 @@ public class CityRestService
 
 
     // Get all cities in the database
+    // When release, @RolesAllowed( { "admin" } )
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
@@ -73,7 +74,7 @@ public class CityRestService
 
         try{
 
-            com.server.datatype.Event[] events = controller.getFirstPosts( id, userId, postNum);
+            Event[] events = controller.getFirstPosts( id, userId, postNum);
             return  Response.ok(mapper.writeValueAsString( events )).build();
         }catch ( Exception e ){
             return Response.ok(e.toString() ).build();
@@ -94,7 +95,7 @@ public class CityRestService
                                 @PathParam( "postNum" ) int postNum,
                                 @PathParam( "lastPostId" ) int lastPostId
     ) {
-        com.server.datatype.Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
+        Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
         try{
             return  Response.ok(mapper.writeValueAsString(events)).build();
         }catch ( Exception e ){

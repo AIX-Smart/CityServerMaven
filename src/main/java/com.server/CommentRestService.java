@@ -1,7 +1,7 @@
 package com.server;
 
 import com.server.controller.CommentController;
-import com.server.entities.Comment;
+import com.server.datatype.Comment;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -33,6 +33,7 @@ public class CommentRestService
 
 
     // Get all comments in the database which the user created himself
+    // When release, @RolesAllowed( { "admin" } )
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "{userId}/" )
@@ -48,14 +49,16 @@ public class CommentRestService
         return Response.status( Response.Status.NOT_FOUND ).build();
     }
 
-    //Delete Comment
+
+
+    //Like Comment
     @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/" )
     public Response likeComment( @PathParam( "id" ) int id,
-                                    @PathParam( "userId" ) int userId
+                                 @PathParam( "userId" ) int userId
     ) {
-        controller.likeComment(id, userId);
+        controller.likeComment( id, userId );
         return Response.ok().build();
     }
 
@@ -66,9 +69,9 @@ public class CommentRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/" )
     public Response deleteComments( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) int userId
+                                    @PathParam( "userId" ) int userId
     ) {
-        controller.deleteComments(id, userId);
+        controller.deleteComments( id, userId );
         return Response.ok().build();
     }
 

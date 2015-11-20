@@ -2,8 +2,8 @@ package com.server;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.controller.LocationController;
-import com.server.entities.Location;
-import com.server.entities.Event;
+import com.server.datatype.Event;
+import com.server.datatype.LocationData;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -34,11 +34,12 @@ public class LocationRestService
 
 
     // Get all locations?
+    // When release, @RolesAllowed( { "admin" } )
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
 
-        Location[] locationBeans = controller.getAllLocation();
+        LocationData[] locationBeans = controller.getAllLocation();
 
         try {
             return Response.ok( mapper.writeValueAsString( locationBeans ) ).build();
