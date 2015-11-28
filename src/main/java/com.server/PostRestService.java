@@ -54,7 +54,7 @@ public class PostRestService
 
 
     //Create Comment
-    @PUT
+    @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Consumes( "text/plain" )
     @Path( "{id}/{userId}" )
