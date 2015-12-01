@@ -22,11 +22,11 @@ import javax.ws.rs.core.Response;
 /**
  * Created by jp on 02.11.15.
  */
-@Path( "/post" )
+@Path( "/event" )
 @Produces( MediaType.APPLICATION_JSON )
 @Stateless
 @Interceptors( AuditingInterceptor.class )
-public class PostRestService
+public class EventRestService
         extends ApplicationRestService {
 
     @EJB
@@ -70,7 +70,7 @@ public class PostRestService
 
 
     //like Event
-    @POST
+    @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "{id}/{userId}" )
     public Response likePost( @PathParam( "id" ) int id,
