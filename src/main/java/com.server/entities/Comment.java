@@ -26,6 +26,7 @@ public class Comment {
     public static final String GETALL          = "Comment.getAll";
     public static final String GETOWN          = "Comment.getOwn";
     public static final String GETPOSTCOMMENTS = "Comment.getPostComments";
+    public static final String GETCOMMENTLIKE  = "Comment.getCommentLike";
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )

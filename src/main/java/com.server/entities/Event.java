@@ -22,11 +22,12 @@ import java.util.List;
 @Entity
 public class Event {
 
-    public static final String GETALL      = "Event.getAll";
-    public static final String GETCITY     = "Event.getCity";
-    public static final String GET         = "Event.get";
-    public static final String GETUSER     = "Event.getUser";
-    public static final String GETLOCATION = "Event.getLocation";
+    public static final String GETALL       = "Event.getAll";
+    public static final String GETCITY      = "Event.getCity";
+    public static final String GET          = "Event.get";
+    public static final String GETUSER      = "Event.getUser";
+    public static final String GETLOCATION  = "Event.getLocation";
+    public static final String GETEVENTLIKE = "Event.getEventLike";
 
 
     @Id

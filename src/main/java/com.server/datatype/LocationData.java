@@ -29,11 +29,10 @@ public class LocationData {
         this.phoneNumber = location.getPhoneNumber();
         this.likeCount = location.getLikes();
         this.liked = liked;
+    }
 
-
-
-
-
+    public String getHouseNumber() {
+        return houseNumber;
     }
 
     public void setHouseNumber(String houseNumber) {
