@@ -18,6 +18,14 @@ public class UserController {
     private EntityManager entityManager;
 
 
+    public AppUser createUser( String deviceId){
+        AppUser newUser = new AppUser();
+        newUser.setDeviceId(deviceId);
+
+        entityManager.persist( newUser );
+
+        return newUser;
+    }
 
     public AppUser getUser( int userId) {
 
@@ -39,8 +47,16 @@ public class UserController {
 
         TypedQuery<AppUser> query = entityManager.createNamedQuery( AppUser.GETBYDEVICEID, AppUser.class );
         query.setParameter("deviceId", deviceId);
-        AppUser appUser = query.getSingleResult();
-        return appUser;
+        query.setMaxResults(1);
+        List<AppUser> appUserList = query.getResultList();
+        if (appUserList.isEmpty()){
+            appUserList.add(createUser(deviceId));
+        }
+
+
+        return appUserList.get(0) ;
+
+
 
 
     }

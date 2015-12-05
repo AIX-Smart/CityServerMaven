@@ -5,6 +5,7 @@ package com.server;
  */
 
 import com.server.controller.CityController;
+import com.server.datatype.City;
 import com.server.datatype.Event;
 import org.apache.log4j.Logger;
 
@@ -115,5 +116,17 @@ public class CityRestService
     }
 
 
+    @PUT
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/create" )
+    public Response create( City cityData){
+
+
+        controller.createCity(cityData);
+
+
+        return Response.ok().build();
+
+    }
 
 }

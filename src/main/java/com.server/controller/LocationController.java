@@ -1,6 +1,7 @@
 package com.server.controller;
 
 import com.server.Utils;
+import com.server.datatype.LocationData;
 import com.server.entities.AppUser;
 import com.server.entities.Event;
 import com.server.entities.Location;
@@ -80,5 +81,19 @@ public class LocationController {
     }
 
 
+    public void createLocation(LocationData locationData) {
 
+        Location location = new Location();
+        location.setCityId(locationData.getCityId());
+        location.setDescription(locationData.getDescription());
+        location.setGPS(locationData.getGps());
+        location.setName(locationData.getLocation().getName());
+        location.setHouseNumber(location.getHouseNumber());
+        location.setStreet(location.getPhoneNumber());
+        location.setLikes(0);
+        location.setPhoneNumber(location.getPhoneNumber());
+
+        entityManager.persist( location );
+
+    }
 }

@@ -105,7 +105,6 @@ public class LocationRestService
     }
 
 
-
     //Get locationInformation
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
@@ -114,5 +113,18 @@ public class LocationRestService
         return Response.ok("42").build();
     }
 
+
+    @PUT
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/create" )
+    public Response create( LocationData locationData){
+
+
+        controller.createLocation(locationData);
+
+
+        return Response.ok().build();
+
+    }
 
 }

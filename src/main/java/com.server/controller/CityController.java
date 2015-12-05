@@ -2,6 +2,7 @@ package com.server.controller;
 
 import com.server.Utils;
 import com.server.entities.AppUser;
+import com.server.entities.City;
 import com.server.entities.Event;
 
 import javax.ejb.EJB;
@@ -71,5 +72,12 @@ public class CityController {
         List<Event> eventList = query.getResultList();
 
         return Utils.convertToDataEventArray(eventList, user);
+    }
+
+    public void createCity(com.server.datatype.City cityData) {
+        City city = new City();
+        city.setName(cityData.getName());
+
+        entityManager.persist(city);
     }
 }
