@@ -15,19 +15,19 @@ public class Event {
         private int authorId;
         private boolean liked; //current user has already liked this post
 
-        private Location location;
+        private int locationId;
         private int commentCount;
 
 
 
-    public Event(int id, String content, long creationTime, int likeCount, int authorId, boolean liked, Location location, int commentCount) {
+    public Event(int id, String content, long creationTime, int likeCount, int authorId, boolean liked, int locationId, int commentCount) {
         this.id = id;
         this.content = content;
         this.creationTime = creationTime;
         this.likeCount = likeCount;
         this.authorId = authorId;
         this.liked = liked;
-        this.location = location;
+        this.locationId = locationId;
         this.commentCount = commentCount;
     }
 
@@ -38,7 +38,7 @@ public class Event {
         this.likeCount = event.getLikes();
         this.authorId = event.getAppuserid();
         this.liked = liked;
-        this.location = new Location(event.getLocation());
+        this.locationId = event.getLocation().getId();
         this.commentCount = event.getComments().size();
     }
 
@@ -92,12 +92,12 @@ public class Event {
             this.liked = liked;
         }
 
-        public Location getLocation() {
-            return location;
+        public int getLocation() {
+            return locationId;
         }
 
-        public void setLocation(Location location) {
-            this.location = location;
+        public void setLocation(int locationId) {
+            this.locationId = locationId;
         }
 
         public int getCommentCount() {

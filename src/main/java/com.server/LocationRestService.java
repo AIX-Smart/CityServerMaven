@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.controller.LocationController;
 import com.server.datatype.Event;
 import com.server.datatype.Location;
-import com.server.datatype.LocationData;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -117,10 +116,10 @@ public class LocationRestService
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/create" )
-    public Response create( LocationData locationData){
+    public Response create( Location location){
 
 
-        controller.createLocation(locationData);
+        controller.createLocation(location);
 
 
         return Response.ok().build();

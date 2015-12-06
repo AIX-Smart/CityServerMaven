@@ -1,11 +1,13 @@
 package com.server;
 
+import com.server.datatype.Tag;
 import com.server.entities.AppUser;
 import com.server.entities.Comment;
 import com.server.entities.Event;
 import com.server.entities.Location;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,7 +48,7 @@ public class Utils {
         com.server.datatype.Location[] datatypeLocations = new com.server.datatype.Location[locationList.size()];
         for(int i = 0; i<locationList.size(); i++){
             Location location = locationList.get(i);
-            datatypeLocations[i] = new com.server.datatype.Location(location);
+            datatypeLocations[i] = new com.server.datatype.Location(location, new ArrayList<Tag>(), false);
         }
         return datatypeLocations;
     }
