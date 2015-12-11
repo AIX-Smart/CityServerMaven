@@ -58,7 +58,7 @@ public class LocationController {
 
 
     public com.server.datatype.Event[] getFirstPosts( int id, int userId, int postNum ) {
-        return getNextPosts(id, userId, postNum, Integer.MAX_VALUE);
+        return getNextPosts( id, userId, postNum, Integer.MAX_VALUE );
     }
 
 
@@ -66,9 +66,9 @@ public class LocationController {
     public com.server.datatype.Event[] getNextPosts( int id, int userId, int postNum, int lastPostId ) {
 
         TypedQuery<Event> query = entityManager.createNamedQuery( Event.GETLOCATION, Event.class );
-        query.setParameter("lastPostId", lastPostId);
+        query.setParameter( "lastPostId", lastPostId );
         query.setParameter( "locationId", id );
-        query.setMaxResults(postNum);
+        query.setMaxResults( postNum );
         if(query.getResultList() == null){
             throw new NullPointerException(  );
         }
@@ -76,16 +76,16 @@ public class LocationController {
 
         AppUser user = userController.getUser(userId);
 
-        return Utils.convertToDataEventArray(eventList, user);
+        return Utils.convertToDataEventArray( eventList, user );
     }
 
 
     public void createLocation(com.server.datatype.Location location) {
 
         Location entity = new Location();
-        entity.setCityId(location.getCityId());
-        entity.setDescription(location.getDescription());
-        entity.setGPS(location.getGps());
+        entity.setCityId( location.getCityId() );
+        entity.setDescription( location.getDescription() );
+        entity.setGPS( location.getGps() );
         entity.setName(location.getName());
         entity.setHouseNumber(location.getHouseNumber());
         entity.setStreet(location.getStreet());
@@ -94,5 +94,21 @@ public class LocationController {
 
         entityManager.persist( entity );
 
+    }
+
+
+
+    public void createLocation( String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS ) {
+        Location location = new Location();
+        location.setCityId( cityId );
+        location.setDescription( description );
+        location.setGPS( gPS );
+        location.setName( name );
+        location.setHouseNumber( houseNumber );
+        location.setStreet( street );
+        location.setLikes( 0 );
+        location.setPhoneNumber( phoneNumber );
+
+        entityManager.persist( location );
     }
 }

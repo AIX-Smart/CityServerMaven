@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>Aix</groupId>
-    <artifactId>City</artifactId>
+    <artifactId>CityServer</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <name>City Server</name>

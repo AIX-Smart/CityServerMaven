@@ -109,7 +109,7 @@ public class LocationRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}" )
     public Response get( @PathParam( "id" ) long id ) {
-        return Response.ok("42").build();
+        return Response.ok( "42" ).build();
     }
 
 
@@ -120,6 +120,24 @@ public class LocationRestService
 
 
         controller.createLocation(location);
+
+
+        return Response.ok().build();
+
+    }
+    @PUT
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/create/{name}/{cityId}/{street}/{phoneNumber}/{GPS}/{description}/{houseNumber}" )
+    public Response create( @PathParam( "name" ) String name,
+                            @PathParam( "cityId" ) int cityId,
+                            @PathParam( "street" ) String street,
+                            @PathParam( "phoneNumber" ) String phoneNumber,
+                            @PathParam( "GPS" ) String gPS,
+                            @PathParam( "description" ) String description,
+                            @PathParam( "houseNumber" ) String houseNumber){
+
+
+        controller.createLocation(name, cityId, street, houseNumber, phoneNumber, description, gPS);
 
 
         return Response.ok().build();

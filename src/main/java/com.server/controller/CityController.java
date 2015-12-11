@@ -4,6 +4,7 @@ import com.server.Utils;
 import com.server.entities.AppUser;
 import com.server.entities.City;
 import com.server.entities.Event;
+import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -24,13 +25,15 @@ public class CityController {
     @EJB
     private UserController userController;
 
+    private Logger logger = Logger.getLogger( this.getClass().getName() );
+
 
 
     //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Event aus der Tabelle wieder
-    public com.server.datatype.Event[] getAllPost(){
+    public com.server.datatype.Event[] getAllPost() {
         TypedQuery<Event> query = entityManager.createNamedQuery( Event.GETALL, Event.class );
-        if(query.getResultList() == null){
-            throw new NullPointerException(  );
+        if ( query.getResultList() == null ) {
+            throw new NullPointerException();
         }
         List<Event> eventList = query.getResultList();
 
@@ -87,6 +90,7 @@ public class CityController {
 
         TypedQuery<City> query = entityManager.createNamedQuery(City.GETALLCITIES, City.class);
         List<City> cityList = query.getResultList();
+
 
 
         return cityList;

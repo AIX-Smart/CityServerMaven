@@ -123,7 +123,6 @@ public class CityRestService
     @Path( "/{cityName}" )
     public Response create( @PathParam("cityName") String cityName ){
 
-
         controller.createCity(cityName);
 
 

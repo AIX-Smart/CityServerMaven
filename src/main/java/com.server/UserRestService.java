@@ -52,7 +52,7 @@ public class UserRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response login(@PathParam( "deviceId" ) String deviceId) {
 
-        AppUser user  = controller.getUserByDeviceId(deviceId);
+        AppUser user  = controller.getUserByDeviceId( deviceId );
         try {
             return Response.ok( mapper.writeValueAsString( user )).build();
         } catch ( Exception e ) {
@@ -61,6 +61,9 @@ public class UserRestService
         }
 
     }
+
+
+
 
 
 

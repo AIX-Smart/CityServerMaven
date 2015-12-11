@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="CityServerMaven:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="City-1.0-SNAPSHOT.war">
+    <root id="archive" name="CityServer-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="CityServerMaven:war exploded" />
     </root>
   </artifact>
