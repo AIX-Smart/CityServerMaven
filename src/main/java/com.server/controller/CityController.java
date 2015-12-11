@@ -58,26 +58,39 @@ public class CityController {
 
 
     public com.server.datatype.Event[] getFirstPosts(int cityId, int userId, int postNum ) {
-        return getNextPosts(cityId, userId, postNum, Integer.MAX_VALUE);
+        return getNextPosts( cityId, userId, postNum, Integer.MAX_VALUE );
     }
 
     public com.server.datatype.Event[] getNextPosts( int cityId, int userId, int postNum, int lastPostId ) {
         TypedQuery<Event> query = entityManager.createNamedQuery(Event.GETCITY, Event.class);
-        query.setParameter("cityId", cityId);
-        query.setParameter("lastId", lastPostId);
+        query.setParameter( "cityId", cityId );
+        query.setParameter( "lastId", lastPostId );
         query.setMaxResults(postNum);
 
 
         AppUser user = userController.getUser(userId);
         List<Event> eventList = query.getResultList();
 
-        return Utils.convertToDataEventArray(eventList, user);
+        return Utils.convertToDataEventArray( eventList, user );
     }
 
-    public void createCity(com.server.datatype.City cityData) {
+    public void createCity(String cityName) {
         City city = new City();
-        city.setName(cityData.getName());
+        city.setName( cityName );
 
-        entityManager.persist(city);
+        entityManager.persist( city );
+    }
+
+
+
+    public List<City> getAllCities() {
+
+        TypedQuery<City> query = entityManager.createNamedQuery(City.GETALLCITIES, City.class);
+        List<City> cityList = query.getResultList();
+
+
+        return cityList;
+
+
     }
 }

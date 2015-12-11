@@ -5,8 +5,8 @@ package com.server;
  */
 
 import com.server.controller.CityController;
-import com.server.datatype.City;
 import com.server.datatype.Event;
+import com.server.entities.City;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -20,6 +20,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.util.List;
 
 
 @Path( "/city" )
@@ -118,14 +120,29 @@ public class CityRestService
 
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/create" )
-    public Response create( City cityData){
+    @Path( "/{cityName}" )
+    public Response create( @PathParam("cityName") String cityName ){
 
 
-        controller.createCity(cityData);
+        controller.createCity(cityName);
 
 
         return Response.ok().build();
+
+    }
+
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/getAllCities" )
+    public Response getAllCities(){
+
+        List<City> allCities = controller.getAllCities();
+
+        try {
+            return Response.ok( objectMapper.writeValueAsString( allCities ) ).build();
+        } catch ( IOException e ) {
+        }
+        return Response.noContent().build();
 
     }
 
