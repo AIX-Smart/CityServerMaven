@@ -17,7 +17,7 @@ import java.util.List;
                 "ORDER BY d.id DESC"),
         @NamedQuery( name = Event.GET, query = "SELECT d FROM Event d WHERE d.id = :id" ),
         @NamedQuery( name = Event.GETUSER, query = "SELECT d FROM Event d WHERE d.appuserid = :appuserid ORDER BY d.id DESC" ),
-        @NamedQuery( name = Event.GETLOCATION, query = "SELECT d FROM Event d WHERE d.locationid = :locationid ORDER BY d.id DESC" )
+        @NamedQuery( name = Event.GETLOCATION, query = "SELECT d  FROM Event d join d.location l WHERE l.id = :locatioid ORDER BY d.id DESC" )
 } )
 @Entity
 public class Event {
@@ -40,8 +40,6 @@ public class Event {
 
 
     private int appuserid;
-
-    private int locationid;
 
     private int likes;
 
@@ -107,14 +105,6 @@ public class Event {
 
     public void setAppuserid(int appuserid) {
         this.appuserid = appuserid;
-    }
-
-    public int getLocationid() {
-        return locationid;
-    }
-
-    public void setLocationid(int locationid) {
-        this.locationid = locationid;
     }
 
 

@@ -26,6 +26,7 @@ public class LocationController {
     private UserController userController;
 
 
+
     //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Event aus der Tabelle wieder
     public com.server.datatype.Location[] getAllLocation() {
         TypedQuery<Location> query = entityManager.createNamedQuery( Location.GETALL, Location.class );
@@ -43,18 +44,32 @@ public class LocationController {
 
 
     public void createPost(int id, int userId, String text ) {
-        
+
         Event event = new Event();
         event.setContent( text );
         event.setDate( Calendar.getInstance() );
         event.setAppuserid( userId );
-        event.setLocationid( id );
+        event.setLocation(getLocationById(id));
 
         entityManager.persist(event);
 
 
     }
 
+    private Location getLocationById(int id) {
+        TypedQuery<Location> query = entityManager.createNamedQuery( Location.GET, Location.class );
+
+        Location location;
+
+        try{
+            location = query.getSingleResult();
+        }catch(Exception e){
+            location = null;
+        }
+
+        return  location;
+
+    }
 
 
     public com.server.datatype.Event[] getFirstPosts( int id, int userId, int postNum ) {
