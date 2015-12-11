@@ -61,6 +61,18 @@ public class LocationRestService
 
     }
 
+    @POST
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{userId}/{content}" )
+    public Response createPostWebsite( @PathParam( "id" ) int id,
+                                @PathParam( "userId" ) int userId,
+                                @PathParam("content") String text ) {
+        controller.createPost( id, userId, text );
+        return Response.ok().build();
+
+    }
+
+
 
 
     //Get first Posts
