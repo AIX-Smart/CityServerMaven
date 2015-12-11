@@ -58,6 +58,7 @@ public class LocationController {
 
     private Location getLocationById(int id) {
         TypedQuery<Location> query = entityManager.createNamedQuery( Location.GET, Location.class );
+        query.setParameter("id", id );
 
         Location location;
 
