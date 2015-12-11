@@ -54,9 +54,9 @@ public class EventController {
     public com.server.datatype.Comment[] getNextComments( int id, int userId, int comNum, int lastCommentId ) {
 
         TypedQuery<Comment> query = entityManager.createNamedQuery(Comment.GETPOSTCOMMENTS, Comment.class);
-        query.setParameter("postId", id);
-        query.setParameter("lastCommentId", lastCommentId);
-        query.setMaxResults(comNum);
+        query.setParameter( "postId", id );
+        query.setParameter( "lastCommentId", lastCommentId );
+        query.setMaxResults( comNum );
 
         if (query.getResultList() == null) {
             throw new NullPointerException();
@@ -69,7 +69,7 @@ public class EventController {
     }
 
     public Event getEventById( int id ){
-        TypedQuery<Event> query = entityManager.createQuery(Event.GET, Event.class);
+        TypedQuery<Event> query = entityManager.createQuery( Event.GET, Event.class );
         query.setParameter("id", id);
 
         Event event = query.getSingleResult();
@@ -82,7 +82,7 @@ public class EventController {
 
     public void deletePost( int id, int userId ) {
 
-        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GET, Event.class);
+        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GET, Event.class );
         query.setParameter( "id", id );
         Event event = query.getSingleResult();
 
@@ -120,5 +120,16 @@ public class EventController {
 
     public com.server.datatype.Comment[] getFirstComments(int id, int userId, int comNum) {
         return getNextComments(id, userId, comNum, Integer.MAX_VALUE);
+    }
+
+
+
+    public com.server.datatype.Event[] getAllPost() {
+
+        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GETALL, Event.class );
+
+        List<Event> eventList = query.getResultList();
+        return Utils.convertToDataEventArray(eventList);
+
     }
 }

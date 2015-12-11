@@ -134,5 +134,21 @@ public class EventRestService
         return Response.ok().build();
     }
 
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/getAllPosts" )
+    public Response getAll( ) {
+
+        Event[] events = controller.getAllPost();
+
+        try {
+            return Response.ok( mapper.writeValueAsString(events) ).build();
+        } catch ( Exception e ) {
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();
+    }
+
 
 }

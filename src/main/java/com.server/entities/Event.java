@@ -91,14 +91,6 @@ public class Event {
     }
 
 
-
-
-
-
-
-
-
-
     public int getLikes() {
         return likes;
     }
