@@ -6,6 +6,7 @@ package com.server;
 
 import com.server.controller.CityController;
 import com.server.datatype.Event;
+import com.server.datatype.Location;
 import com.server.entities.City;
 import org.apache.log4j.Logger;
 
@@ -139,6 +140,21 @@ public class CityRestService
 
         try {
             return Response.ok( objectMapper.writeValueAsString( allCities ) ).build();
+        } catch ( IOException e ) {
+        }
+        return Response.noContent().build();
+
+    }
+
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{cityId}/location" )
+    public Response getLocations(@PathParam( "cityId" ) int cityId){
+
+        com.server.datatype.Location [] allLocations = controller.getLocations(cityId);
+
+        try {
+            return Response.ok( objectMapper.writeValueAsString( allLocations ) ).build();
         } catch ( IOException e ) {
         }
         return Response.noContent().build();

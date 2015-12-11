@@ -1,9 +1,11 @@
 package com.server.controller;
 
 import com.server.Utils;
+
 import com.server.entities.AppUser;
 import com.server.entities.City;
 import com.server.entities.Event;
+import com.server.entities.Location;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -96,5 +98,13 @@ public class CityController {
         return cityList;
 
 
+    }
+
+    public com.server.datatype.Location[] getLocations(int cityId) {
+        TypedQuery<Location> query = entityManager.createNamedQuery(Location.GETCITYLOCATIONS, Location.class);
+        query.setParameter("cityId", cityId);
+        List<Location> locationList = query.getResultList();
+
+        return Utils.convertToDataLocationArray(locationList);
     }
 }

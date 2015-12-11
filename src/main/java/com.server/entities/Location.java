@@ -14,8 +14,8 @@ import javax.persistence.NamedQuery;
 
 @NamedQueries( {
         @NamedQuery( name = Location.GETALL, query = "SELECT l FROM Location l " ),
-        @NamedQuery( name = Location.GET, query = "SELECT l FROM Location l WHERE l.id = :id  " )
-
+        @NamedQuery( name = Location.GET, query = "SELECT l FROM Location l WHERE l.id = :id  " ),
+        @NamedQuery( name = Location.GETCITYLOCATIONS, query ="SELECT l FROM Location l WHERE l.cityId = :cityId")
 } )
 @Entity
 public class Location {
@@ -23,6 +23,8 @@ public class Location {
 
     public static final String GETALL = "Location.getAll";
     public static final String GET    = "Location.get";
+    public static final String GETCITYLOCATIONS = "Location.getCityLocations";
+
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )

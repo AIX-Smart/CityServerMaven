@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @NamedQueries( {
         @NamedQuery( name = City.GETCITY, query = "SELECT c FROM City c WHERE c.id = :cityId" ),
-        @NamedQuery( name = City.GETALLCITIES, query ="SELECT c FROM City c")
+        @NamedQuery( name = City.GETALLCITIES, query ="SELECT c FROM City c"),
 } )
 
 @Entity
