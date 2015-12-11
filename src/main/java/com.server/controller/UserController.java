@@ -1,5 +1,7 @@
 package com.server.controller;
 
+import com.server.Utils;
+import com.server.datatype.User;
 import com.server.entities.AppUser;
 
 import javax.ejb.Stateless;
@@ -43,7 +45,7 @@ public class UserController {
         return  userList;
     }
 
-    public AppUser getUserByDeviceId(String deviceId) {
+    public User getUserByDeviceId(String deviceId) {
 
         TypedQuery<AppUser> query = entityManager.createNamedQuery( AppUser.GETBYDEVICEID, AppUser.class );
         query.setParameter("deviceId", deviceId);
@@ -52,12 +54,8 @@ public class UserController {
         if (appUserList.isEmpty()){
             appUserList.add(createUser(deviceId));
         }
+        AppUser userEntity = appUserList.get(0);
 
-
-        return appUserList.get(0) ;
-
-
-
-
+        return Utils.convertToDataUser(userEntity) ;
     }
 }

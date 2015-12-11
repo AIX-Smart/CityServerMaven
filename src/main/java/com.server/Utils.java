@@ -1,6 +1,7 @@
 package com.server;
 
 import com.server.datatype.Tag;
+import com.server.datatype.User;
 import com.server.entities.AppUser;
 import com.server.entities.Comment;
 import com.server.entities.Event;
@@ -51,5 +52,9 @@ public class Utils {
             datatypeLocations[i] = new com.server.datatype.Location(location, new ArrayList<Tag>(), false);
         }
         return datatypeLocations;
+    }
+
+    public static User convertToDataUser(AppUser userEntity) {
+        return new User(userEntity);
     }
 }

@@ -5,6 +5,7 @@ package com.server;
  */
 
 import com.server.controller.UserController;
+import com.server.datatype.User;
 import com.server.entities.AppUser;
 import org.apache.log4j.Logger;
 
@@ -52,7 +53,7 @@ public class UserRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response login(@PathParam( "deviceId" ) String deviceId) {
 
-        AppUser user  = controller.getUserByDeviceId( deviceId );
+        User user  = controller.getUserByDeviceId( deviceId );
         try {
             return Response.ok( mapper.writeValueAsString( user )).build();
         } catch ( Exception e ) {
