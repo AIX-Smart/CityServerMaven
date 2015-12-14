@@ -14,10 +14,10 @@ import javax.persistence.NamedQuery;
 
 
 @NamedQueries( {
-        @NamedQuery( name = LocationEntity.GETALL, query = "SELECT l FROM Location l " ),
-        @NamedQuery( name = LocationEntity.GET, query = "SELECT l FROM Location l WHERE l.id = :id  " ),
-        @NamedQuery( name = LocationEntity.GETCITYLOCATIONS, query = "SELECT l FROM Location l WHERE l.cityId = :cityId" ),
-        @NamedQuery( name = LocationEntity.GETBYNAME, query = "SELECT l FROM Location l WHERE l.name = :name" )
+        @NamedQuery( name = LocationEntity.GETALL, query = "SELECT l FROM LocationEntity l " ),
+        @NamedQuery( name = LocationEntity.GET, query = "SELECT l FROM LocationEntity l WHERE l.id = :id  " ),
+        @NamedQuery( name = LocationEntity.GETCITYLOCATIONS, query = "SELECT l FROM LocationEntity l WHERE l.cityEntity.id = :cityId" ),
+        @NamedQuery( name = LocationEntity.GETBYNAME, query = "SELECT l FROM LocationEntity l WHERE l.name = :name" )
 } )
 @Entity
 public class LocationEntity {
