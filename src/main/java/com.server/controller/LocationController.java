@@ -52,16 +52,32 @@ public class LocationController {
         eventEntity.setContent( text );
         eventEntity.setDate( Calendar.getInstance() );
         eventEntity.setAppUserEntity( userController.getUser( id ) );
-        eventEntity.setLocationEntity( getLocationById( id ) );
+        eventEntity.setLocationEntity( getLocationEntityById( id ) );
 
         entityManager.persist( eventEntity );
 
 
     }
 
-    private LocationEntity getLocationById(int id) {
+    public Location getLocationById(int id) {
         TypedQuery<LocationEntity> query = entityManager.createNamedQuery( LocationEntity.GET, LocationEntity.class );
-        query.setParameter("id", id );
+        query.setParameter( "id", id );
+
+        LocationEntity locationEntity;
+
+        try{
+            locationEntity = query.getSingleResult();
+            return new Location( locationEntity, null, false );
+        }catch(Exception e){
+
+        }
+
+        return null;
+
+    }
+    private LocationEntity getLocationEntityById(int id) {
+        TypedQuery<LocationEntity> query = entityManager.createNamedQuery( LocationEntity.GET, LocationEntity.class );
+        query.setParameter( "id", id );
 
         LocationEntity locationEntity;
 
@@ -74,6 +90,7 @@ public class LocationController {
         return locationEntity;
 
     }
+
 
 
     public com.server.datatype.Event[] getFirstPosts( int id, int userId, int postNum ) {
@@ -102,7 +119,7 @@ public class LocationController {
     public void createLocation(Location location) {
 
         LocationEntity entity = new LocationEntity();
-        entity.setCityEntity( cityController.getCity(location.getCityId()) );
+        entity.setCityEntity( cityController.getCity( location.getCityId() ) );
         entity.setDescription( location.getDescription() );
         entity.setGPS( location.getGps() );
         entity.setName(location.getName());
@@ -130,4 +147,6 @@ public class LocationController {
 
         entityManager.persist( locationEntity );
     }
+
+
 }

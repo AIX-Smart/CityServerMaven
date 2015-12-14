@@ -6,7 +6,6 @@ package com.server;
 
 import com.server.controller.UserController;
 import com.server.datatype.User;
-import com.server.entities.AppUserEntity;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -18,7 +17,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Path("/user")
 @Produces( MediaType.APPLICATION_JSON )
@@ -38,9 +36,9 @@ public class UserRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
 
-        List<AppUserEntity> userList  = controller.getAllUser();
+        User [] users  = controller.getAllUser();
         try {
-            return Response.ok( mapper.writeValueAsString( userList.toArray(new AppUserEntity[userList.size()]) ) ).build();
+            return Response.ok( mapper.writeValueAsString( users ) ).build();
         } catch ( Exception e ) {
             return Response.ok( "No User found" ).build();
 

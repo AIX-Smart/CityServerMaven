@@ -43,9 +43,9 @@ public class CityRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
         Event[] events = controller.getAllPost();
-        try{
-            return  Response.ok(mapper.writeValueAsString(events)).build();
-        }catch ( Exception e ){
+        try {
+            return Response.ok( mapper.writeValueAsString( events ) ).build();
+        } catch ( Exception e ) {
 
         }
         return Response.status( Response.Status.NOT_FOUND ).build();
@@ -56,7 +56,7 @@ public class CityRestService
     //Create Event
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Consumes("text/plain")
+    @Consumes( "text/plain" )
     @Path( "{id}/{userId}" )
     public Response CreatePost( @PathParam( "id" ) int id,
                                 @PathParam( "userId" ) int userId,
@@ -73,19 +73,17 @@ public class CityRestService
     @Path( "/{id}/{postNum}/{userId}" )
     public Response getPost( @PathParam( "id" ) int id,
                              @PathParam( "postNum" ) int postNum,
-                             @PathParam( "userId" ) int userId) {
+                             @PathParam( "userId" ) int userId ) {
 
-        try{
+        try {
 
-            Event[] events = controller.getFirstPosts( id, userId, postNum);
-            return  Response.ok(mapper.writeValueAsString( events )).build();
-        }catch ( Exception e ){
-            return Response.ok(e.toString() ).build();
+            Event[] events = controller.getFirstPosts( id, userId, postNum );
+            return Response.ok( mapper.writeValueAsString( events ) ).build();
+        } catch ( Exception e ) {
+            return Response.ok( e.toString() ).build();
         }
 
     }
-
-
 
 
 
@@ -94,20 +92,22 @@ public class CityRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/{postNum}/{lastPostId}" )
     public Response getPost( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) int userId,
-                                @PathParam( "postNum" ) int postNum,
-                                @PathParam( "lastPostId" ) int lastPostId
+                             @PathParam( "userId" ) int userId,
+                             @PathParam( "postNum" ) int postNum,
+                             @PathParam( "lastPostId" ) int lastPostId
     ) {
         Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
-        try{
-            return  Response.ok(mapper.writeValueAsString(events)).build();
-        }catch ( Exception e ){
+        try {
+            return Response.ok( mapper.writeValueAsString( events ) ).build();
+        } catch ( Exception e ) {
 
         }
 
         return Response.status( Response.Status.NOT_FOUND ).build();
 
     }
+
+
 
     //Get cityInformation
     @GET
@@ -118,22 +118,43 @@ public class CityRestService
     }
 
 
+
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{cityName}" )
-    public Response create( @PathParam("cityName") String cityName ){
+    public Response create( @PathParam( "cityName" ) String cityName ) {
 
-        controller.createCity(cityName);
+        controller.createCity( cityName );
 
 
         return Response.ok().build();
 
     }
 
+
+
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{cityId}/location" )
+    public Response getLocations( @PathParam( "cityId" ) int cityId ) {
+
+        com.server.datatype.Location[] allLocations = controller.getLocations( cityId );
+
+        try {
+            return Response.ok( objectMapper.writeValueAsString( allLocations ) ).build();
+        } catch ( IOException e ) {
+        }
+        return Response.noContent().build();
+
+    }
+
+
+
+    //for web application
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/getAllCities" )
-    public Response getAllCities(){
+    public Response getAllCities() {
 
         List<CityEntity> allCities = controller.getAllCities();
 
@@ -145,19 +166,5 @@ public class CityRestService
 
     }
 
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{cityId}/location" )
-    public Response getLocations(@PathParam( "cityId" ) int cityId){
-
-        com.server.datatype.Location [] allLocations = controller.getLocations(cityId);
-
-        try {
-            return Response.ok( objectMapper.writeValueAsString( allLocations ) ).build();
-        } catch ( IOException e ) {
-        }
-        return Response.noContent().build();
-
-    }
 
 }

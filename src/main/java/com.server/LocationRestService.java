@@ -61,7 +61,8 @@ public class LocationRestService
 
     }
 
-    @POST
+    //Create Event over Web Application
+    @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/{content}" )
     public Response createPostWebsite( @PathParam( "id" ) int id,
@@ -120,8 +121,18 @@ public class LocationRestService
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}" )
-    public Response get( @PathParam( "id" ) long id ) {
-        return Response.ok( "42" ).build();
+    public Response get( @PathParam( "id" ) int id ) {
+
+        Location location = controller.getLocationById(id);
+
+        try {
+            return Response.ok( mapper.writeValueAsString(location) ).build();
+        } catch ( Exception e ) {
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();
+
     }
 
 
@@ -137,6 +148,8 @@ public class LocationRestService
         return Response.ok().build();
 
     }
+
+    //create Location with Webservice
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/create/{name}/{cityId}/{street}/{phoneNumber}/{GPS}/{description}/{houseNumber}" )

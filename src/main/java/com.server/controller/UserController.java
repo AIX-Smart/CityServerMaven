@@ -43,11 +43,13 @@ public class UserController {
 
 
 
-    public List<AppUserEntity> getAllUser() {
+    public User[] getAllUser() {
         TypedQuery<AppUserEntity> query = entityManager.createNamedQuery( AppUserEntity.GETALL, AppUserEntity.class );
         List<AppUserEntity> userList = query.getResultList();
 
-        return userList;
+
+
+        return Utils.convertToDataUserArray( userList );
     }
 
 

@@ -55,6 +55,15 @@ public class Utils {
         return datatypeLocations;
     }
 
+    public static com.server.datatype.User[] convertToDataUserArray(List<AppUserEntity> appUserEntityList){
+        User[] users = new User[appUserEntityList.size()];
+        for(int i = 0; i< appUserEntityList.size(); i++){
+            AppUserEntity appUserEntity = appUserEntityList.get( i );
+            users[i] = new User(  appUserEntity );
+        }
+        return users;
+    }
+
     public static User convertToDataUser(AppUserEntity userEntity) {
         return new User(userEntity);
     }
