@@ -1,8 +1,8 @@
 package com.server.controller;
 
 import com.server.Utils;
-import com.server.entities.AppUser;
-import com.server.entities.Comment;
+import com.server.entities.AppUserEntity;
+import com.server.entities.CommentEntity;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -28,29 +28,29 @@ public class CommentController {
 
     public com.server.datatype.Comment[] allOwnComments( int userId ) {
 
-        TypedQuery<Comment> query = entityManager.createNamedQuery( Comment.GETOWN, Comment.class );
+        TypedQuery<CommentEntity> query = entityManager.createNamedQuery( CommentEntity.GETOWN, CommentEntity.class );
         query.setParameter( "appuserId", userId );
 
-        List<Comment> commentList = query.getResultList();
+        List<CommentEntity> commentEntityList = query.getResultList();
 
-        AppUser user = userController.getUser(userId);
-        return Utils.convertToDataCommentArray(commentList, user);
+        AppUserEntity user = userController.getUser( userId );
+        return Utils.convertToDataCommentArray( commentEntityList, user );
     }
 
 
 
     public void deleteComments( int id, int userId ) {
 
-        TypedQuery<Comment> query = entityManager.createNamedQuery( Comment.GET, Comment.class);
+        TypedQuery<CommentEntity> query = entityManager.createNamedQuery( CommentEntity.GET, CommentEntity.class );
         query.setParameter( "id", id );
-        Comment comment = query.getSingleResult();
+        CommentEntity commentEntity = query.getSingleResult();
 
-        TypedQuery<AppUser> queryUser = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
+        TypedQuery<AppUserEntity> queryUser = entityManager.createNamedQuery( AppUserEntity.GET, AppUserEntity.class );
         query.setParameter( "id", userId );
-        AppUser user = queryUser.getSingleResult();
+        AppUserEntity user = queryUser.getSingleResult();
 
-        if (user.equals( comment.getAppuserid() )){
-            entityManager.remove( comment );
+        if ( user.equals( commentEntity.getAppUserEntity().getId() ) ) {
+            entityManager.remove( commentEntity );
         }
 
     }
@@ -61,18 +61,18 @@ public class CommentController {
 
         // es muss noch eine Abfrage hinzukommen ob der User den Comment schonmal geliked hat
 
-        TypedQuery<Comment> query = entityManager.createNamedQuery( Comment.GET, Comment.class );
+        TypedQuery<CommentEntity> query = entityManager.createNamedQuery( CommentEntity.GET, CommentEntity.class );
         query.setParameter( "id", id );
-        Comment comment = query.getSingleResult();
+        CommentEntity commentEntity = query.getSingleResult();
 
-        TypedQuery<AppUser> queryUser = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
+        TypedQuery<AppUserEntity> queryUser = entityManager.createNamedQuery( AppUserEntity.GET, AppUserEntity.class );
         query.setParameter( "id", userId );
-        AppUser user = queryUser.getSingleResult();
+        AppUserEntity user = queryUser.getSingleResult();
 
-        int likes = comment.getLikes() + 1;
-        comment.setLikes( likes );
+        int likes = commentEntity.getLikes() + 1;
+        commentEntity.setLikes( likes );
 
-        entityManager.persist( comment );
+        entityManager.persist( commentEntity );
 
     }
 }

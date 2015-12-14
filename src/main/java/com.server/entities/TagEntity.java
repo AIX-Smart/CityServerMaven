@@ -11,10 +11,10 @@ import javax.persistence.NamedQuery;
  * Created by jp on 05.11.15.
  */
 @NamedQueries( {
-        @NamedQuery( name = Tag.GET, query = "SELECT t FROM Tag t WHERE t.id = :id" )
+        @NamedQuery( name = TagEntity.GET, query = "SELECT t FROM Tag t WHERE t.id = :id" )
 } )
 @Entity
-public class Tag {
+public class TagEntity {
 
     public static final String GET = "Tag.get";
 

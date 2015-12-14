@@ -1,9 +1,9 @@
 package com.server.controller;
 
 import com.server.Utils;
-import com.server.entities.AppUser;
-import com.server.entities.Comment;
-import com.server.entities.Event;
+import com.server.entities.AppUserEntity;
+import com.server.entities.CommentEntity;
+import com.server.entities.EventEntity;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -29,69 +29,71 @@ public class EventController {
 
     public com.server.datatype.Event[] allOwnPosts( int userId ) {
 
-        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GETUSER, Event.class );
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GETUSER, EventEntity.class );
         query.setParameter( "appuserId", userId );
 
-        List<Event> eventList = query.getResultList();
-        return Utils.convertToDataEventArray(eventList);
+        List<EventEntity> eventEntityList = query.getResultList();
+        return Utils.convertToDataEventArray( eventEntityList );
     }
 
 
 
-    public void createComment(int id, int userId, String text ) {
-        Comment comment = new Comment();
-        comment.setContent( text );
-        comment.setDate( Calendar.getInstance() );
-        comment.setAppuserid( userId );
+    public void createComment( int id, int userId, String text ) {
+        CommentEntity commentEntity = new CommentEntity();
+        commentEntity.setContent( text );
+        commentEntity.setDate( Calendar.getInstance() );
+        commentEntity.setAppUserEntity( userController.getUser( userId ) );
 
-        comment.setEvent(getEventById(id));
+        commentEntity.setEventEntity( getEventById( id ) );
 
-        entityManager.persist( comment );
+        entityManager.persist( commentEntity );
     }
 
 
 
     public com.server.datatype.Comment[] getNextComments( int id, int userId, int comNum, int lastCommentId ) {
 
-        TypedQuery<Comment> query = entityManager.createNamedQuery(Comment.GETPOSTCOMMENTS, Comment.class);
+        TypedQuery<CommentEntity> query = entityManager
+                .createNamedQuery( CommentEntity.GETPOSTCOMMENTS, CommentEntity.class );
         query.setParameter( "postId", id );
         query.setParameter( "lastCommentId", lastCommentId );
         query.setMaxResults( comNum );
 
-        if (query.getResultList() == null) {
+        if ( query.getResultList() == null ) {
             throw new NullPointerException();
         }
-        List<Comment> commentList = query.getResultList();
+        List<CommentEntity> commentEntityList = query.getResultList();
 
-        AppUser user = userController.getUser(userId);
+        AppUserEntity user = userController.getUser( userId );
 
-        return Utils.convertToDataCommentArray(commentList, user);
+        return Utils.convertToDataCommentArray( commentEntityList, user );
     }
 
-    public Event getEventById( int id ){
-        TypedQuery<Event> query = entityManager.createQuery( Event.GET, Event.class );
-        query.setParameter("id", id);
 
-        Event event = query.getSingleResult();
 
-        return event;
+    public EventEntity getEventById( int id ) {
+        TypedQuery<EventEntity> query = entityManager.createQuery( EventEntity.GET, EventEntity.class );
+        query.setParameter( "id", id );
+
+        EventEntity eventEntity = query.getSingleResult();
+
+        return eventEntity;
     }
-
 
 
 
     public void deletePost( int id, int userId ) {
 
-        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GET, Event.class );
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GET, EventEntity.class );
         query.setParameter( "id", id );
-        Event event = query.getSingleResult();
+        EventEntity eventEntity = query.getSingleResult();
 
-        TypedQuery<AppUser> queryUser = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
+        TypedQuery<AppUserEntity> queryUser = entityManager.createNamedQuery( AppUserEntity.GET, AppUserEntity.class );
         query.setParameter( "id", id );
-        AppUser user = queryUser.getSingleResult();
+        AppUserEntity user = queryUser.getSingleResult();
 
-        if (user.equals( event.getAppuserid() )){
-            entityManager.remove(event);
+        if ( user.equals( eventEntity.getAppUserEntity().getId() ) ) {
+            entityManager.remove( eventEntity );
         }
 
 
@@ -101,35 +103,37 @@ public class EventController {
 
     public void likePost( int id, int userId ) {
 
-        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GET, Event.class);
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GET, EventEntity.class );
         query.setParameter( "id", id );
-        Event event = query.getSingleResult();
+        EventEntity eventEntity = query.getSingleResult();
 
-        TypedQuery<AppUser> queryUser = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
+        TypedQuery<AppUserEntity> queryUser = entityManager.createNamedQuery( AppUserEntity.GET, AppUserEntity.class );
         query.setParameter( "id", userId );
-        AppUser user = queryUser.getSingleResult();
+        AppUserEntity user = queryUser.getSingleResult();
 
 
-        int likes = event.getLikes() + 1;
-        event.setLikes( likes );
+        int likes = eventEntity.getLikes() + 1;
+        eventEntity.setLikes( likes );
 
-        entityManager.persist(event);
+        entityManager.persist( eventEntity );
 
 
     }
 
-    public com.server.datatype.Comment[] getFirstComments(int id, int userId, int comNum) {
-        return getNextComments(id, userId, comNum, Integer.MAX_VALUE);
+
+
+    public com.server.datatype.Comment[] getFirstComments( int id, int userId, int comNum ) {
+        return getNextComments( id, userId, comNum, Integer.MAX_VALUE );
     }
 
 
 
     public com.server.datatype.Event[] getAllPost() {
 
-        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GETALL, Event.class );
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GETALL, EventEntity.class );
 
-        List<Event> eventList = query.getResultList();
-        return Utils.convertToDataEventArray(eventList);
+        List<EventEntity> eventEntityList = query.getResultList();
+        return Utils.convertToDataEventArray( eventEntityList );
 
     }
 }

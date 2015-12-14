@@ -1,9 +1,10 @@
 package com.server.controller;
 
 import com.server.Utils;
-import com.server.entities.AppUser;
-import com.server.entities.Event;
-import com.server.entities.Location;
+import com.server.datatype.Location;
+import com.server.entities.AppUserEntity;
+import com.server.entities.EventEntity;
+import com.server.entities.LocationEntity;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -24,20 +25,22 @@ public class LocationController {
 
     @EJB
     private UserController userController;
+    @EJB
+    private CityController cityController;
 
 
 
     //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Event aus der Tabelle wieder
     public com.server.datatype.Location[] getAllLocation() {
-        TypedQuery<Location> query = entityManager.createNamedQuery( Location.GETALL, Location.class );
+        TypedQuery<LocationEntity> query = entityManager.createNamedQuery( LocationEntity.GETALL, LocationEntity.class );
         if ( query.getResultList() == null ) {
             throw new NullPointerException(  );
         }
-        List<Location> locationList = query.getResultList();
+        List<LocationEntity> locationEntityList = query.getResultList();
 
 
 
-        return Utils.convertToDataLocationArray(locationList);
+        return Utils.convertToDataLocationArray( locationEntityList );
 
     }
 
@@ -45,30 +48,30 @@ public class LocationController {
 
     public void createPost(int id, int userId, String text ) {
 
-        Event event = new Event();
-        event.setContent( text );
-        event.setDate( Calendar.getInstance() );
-        event.setAppuserid( userId );
-        event.setLocation(getLocationById(id));
+        EventEntity eventEntity = new EventEntity();
+        eventEntity.setContent( text );
+        eventEntity.setDate( Calendar.getInstance() );
+        eventEntity.setAppUserEntity( userController.getUser( id ) );
+        eventEntity.setLocationEntity( getLocationById( id ) );
 
-        entityManager.persist(event);
+        entityManager.persist( eventEntity );
 
 
     }
 
-    private Location getLocationById(int id) {
-        TypedQuery<Location> query = entityManager.createNamedQuery( Location.GET, Location.class );
+    private LocationEntity getLocationById(int id) {
+        TypedQuery<LocationEntity> query = entityManager.createNamedQuery( LocationEntity.GET, LocationEntity.class );
         query.setParameter("id", id );
 
-        Location location;
+        LocationEntity locationEntity;
 
         try{
-            location = query.getSingleResult();
+            locationEntity = query.getSingleResult();
         }catch(Exception e){
-            location = null;
+            locationEntity = null;
         }
 
-        return  location;
+        return locationEntity;
 
     }
 
@@ -81,25 +84,25 @@ public class LocationController {
 
     public com.server.datatype.Event[] getNextPosts( int id, int userId, int postNum, int lastPostId ) {
 
-        TypedQuery<Event> query = entityManager.createNamedQuery( Event.GETLOCATION, Event.class );
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GETLOCATION, EventEntity.class );
         query.setParameter( "lastPostId", lastPostId );
         query.setParameter( "locationId", id );
         query.setMaxResults( postNum );
         if(query.getResultList() == null){
             throw new NullPointerException(  );
         }
-        List<Event> eventList = query.getResultList();
+        List<EventEntity> eventEntityList = query.getResultList();
 
-        AppUser user = userController.getUser(userId);
+        AppUserEntity user = userController.getUser(userId);
 
-        return Utils.convertToDataEventArray( eventList, user );
+        return Utils.convertToDataEventArray( eventEntityList, user );
     }
 
 
-    public void createLocation(com.server.datatype.Location location) {
+    public void createLocation(Location location) {
 
-        Location entity = new Location();
-        entity.setCityId( location.getCityId() );
+        LocationEntity entity = new LocationEntity();
+        entity.setCityEntity( cityController.getCity(location.getCityId()) );
         entity.setDescription( location.getDescription() );
         entity.setGPS( location.getGps() );
         entity.setName(location.getName());
@@ -115,16 +118,16 @@ public class LocationController {
 
 
     public void createLocation( String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS ) {
-        Location location = new Location();
-        location.setCityId( cityId );
-        location.setDescription( description );
-        location.setGPS( gPS );
-        location.setName( name );
-        location.setHouseNumber( houseNumber );
-        location.setStreet( street );
-        location.setLikes( 0 );
-        location.setPhoneNumber( phoneNumber );
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity.setCityEntity( cityController.getCity( cityId ) );
+        locationEntity.setDescription( description );
+        locationEntity.setGPS( gPS );
+        locationEntity.setName( name );
+        locationEntity.setHouseNumber( houseNumber );
+        locationEntity.setStreet( street );
+        locationEntity.setLikes( 0 );
+        locationEntity.setPhoneNumber( phoneNumber );
 
-        entityManager.persist( location );
+        entityManager.persist( locationEntity );
     }
 }

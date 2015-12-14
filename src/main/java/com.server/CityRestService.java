@@ -6,8 +6,7 @@ package com.server;
 
 import com.server.controller.CityController;
 import com.server.datatype.Event;
-import com.server.datatype.Location;
-import com.server.entities.City;
+import com.server.entities.CityEntity;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -136,7 +135,7 @@ public class CityRestService
     @Path( "/getAllCities" )
     public Response getAllCities(){
 
-        List<City> allCities = controller.getAllCities();
+        List<CityEntity> allCities = controller.getAllCities();
 
         try {
             return Response.ok( objectMapper.writeValueAsString( allCities ) ).build();

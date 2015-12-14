@@ -1,8 +1,8 @@
 package com.server;
 
 import com.server.controller.TagController;
-import com.server.entities.Event;
-import com.server.entities.Location;
+import com.server.entities.EventEntity;
+import com.server.entities.LocationEntity;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -48,9 +48,9 @@ public class TagRestService
                              @PathParam( "userId" ) int userId,
                              @PathParam( "locationNum" ) int locationNum
     ) {
-        Location[] locations = controller.getNextLocations( id, userId, locationNum );
+        LocationEntity[] locationEntities = controller.getNextLocations( id, userId, locationNum );
         try{
-            return  Response.ok(mapper.writeValueAsString( locations )).build();
+            return  Response.ok(mapper.writeValueAsString( locationEntities )).build();
         }catch ( Exception e ){
 
         }
@@ -68,9 +68,9 @@ public class TagRestService
                               @PathParam( "postNum" ) int postNum,
                               @PathParam( "lastPostId" ) int lastPostId
     ) {
-        Location[] locations = controller.getNextLocations( id, userId, postNum, lastPostId );
+        LocationEntity[] locationEntities = controller.getNextLocations( id, userId, postNum, lastPostId );
         try{
-            return  Response.ok(mapper.writeValueAsString( locations )).build();
+            return  Response.ok(mapper.writeValueAsString( locationEntities )).build();
         }catch ( Exception e ){
 
         }
@@ -85,9 +85,9 @@ public class TagRestService
                               @PathParam( "userId" ) int userId,
                               @PathParam( "locationNum" ) int postNum
     ) {
-        Event[] events = controller.getNextPosts( id, userId, postNum );
+        EventEntity[] eventEntities = controller.getNextPosts( id, userId, postNum );
         try{
-            return  Response.ok(mapper.writeValueAsString(events)).build();
+            return  Response.ok(mapper.writeValueAsString( eventEntities )).build();
         }catch ( Exception e ){
 
         }
@@ -104,9 +104,9 @@ public class TagRestService
                               @PathParam( "locationNum" ) int postNum,
                               @PathParam( "lastLocationId" ) int lastPostId
     ) {
-        Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
+        EventEntity[] eventEntities = controller.getNextPosts( id, userId, postNum, lastPostId );
         try{
-            return  Response.ok(mapper.writeValueAsString(events)).build();
+            return  Response.ok(mapper.writeValueAsString( eventEntities )).build();
         }catch ( Exception e ){
 
         }

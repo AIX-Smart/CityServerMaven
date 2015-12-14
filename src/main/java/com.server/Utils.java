@@ -2,12 +2,11 @@ package com.server;
 
 import com.server.datatype.Tag;
 import com.server.datatype.User;
-import com.server.entities.AppUser;
-import com.server.entities.Comment;
-import com.server.entities.Event;
-import com.server.entities.Location;
+import com.server.entities.AppUserEntity;
+import com.server.entities.CommentEntity;
+import com.server.entities.EventEntity;
+import com.server.entities.LocationEntity;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,44 +16,46 @@ import java.util.List;
 public class Utils {
 
 
-    public static com.server.datatype.Event[] convertToDataEventArray(List<Event> eventList, AppUser user){
-        com.server.datatype.Event[] datatypeEvents = new com.server.datatype.Event[eventList.size()];
-        for(int i = 0; i<eventList.size(); i++){
-            Event event = eventList.get(i);
-            datatypeEvents[i] = new com.server.datatype.Event(event, user.getLikedEvents().contains(event));
+    public static com.server.datatype.Event[] convertToDataEventArray(List<EventEntity> eventEntityList, AppUserEntity user){
+        com.server.datatype.Event[] datatypeEvents = new com.server.datatype.Event[ eventEntityList.size()];
+        for(int i = 0; i< eventEntityList.size(); i++){
+            EventEntity eventEntity = eventEntityList.get(i);
+            datatypeEvents[i] = new com.server.datatype.Event(
+                    eventEntity, user.getLikedEventEntities().contains( eventEntity ));
         }
         return datatypeEvents;
     }
 
 
-    public static com.server.datatype.Event[] convertToDataEventArray(List<Event> eventList){
-        com.server.datatype.Event[] datatypeEvents = new com.server.datatype.Event[eventList.size()];
-        for(int i = 0; i<eventList.size(); i++){
-            Event event = eventList.get(i);
-            datatypeEvents[i] = new com.server.datatype.Event(event, false);
+    public static com.server.datatype.Event[] convertToDataEventArray(List<EventEntity> eventEntityList ){
+        com.server.datatype.Event[] datatypeEvents = new com.server.datatype.Event[ eventEntityList.size()];
+        for(int i = 0; i< eventEntityList.size(); i++){
+            EventEntity eventEntity = eventEntityList.get(i);
+            datatypeEvents[i] = new com.server.datatype.Event( eventEntity, false);
         }
         return datatypeEvents;
     }
 
-    public static com.server.datatype.Comment[] convertToDataCommentArray(List<Comment> commentList, AppUser user){
-        com.server.datatype.Comment[] datatypeComment = new com.server.datatype.Comment[commentList.size()];
-        for(int i = 0; i<commentList.size(); i++){
-            Comment comment = commentList.get(i);
-            datatypeComment[i] = new com.server.datatype.Comment(comment, user.getLikedComments().contains(comment));
+    public static com.server.datatype.Comment[] convertToDataCommentArray(List<CommentEntity> commentEntityList, AppUserEntity user){
+        com.server.datatype.Comment[] datatypeComment = new com.server.datatype.Comment[ commentEntityList.size()];
+        for(int i = 0; i< commentEntityList.size(); i++){
+            CommentEntity commentEntity = commentEntityList.get(i);
+            datatypeComment[i] = new com.server.datatype.Comment(
+                    commentEntity, user.getLikedCommentEntities().contains( commentEntity ));
         }
         return datatypeComment;
     }
 
-    public static com.server.datatype.Location[] convertToDataLocationArray(List<Location> locationList){
-        com.server.datatype.Location[] datatypeLocations = new com.server.datatype.Location[locationList.size()];
-        for(int i = 0; i<locationList.size(); i++){
-            Location location = locationList.get(i);
-            datatypeLocations[i] = new com.server.datatype.Location(location, new ArrayList<Tag>(), false);
+    public static com.server.datatype.Location[] convertToDataLocationArray(List<LocationEntity> locationEntityList ){
+        com.server.datatype.Location[] datatypeLocations = new com.server.datatype.Location[ locationEntityList.size()];
+        for(int i = 0; i< locationEntityList.size(); i++){
+            LocationEntity locationEntity = locationEntityList.get(i);
+            datatypeLocations[i] = new com.server.datatype.Location( locationEntity, new ArrayList<Tag>(), false);
         }
         return datatypeLocations;
     }
 
-    public static User convertToDataUser(AppUser userEntity) {
+    public static User convertToDataUser(AppUserEntity userEntity) {
         return new User(userEntity);
     }
 }

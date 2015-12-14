@@ -1,6 +1,6 @@
 package com.server.datatype;
 
-import com.server.entities.AppUser;
+import com.server.entities.AppUserEntity;
 
 import java.util.List;
 
@@ -8,40 +8,57 @@ import java.util.List;
  * Created by jp on 15.11.2015.
  */
 public class User {
-    private int id;
-    private int permission;
+
+    private int            id;
+    private int            permission;
     private List<Location> ownLocations;
 
-    public User(AppUser user){
+
+
+    public User( AppUserEntity user ) {
         this.id = user.getId();
         this.permission = user.getPermission();
     }
 
-    public User(int id) {
+
+
+    public User( int id ) {
         this.id = id;
     }
+
+
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+
+
+    public void setId( int id ) {
         this.id = id;
     }
+
+
 
     public int getPermission() {
         return permission;
     }
 
-    public void setPermission(int permission) {
+
+
+    public void setPermission( int permission ) {
         this.permission = permission;
     }
+
+
 
     public List<Location> getOwnLocations() {
         return ownLocations;
     }
 
-    public void setOwnLocations(List<Location> ownLocations) {
+
+
+    public void setOwnLocations( List<Location> ownLocations ) {
         this.ownLocations = ownLocations;
     }
 }

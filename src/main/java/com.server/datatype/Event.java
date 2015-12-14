@@ -1,6 +1,7 @@
 package com.server.datatype;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.server.entities.EventEntity;
 
 /**
  * Created by jp on 13.11.2015.
@@ -31,15 +32,15 @@ public class Event {
         this.commentCount = commentCount;
     }
 
-    public Event(com.server.entities.Event event, boolean liked){
-        this.id = event.getId();
-        this.content = event.getContent();
-        this.creationTime = event.getDate().getTimeInMillis();
-        this.likeCount = event.getLikes();
-        this.authorId = event.getAppuserid();
+    public Event(EventEntity eventEntity, boolean liked){
+        this.id = eventEntity.getId();
+        this.content = eventEntity.getContent();
+        this.creationTime = eventEntity.getDate().getTimeInMillis();
+        this.likeCount = eventEntity.getLikes();
+        this.authorId = eventEntity.getAppUserEntity().getId();
         this.liked = liked;
-        this.locationId = event.getLocation().getId();
-        this.commentCount = event.getComments().size();
+        this.locationId = eventEntity.getLocationEntity().getId();
+        this.commentCount = eventEntity.getCommentEntities().size();
     }
 
 

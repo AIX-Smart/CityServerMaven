@@ -2,7 +2,7 @@ package com.server.controller;
 
 import com.server.Utils;
 import com.server.datatype.User;
-import com.server.entities.AppUser;
+import com.server.entities.AppUserEntity;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,42 +20,50 @@ public class UserController {
     private EntityManager entityManager;
 
 
-    public AppUser createUser( String deviceId){
-        AppUser newUser = new AppUser();
-        newUser.setDeviceId(deviceId);
+
+    public AppUserEntity createUser( String deviceId ) {
+        AppUserEntity newUser = new AppUserEntity();
+        newUser.setDeviceId( deviceId );
 
         entityManager.persist( newUser );
 
         return newUser;
     }
 
-    public AppUser getUser( int userId) {
 
-        TypedQuery<AppUser> query = entityManager.createNamedQuery( AppUser.GET, AppUser.class );
-        query.setParameter("id", userId);
-        AppUser appUser = query.getSingleResult();
-        return appUser;
+
+    public AppUserEntity getUser( int userId ) {
+
+        TypedQuery<AppUserEntity> query = entityManager.createNamedQuery( AppUserEntity.GET, AppUserEntity.class );
+        query.setParameter( "id", userId );
+        AppUserEntity appUserEntity = query.getSingleResult();
+        return appUserEntity;
 
     }
 
-    public List<AppUser> getAllUser() {
-        TypedQuery<AppUser> query = entityManager.createNamedQuery( AppUser.GETALL, AppUser.class);
-        List<AppUser> userList = query.getResultList();
 
-        return  userList;
+
+    public List<AppUserEntity> getAllUser() {
+        TypedQuery<AppUserEntity> query = entityManager.createNamedQuery( AppUserEntity.GETALL, AppUserEntity.class );
+        List<AppUserEntity> userList = query.getResultList();
+
+        return userList;
     }
 
-    public User getUserByDeviceId(String deviceId) {
 
-        TypedQuery<AppUser> query = entityManager.createNamedQuery( AppUser.GETBYDEVICEID, AppUser.class );
-        query.setParameter("deviceId", deviceId);
-        query.setMaxResults(1);
-        List<AppUser> appUserList = query.getResultList();
-        if (appUserList.isEmpty()){
-            appUserList.add(createUser(deviceId));
+
+    public User getUserByDeviceId( String deviceId ) {
+
+        TypedQuery<AppUserEntity> query = entityManager
+                .createNamedQuery( AppUserEntity.GETBYDEVICEID, AppUserEntity.class );
+        query.setParameter( "deviceId", deviceId );
+        query.setMaxResults( 1 );
+        List<AppUserEntity> appUserEntityList = query.getResultList();
+        if ( appUserEntityList.isEmpty() ) {
+            appUserEntityList.add( createUser( deviceId ) );
         }
-        AppUser userEntity = appUserList.get(0);
+        AppUserEntity userEntity = appUserEntityList.get( 0 );
 
-        return Utils.convertToDataUser(userEntity) ;
+        return Utils.convertToDataUser( userEntity );
     }
 }
