@@ -149,4 +149,12 @@ public class LocationController {
     }
 
 
+
+    public Location[] getLocationBySearchText( String searchText ) {
+        TypedQuery<LocationEntity> locationEntityTypedQuery = entityManager.createQuery( LocationEntity.GETBYNAME, LocationEntity.class );
+        locationEntityTypedQuery.setParameter( "name", searchText );
+        List<LocationEntity> locationEntityList = locationEntityTypedQuery.getResultList();
+
+        return Utils.convertToDataLocationArray( locationEntityList );
+    }
 }

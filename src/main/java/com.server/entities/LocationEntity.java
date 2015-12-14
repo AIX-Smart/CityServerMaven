@@ -16,7 +16,8 @@ import javax.persistence.NamedQuery;
 @NamedQueries( {
         @NamedQuery( name = LocationEntity.GETALL, query = "SELECT l FROM Location l " ),
         @NamedQuery( name = LocationEntity.GET, query = "SELECT l FROM Location l WHERE l.id = :id  " ),
-        @NamedQuery( name = LocationEntity.GETCITYLOCATIONS, query = "SELECT l FROM Location l WHERE l.cityId = :cityId" )
+        @NamedQuery( name = LocationEntity.GETCITYLOCATIONS, query = "SELECT l FROM Location l WHERE l.cityId = :cityId" ),
+        @NamedQuery( name = LocationEntity.GETBYNAME, query = "SELECT l FROM Location l WHERE l.name = :name" )
 } )
 @Entity
 public class LocationEntity {
@@ -25,6 +26,7 @@ public class LocationEntity {
     public static final String GETALL           = "Location.getAll";
     public static final String GET              = "Location.get";
     public static final String GETCITYLOCATIONS = "Location.getCityLocations";
+    public static final String GETBYNAME        = "Locaiton.getByName";
 
 
     @Id

@@ -123,7 +123,7 @@ public class LocationRestService
     @Path( "/{id}" )
     public Response get( @PathParam( "id" ) int id ) {
 
-        Location location = controller.getLocationById(id);
+        Location location = controller.getLocationById( id );
 
         try {
             return Response.ok( mapper.writeValueAsString(location) ).build();
@@ -148,6 +148,24 @@ public class LocationRestService
         return Response.ok().build();
 
     }
+
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/search" )
+    public Response get( String searchText ) {
+
+        Location[] locations = controller.getLocationBySearchText(searchText);
+
+        try {
+            return Response.ok( mapper.writeValueAsString(locations) ).build();
+        } catch ( Exception e ) {
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();
+
+    }
+
 
     //create Location with Webservice
     @PUT
