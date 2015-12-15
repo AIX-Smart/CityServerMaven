@@ -3,6 +3,7 @@ package com.server.controller;
 import com.server.Utils;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
+import com.server.entities.EventEntity;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -57,7 +58,7 @@ public class CommentController {
 
 
 
-    public void likeComment( int id, int userId ) {
+    public void likeComment( int id, int userId, boolean isLiked ) {
 
         // es muss noch eine Abfrage hinzukommen ob der User den Comment schonmal geliked hat
 
@@ -69,10 +70,24 @@ public class CommentController {
         query.setParameter( "id", userId );
         AppUserEntity user = queryUser.getSingleResult();
 
-        int likes = commentEntity.getLikes() + 1;
-        commentEntity.setLikes( likes );
+        int likeCount = commentEntity.getLikes();
+        List<CommentEntity> likeCommentList = user.getLikedCommentEntities();
 
+        if (isLiked) {
+            if (!likeCommentList.contains(commentEntity)) {
+                likeCommentList.add(commentEntity);
+                likeCount++;
+            }
+        }
+        else {
+            if (likeCommentList.contains(commentEntity)) {
+                likeCommentList.remove(commentEntity);
+                likeCount--;
+            }
+        }
+        commentEntity.setLikes( likeCount );
         entityManager.persist( commentEntity );
+        entityManager.persist( user );
 
     }
 }

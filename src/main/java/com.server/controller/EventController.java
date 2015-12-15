@@ -100,8 +100,7 @@ public class EventController {
     }
 
 
-
-    public void likePost( int id, int userId ) {
+    public void likePost( int id, int userId, boolean isLiked ) {
 
         TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GET, EventEntity.class );
         query.setParameter( "id", id );
@@ -110,14 +109,24 @@ public class EventController {
         TypedQuery<AppUserEntity> queryUser = entityManager.createNamedQuery( AppUserEntity.GET, AppUserEntity.class );
         query.setParameter( "id", userId );
         AppUserEntity user = queryUser.getSingleResult();
+        List<EventEntity> likeEventList = user.getLikedEventEntities();
+        int likeCount = eventEntity.getLikes();
 
-
-        int likes = eventEntity.getLikes() + 1;
-        eventEntity.setLikes( likes );
-
+        if (isLiked) {
+            if (!likeEventList.contains(eventEntity)) {
+                likeEventList.add(eventEntity);
+                likeCount++;
+            }
+        }
+        else {
+            if (likeEventList.contains(eventEntity)) {
+                likeEventList.remove(eventEntity);
+                likeCount--;
+            }
+        }
+        eventEntity.setLikes( likeCount );
         entityManager.persist( eventEntity );
-
-
+        entityManager.persist( user );
     }
 
 
