@@ -180,7 +180,6 @@ public class LocationRestService
                             @PathParam( "houseNumber" ) String houseNumber ){
 
 
-        logger.trace("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ich komme hier rein XXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 
         controller.createLocation(name, cityId, street, houseNumber, phoneNumber, description, gPS);
 
