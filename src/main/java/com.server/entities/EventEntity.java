@@ -26,7 +26,11 @@ import java.util.List;
                 "ORDER BY d.id DESC" ),
         @NamedQuery( name = EventEntity.GET, query = "SELECT d FROM EventEntity d WHERE d.id = :id" ),
         @NamedQuery( name = EventEntity.GETUSER, query = "SELECT d FROM EventEntity d WHERE d.appUserEntity.id = :appuserid ORDER BY d.id DESC" ),
-        @NamedQuery( name = EventEntity.GETLOCATION, query = "SELECT d  FROM EventEntity d join d.locationEntity l WHERE l.id = :locationid ORDER BY d.id DESC" )
+        @NamedQuery( name = EventEntity.GETLOCATION, query =
+                "SELECT d  " +
+                "FROM EventEntity d join d.locationEntity l " +
+                "WHERE d.id < :lastId AND l.id = :locationid " +
+                "ORDER BY d.id DESC" )
 } )
 @Entity
 public class EventEntity {

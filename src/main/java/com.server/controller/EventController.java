@@ -127,6 +127,7 @@ public class EventController {
         eventEntity.setLikes( likeCount );
         entityManager.persist( eventEntity );
         entityManager.persist( user );
+
     }
 
 
