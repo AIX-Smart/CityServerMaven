@@ -62,7 +62,7 @@ public class LocationRestService
     }
 
     //Create Event over Web Application
-    @PUT
+    @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/{content}" )
     public Response createPostWebsite( @PathParam( "id" ) int id,
