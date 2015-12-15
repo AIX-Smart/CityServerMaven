@@ -177,8 +177,10 @@ public class LocationRestService
                             @PathParam( "phoneNumber" ) String phoneNumber,
                             @PathParam( "GPS" ) String gPS,
                             @PathParam( "description" ) String description,
-                            @PathParam( "houseNumber" ) String houseNumber){
+                            @PathParam( "houseNumber" ) String houseNumber ){
 
+
+        logger.trace("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ich komme hier rein XXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 
         controller.createLocation(name, cityId, street, houseNumber, phoneNumber, description, gPS);
 

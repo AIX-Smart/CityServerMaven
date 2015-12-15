@@ -119,7 +119,7 @@ public class CityController {
 
     public CityEntity getCity( int cityId ) {
         TypedQuery<CityEntity> query = entityManager.createNamedQuery( CityEntity.GETCITY, CityEntity.class );
-        query.setParameter( "id", cityId );
+        query.setParameter( "cityId", cityId );
         CityEntity city = query.getSingleResult();
         return city;
     }
