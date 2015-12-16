@@ -29,7 +29,8 @@ import java.util.List;
         @NamedQuery( name = EventEntity.GETLOCATION, query =
                 "SELECT d  " +
                 "FROM EventEntity d join d.locationEntity l " +
-                "WHERE d.id < :lastId AND l.id = :locationid " +
+                "WHERE d.id < :lastId AND l.id = :locationId " +
+                       // "WHERE d.id < :lastId AND l.id = :locationid " +
                 "ORDER BY d.id DESC" )
 } )
 @Entity

@@ -106,7 +106,7 @@ public class LocationController {
     public com.server.datatype.Event[] getNextPosts( int id, int userId, int postNum, int lastPostId ) {
 
         TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GETLOCATION, EventEntity.class );
-        query.setParameter( "lastPostId", lastPostId );
+        query.setParameter( "lastId", lastPostId );
         query.setParameter( "locationId", id );
         query.setMaxResults( postNum );
         if(query.getResultList() == null){
