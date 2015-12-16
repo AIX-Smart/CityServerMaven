@@ -38,25 +38,25 @@ public class EventController {
 
 
 
-    public void createComment( int id, int userId, String text ) {
+    public void createComment( int eventId, int userId, String text ) {
+
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setContent( text );
         commentEntity.setDate( Calendar.getInstance() );
         commentEntity.setAppUserEntity( userController.getUser( userId ) );
-
-        commentEntity.setEventEntity( getEventById( id ) );
+        commentEntity.setEventEntity( getEventById( eventId ) );
 
         entityManager.persist( commentEntity );
     }
 
 
 
-    public com.server.datatype.Comment[] getNextComments( int id, int userId, int comNum, int lastCommentId ) {
+    public com.server.datatype.Comment[] getNextComments( int eventId, int userId, int comNum, int lastCommentId ) {
 
         TypedQuery<CommentEntity> query = entityManager
                 .createNamedQuery( CommentEntity.GETPOSTCOMMENTS, CommentEntity.class );
-        query.setParameter( "postId", id );
-        query.setParameter( "lastCommentId", lastCommentId );
+        query.setParameter( "eventId", eventId );
+        query.setParameter( "lastId", lastCommentId );
         query.setMaxResults( comNum );
 
         if ( query.getResultList() == null ) {
