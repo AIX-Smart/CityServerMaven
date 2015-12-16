@@ -90,10 +90,10 @@ public class CityRestService
     //Get following post from last PostId on
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{postNum}/{lastPostId}" )
+    @Path( "/{id}/{postNum}/{userId}/{lastPostId}" )
     public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "userId" ) int userId,
                              @PathParam( "postNum" ) int postNum,
+                             @PathParam( "userId" ) int userId,
                              @PathParam( "lastPostId" ) int lastPostId
     ) {
         Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );

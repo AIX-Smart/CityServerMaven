@@ -55,7 +55,7 @@ public class LocationController {
         EventEntity eventEntity = new EventEntity();
         eventEntity.setContent( text );
         eventEntity.setDate( Calendar.getInstance() );
-        eventEntity.setAppUserEntity( userController.getUser( id ) );
+        eventEntity.setAppUserEntity( userController.getUser( userId ) );
         eventEntity.setLocationEntity( getLocationEntityById( id ) );
 
         entityManager.persist( eventEntity );

@@ -102,8 +102,8 @@ public class LocationRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{postNum}/{userId}/{lastPostId}" )
     public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "userId" ) int userId,
                              @PathParam( "postNum" ) int postNum,
+                             @PathParam( "userId" ) int userId,
                              @PathParam( "lastPostId" ) int lastPostId
     ) {
         Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );

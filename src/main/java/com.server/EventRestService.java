@@ -88,10 +88,10 @@ public class EventRestService
     //Get first Comments
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{comNum}" )
+    @Path( "/{id}/{comNum}/{userId}" )
     public Response getComment( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) int userId,
-                                @PathParam( "comNum" ) int comNum ) {
+                                @PathParam( "comNum" ) int comNum,
+                                @PathParam( "userId" ) int userId ) {
         Comment[] comments = controller.getFirstComments( id, userId, comNum );
         try {
             return Response.ok( mapper.writeValueAsString( comments ) ).build();
@@ -107,10 +107,10 @@ public class EventRestService
     //Get following comment from last commentId on
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{comNum}/{lastCommentId}" )
+    @Path( "/{id}/{comNum}/{userId}/{lastCommentId}" )
     public Response getComment( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) int userId,
                                 @PathParam( "comNum" ) int comNum,
+                                @PathParam( "userId" ) int userId,
                                 @PathParam( "lastCommentId" ) int lastCommentId
     ) {
         Comment[] comments = controller.getNextComments( id, userId, comNum, lastCommentId );
