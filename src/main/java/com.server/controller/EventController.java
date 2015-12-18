@@ -112,10 +112,9 @@ public class EventController {
                 likeEventList.add(eventEntity);
                 likeCount++;
         }
-        else if (isLiked && likeEventList.contains(eventEntity)) {
+       else if (!isLiked && likeEventList.contains(eventEntity)) {
                 likeEventList.remove(eventEntity);
                 likeCount--;
-
         }
         eventEntity.setLikes( likeCount );
         entityManager.merge( eventEntity );
