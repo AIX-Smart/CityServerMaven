@@ -30,11 +30,11 @@ import java.util.Calendar;
 @Entity
 public class CommentEntity {
 
-    public static final String GET             = "Comment.get";
-    public static final String GETALL          = "Comment.getAll";
-    public static final String GETOWN          = "Comment.getOwn";
-    public static final String GETPOSTCOMMENTS = "Comment.getPostComments";
-    public static final String GETCOMMENTLIKE  = "Comment.getCommentLike";
+    public static final String GET             = "CommentEntity.get";
+    public static final String GETALL          = "CommentEntity.getAll";
+    public static final String GETOWN          = "CommentEntity.getOwn";
+    public static final String GETPOSTCOMMENTS = "CommentEntity.getPostComments";
+    public static final String GETCOMMENTLIKE  = "CommentEntity.getCommentLike";
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
