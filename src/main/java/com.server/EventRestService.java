@@ -38,7 +38,7 @@ public class EventRestService
     // Get all events in the database which the user created himself
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "{userId}/" )
+    @Path( "/{userId}/" )
     public Response getAll( @PathParam( "userId" ) int userId ) {
 
         Event[] events = controller.allOwnPosts( userId );
@@ -56,8 +56,7 @@ public class EventRestService
     //Create Comment
     @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Consumes( "text/plain" )
-    @Path( "{id}/{userId}" )
+    @Path( "/{id}/{userId}/" )
     public Response createComment( @PathParam( "id" ) int id,
                                    @PathParam( "userId" ) int userId,
                                    String text
@@ -72,8 +71,7 @@ public class EventRestService
     //like Event
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "{id}/{userId}" )
-    @Consumes("text/plain")
+    @Path( "/{id}/{userId}/" )
     public Response likePost( @PathParam( "id" ) int id,
                               @PathParam( "userId" ) int userId,
                               String text
