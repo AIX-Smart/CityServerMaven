@@ -1,6 +1,7 @@
 package com.server.controller;
 
 import com.server.Utils;
+import com.server.datatype.Comment;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
 import com.server.entities.EventEntity;
@@ -90,4 +91,13 @@ public class CommentController {
         entityManager.persist( user );
 
     }
+
+    public List<CommentEntity> allComments() {
+
+        TypedQuery<CommentEntity> query = entityManager.createNamedQuery( CommentEntity.GETALL, CommentEntity.class );
+        List<CommentEntity> commentList = query.getResultList();
+        return  commentList;
+    }
+
+
 }

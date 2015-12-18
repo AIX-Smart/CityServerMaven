@@ -107,7 +107,6 @@ public class CityRestService
     }
 
 
-
     //Get cityInformation
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
