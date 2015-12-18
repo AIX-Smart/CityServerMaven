@@ -181,6 +181,7 @@ public class LocationRestService
 
 
 
+        logger.info("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXHier komme ich rein >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         controller.createLocation(name, cityId, street, houseNumber, phoneNumber, description, gPS);
 
 

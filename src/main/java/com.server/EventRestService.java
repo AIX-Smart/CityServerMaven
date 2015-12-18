@@ -75,11 +75,10 @@ public class EventRestService
     @Path( "{id}/{userId}" )
     @Consumes("text/plain")
     public Response likePost( @PathParam( "id" ) int id,
-                              @PathParam( "userId" ) int userId,
-                              String text
+                              @PathParam( "userId" ) int userId
     ) {
-        boolean like = Boolean.parseBoolean(text);
-        controller.likePost( id, userId, like );
+       // boolean like = Boolean.parseBoolean(text);
+        controller.likePost( id, userId, true );
         return Response.ok().build();
     }
 
