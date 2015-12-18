@@ -72,7 +72,7 @@ public class EventController {
 
 
     public EventEntity getEventById( int id ) {
-        TypedQuery<EventEntity> query = entityManager.createQuery( EventEntity.GET, EventEntity.class );
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GET, EventEntity.class );
         query.setParameter( "id", id );
 
         EventEntity eventEntity = query.getSingleResult();
