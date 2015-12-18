@@ -117,4 +117,14 @@ public class CityController {
         return city;
     }
 
+    public Boolean isUpToDate(int cityId, int postId) {
+
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETCITY, EventEntity.class);
+        query.setParameter("cityId", cityId );
+        query.setMaxResults(1);
+        EventEntity lastEvent = query.getResultList().get(0);
+
+        return ( postId == lastEvent.getId() );
+
+    }
 }

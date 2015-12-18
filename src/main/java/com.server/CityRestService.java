@@ -84,6 +84,21 @@ public class CityRestService
 
     }
 
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{postId}" )
+    public Response isUpToDate( @PathParam( "id" ) int id,
+                             @PathParam( "postId" ) int postId ) {
+
+        try {
+
+            Boolean upToDate= controller.isUpToDate( id, postId );
+            return Response.ok( mapper.writeValueAsString( upToDate ) ).build();
+        } catch ( Exception e ) {
+            return Response.ok( e.toString() ).build();
+        }
+
+    }
 
 
     //Get following post from last PostId on
