@@ -56,7 +56,6 @@ public class CityRestService
     //Create Event
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Consumes( "text/plain" )
     @Path( "{id}/{userId}" )
     public Response CreatePost( @PathParam( "id" ) int id,
                                 @PathParam( "userId" ) int userId,

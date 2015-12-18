@@ -50,7 +50,6 @@ public class CommentRestService
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/" )
-    @Consumes("text/plain")
     public Response likeComment( @PathParam( "id" ) int id,
                                  @PathParam( "userId" ) int userId,
                                  String text
