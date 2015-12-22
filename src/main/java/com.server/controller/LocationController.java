@@ -3,6 +3,7 @@ package com.server.controller;
 import com.server.Utils;
 import com.server.datatype.Location;
 import com.server.entities.AppUserEntity;
+import com.server.entities.CityEntity;
 import com.server.entities.EventEntity;
 import com.server.entities.LocationEntity;
 import org.apache.log4j.Logger;
@@ -123,7 +124,7 @@ public class LocationController {
     public Location createLocation( Location location) {
 
         LocationEntity entity = new LocationEntity();
-        entity.setCityEntity( cityController.getCity( location.getCityId() ) );
+        entity.setCityEntity( new CityEntity() );
         entity.setDescription( location.getDescription() );
         entity.setGPS( location.getGps() );
         entity.setName(location.getName());
@@ -145,7 +146,7 @@ public class LocationController {
         logger.trace("XXXXXXXXXXXXXXXXXXXXXXXXX controller rein XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 
         LocationEntity locationEntity = new LocationEntity();
-        locationEntity.setCityEntity( cityController.getCity( cityId ) );
+        locationEntity.setCityEntity( new CityEntity() );// falsch
         locationEntity.setDescription( description );
         locationEntity.setGPS( gPS );
         locationEntity.setName( name );
