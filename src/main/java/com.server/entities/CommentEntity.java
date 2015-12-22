@@ -17,13 +17,13 @@ import java.util.Calendar;
 
 
 @NamedQueries( {
-        @NamedQuery( name = CommentEntity.GETALL, query = "SELECT c FROM CommentEntity c ORDER BY c.id DESC" ),
-        @NamedQuery( name = CommentEntity.GET, query = "SELECT c FROM CommentEntity c WHERE c.id = :id ORDER BY c.id DESC" ),
-        @NamedQuery( name = CommentEntity.GETOWN, query = "SELECT c FROM CommentEntity c WHERE c.appUserEntity.id = :userId ORDER BY c.id DESC" ),
+        @NamedQuery( name = CommentEntity.GETALL, query = "SELECT c FROM CommentEntity c where c.deletd = false ORDER BY c.id DESC" ),
+        @NamedQuery( name = CommentEntity.GET, query = "SELECT c FROM CommentEntity c WHERE c.id = :id and c.deletd = false ORDER BY c.id DESC" ),
+        @NamedQuery( name = CommentEntity.GETOWN, query = "SELECT c FROM CommentEntity c WHERE c.appUserEntity.id = :userId and c.deletd = false ORDER BY c.id DESC" ),
         @NamedQuery( name = CommentEntity.GETPOSTCOMMENTS, query =
                 "SELECT c " +
                 "FROM CommentEntity c JOIN c.eventEntity ev " +
-                "WHERE c.id < :lastId AND ev.id = :eventId " +
+                "WHERE c.id < :lastId AND ev.id = :eventId and c.deletd = false " +
                 "ORDER BY c.id DESC" ),
 
 } )
@@ -34,7 +34,6 @@ public class CommentEntity {
     public static final String GETALL          = "CommentEntity.getAll";
     public static final String GETOWN          = "CommentEntity.getOwn";
     public static final String GETPOSTCOMMENTS = "CommentEntity.getPostComments";
-    public static final String GETCOMMENTLIKE  = "CommentEntity.getCommentLike";
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )

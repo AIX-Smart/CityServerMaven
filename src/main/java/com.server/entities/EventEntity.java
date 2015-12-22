@@ -18,18 +18,18 @@ import java.util.List;
  */
 
 @NamedQueries( {
-        @NamedQuery( name = EventEntity.GETALL, query = "SELECT d FROM EventEntity d ORDER BY d.id DESC" ),
+        @NamedQuery( name = EventEntity.GETALL, query = "SELECT d FROM EventEntity d where d.deleted = false ORDER BY d.id DESC" ),
         @NamedQuery( name = EventEntity.GETCITY, query =
                 "SELECT d " +
                 "FROM EventEntity d JOIN d.locationEntity lc " +
-                "WHERE d.id < :lastId AND lc.cityEntity.id = :cityId " +
+                "WHERE d.id < :lastId AND lc.cityEntity.id = :cityId and d.deleted = false " +
                 "ORDER BY d.id DESC" ),
-        @NamedQuery( name = EventEntity.GET, query = "SELECT d FROM EventEntity d WHERE d.id = :id ORDER BY d.id DESC" ),
-        @NamedQuery( name = EventEntity.GETUSER, query = "SELECT d FROM EventEntity d WHERE d.appUserEntity.id = :appuserid ORDER BY d.id DESC" ),
+        @NamedQuery( name = EventEntity.GET, query = "SELECT d FROM EventEntity d WHERE d.id = :id and d.deleted = false ORDER BY d.id DESC" ),
+        @NamedQuery( name = EventEntity.GETUSER, query = "SELECT d FROM EventEntity d WHERE d.appUserEntity.id = :appuserid and d.deleted = false ORDER BY d.id DESC" ),
         @NamedQuery( name = EventEntity.GETLOCATION, query =
                 "SELECT d  " +
                 "FROM EventEntity d join d.locationEntity l " +
-                "WHERE d.id < :lastId AND l.id = :locationId " +
+                "WHERE d.id < :lastId AND l.id = :locationId and d.deleted = false " +
                        // "WHERE d.id < :lastId AND l.id = :locationid " +
                 "ORDER BY d.id DESC" )
 } )
