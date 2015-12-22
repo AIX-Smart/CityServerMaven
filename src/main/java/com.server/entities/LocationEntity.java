@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 /**
  * Created by jp on 02.11.15.
@@ -14,19 +16,23 @@ import javax.persistence.NamedQuery;
 
 
 @NamedQueries( {
-        @NamedQuery( name = LocationEntity.GETALL, query = "SELECT l FROM LocationEntity l " ),
         @NamedQuery( name = LocationEntity.GET, query = "SELECT l FROM LocationEntity l WHERE l.id = :id  " ),
+        @NamedQuery( name = LocationEntity.GETBYNAME, query = "SELECT l FROM LocationEntity l WHERE l.name = :name" ),
         @NamedQuery( name = LocationEntity.GETCITYLOCATIONS, query = "SELECT l FROM LocationEntity l WHERE l.cityEntity.id = :cityId" ),
-        @NamedQuery( name = LocationEntity.GETBYNAME, query = "SELECT l FROM LocationEntity l WHERE l.name = :name" )
+        @NamedQuery( name = LocationEntity.GETCITYLOCATIONSWITHTAG, query = "SELECT l FROM LocationEntity l join l.TagEntity t WHERE l.cityEntity.id = :cityId AND t.id = :tagId" ),
+        @NamedQuery( name = LocationEntity.GETALL, query = "SELECT l FROM LocationEntity l " )
+
 } )
 @Entity
 public class LocationEntity {
 
 
-    public static final String GETALL           = "Location.getAll";
     public static final String GET              = "Location.get";
-    public static final String GETCITYLOCATIONS = "Location.getCityLocations";
     public static final String GETBYNAME        = "Locaiton.getByName";
+    public static final String GETCITYLOCATIONS = "Location.getCityLocations";
+    public static final String GETCITYLOCATIONSWITHTAG = "Location.getCityLocationsWithTag";
+    public static final String GETALL           = "Location.getAll";
+
 
 
     @Id
@@ -37,6 +43,9 @@ public class LocationEntity {
 
     @ManyToOne( optional = false )
     private CityEntity cityEntity;
+
+    @OneToMany
+    private List<TagEntity> tags;
 
     private String street;
 
@@ -186,4 +195,14 @@ public class LocationEntity {
     }
 
 
+
+    public List<TagEntity> getTags() {
+        return tags;
+    }
+
+
+
+    public void setTags( List<TagEntity> tags ) {
+        this.tags = tags;
+    }
 }
