@@ -1,14 +1,11 @@
-package com.server;
+package com.server.controller;
 
-import com.server.controller.UserController;
-import com.server.datatype.Tag;
 import com.server.datatype.User;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
 import com.server.entities.EventEntity;
 import com.server.entities.LocationEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +49,7 @@ public class Utils {
         com.server.datatype.Location[] datatypeLocations = new com.server.datatype.Location[ locationEntityList.size()];
         for(int i = 0; i< locationEntityList.size(); i++){
             LocationEntity locationEntity = locationEntityList.get(i);
-            datatypeLocations[i] = new com.server.datatype.Location( locationEntity, new ArrayList<Tag>(), false);
+            //datatypeLocations[i] = new com.server.datatype.Location( locationEntity, new ArrayList<Tag>(), false);
         }
         return datatypeLocations;
     }
@@ -69,4 +66,6 @@ public class Utils {
     public static User convertToDataUser(AppUserEntity userEntity) {
         return new User(userEntity);
     }
+
+
 }

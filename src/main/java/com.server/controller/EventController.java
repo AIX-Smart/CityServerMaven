@@ -1,7 +1,7 @@
 package com.server.controller;
 
-import com.server.Utils;
 import com.server.datatype.Comment;
+import com.server.datatype.Event;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
 import com.server.entities.EventEntity;
@@ -26,9 +26,12 @@ public class EventController {
     @EJB
     private UserController userController;
 
+    @EJB
+    private CommentController commentController;
 
 
-    public com.server.datatype.Event[] allOwnPosts( int userId ) {
+
+    public Event[] allOwnPosts( int userId ) {
 
         TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GETUSER, EventEntity.class );
         query.setParameter( "appuserId", userId );
@@ -39,37 +42,59 @@ public class EventController {
 
 
 
-    public Comment createComment( int eventId, int userId, String text ) {
+    public Comment[] getFirstComments( int eventId, int userId, int comNum ) {
 
-        CommentEntity commentEntity = new CommentEntity();
-        commentEntity.setContent( text );
-        commentEntity.setDate( Calendar.getInstance() );
-        commentEntity.setAppUserEntity( userController.getUser( userId ) );
-        commentEntity.setEventEntity( getEventById( eventId ) );
+        return commentController.getFirstComments( eventId, userId, comNum );
 
-        entityManager.persist( commentEntity );
-        return null;
     }
 
 
 
-    public com.server.datatype.Comment[] getNextComments( int eventId, int userId, int comNum, int lastCommentId ) {
+    public Comment[] getNextComments( int eventId, int userId, int comNum, int lastCommentId ) {
 
-        TypedQuery<CommentEntity> query = entityManager
-                .createNamedQuery( CommentEntity.GETPOSTCOMMENTS, CommentEntity.class );
-        query.setParameter( "eventId", eventId );
-        query.setParameter( "lastId", lastCommentId );
-        query.setMaxResults( comNum );
+        return commentController.getNextComments( eventId, userId, comNum, lastCommentId );
 
-        if ( query.getResultList() == null ) {
-            throw new NullPointerException();
-        }
-        List<CommentEntity> commentEntityList = query.getResultList();
+    }
+
+
+
+    public Event[] getFirstPosts( int cityId, int userId, int postNum ) {
+        return getNextPosts( cityId, userId, postNum, Integer.MAX_VALUE );
+    }
+
+
+
+    public Event[] getNextPosts( int cityId, int userId, int postNum, int lastPostId ) {
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GETCITY, EventEntity.class );
+        query.setParameter( "cityId", cityId );
+        query.setParameter( "lastId", lastPostId );
+        query.setMaxResults( postNum );
+
 
         AppUserEntity user = userController.getUser( userId );
+        List<EventEntity> eventEntityList = query.getResultList();
 
-        return Utils.convertToDataCommentArray( commentEntityList, user );
+        return Utils.convertToDataEventArray( eventEntityList, user );
     }
+
+
+
+    public Event[] getAllPost() {
+        return Utils.convertToDataEventArray( getAllPostEntity() );
+    }
+
+
+
+    private List<EventEntity> getAllPostEntity() {
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GETALL, EventEntity.class );
+        List <EventEntity> eventList = query.getResultList();
+
+        return eventList;
+
+    }
+
+
+
 
 
 
@@ -102,21 +127,21 @@ public class EventController {
     }
 
 
+
     public boolean likePost( int id, int userId, boolean isLiked ) {
 
-        EventEntity eventEntity = getEventById(id);
-        AppUserEntity user = userController.getUser(userId);
+        EventEntity eventEntity = getEventById( id );
+        AppUserEntity user = userController.getUser( userId );
 
         List<EventEntity> likeEventList = user.getLikedEventEntities();
         int likeCount = eventEntity.getLikes();
 
-        if (isLiked && !likeEventList.contains(eventEntity)) {
-                likeEventList.add(eventEntity);
-                likeCount++;
-        }
-       else if (!isLiked && likeEventList.contains(eventEntity)) {
-                likeEventList.remove(eventEntity);
-                likeCount--;
+        if ( isLiked && !likeEventList.contains( eventEntity ) ) {
+            likeEventList.add( eventEntity );
+            likeCount++;
+        } else if ( !isLiked && likeEventList.contains( eventEntity ) ) {
+            likeEventList.remove( eventEntity );
+            likeCount--;
         }
         eventEntity.setLikes( likeCount );
         entityManager.merge( eventEntity );
@@ -126,19 +151,4 @@ public class EventController {
     }
 
 
-
-    public com.server.datatype.Comment[] getFirstComments( int id, int userId, int comNum ) {
-        return getNextComments( id, userId, comNum, Integer.MAX_VALUE );
-    }
-
-
-
-    public com.server.datatype.Event[] getAllPost() {
-
-        TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GETALL, EventEntity.class );
-
-        List<EventEntity> eventEntityList = query.getResultList();
-        return Utils.convertToDataEventArray( eventEntityList );
-
-    }
 }

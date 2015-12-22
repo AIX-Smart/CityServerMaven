@@ -11,15 +11,17 @@ import javax.persistence.NamedQuery;
  * Created by Thomas on 15.11.2015.
  */
 @NamedQueries( {
-        @NamedQuery( name = CityEntity.GETCITY, query = "SELECT c FROM CityEntity c WHERE c.id = :cityId" ),
-        @NamedQuery( name = CityEntity.GETALLCITIES, query = "SELECT c FROM CityEntity c" ),
+        @NamedQuery( name = CityEntity.GETCITYBYID, query = "SELECT c FROM CityEntity c WHERE c.id = :cityId" ),
+        @NamedQuery( name = CityEntity.GETCITYBYNAME, query = "SELECT c FROM CityEntity c WHERE c.name = :cityName" ),
+        @NamedQuery( name = CityEntity.GETALL, query = "SELECT c FROM CityEntity c" ),
 } )
 
 @Entity
 public class CityEntity {
 
-    public static final String GETCITY      = "getCity";
-    public static final String GETALLCITIES = "getAllCities";
+    public static final String GETCITYBYID = "getCityById";
+    public static final String GETCITYBYNAME = "getCityByName";
+    public static final String GETALL      = "getAll";
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )

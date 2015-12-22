@@ -1,5 +1,7 @@
 package com.server.datatype;
 
+import com.server.entities.CityEntity;
+
 /**
  * Created by jp on 15.11.2015.
  */
@@ -10,10 +12,11 @@ public class City {
 
 
 
-    public City() {
+    public City( CityEntity cityEntity) {
 
+        this.id = cityEntity.getId();
+        this.name = cityEntity.getName();
     }
-
 
 
     public City( int id, String name ) {

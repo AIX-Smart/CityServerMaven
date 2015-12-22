@@ -1,6 +1,5 @@
 package com.server.controller;
 
-import com.server.Utils;
 import com.server.datatype.Comment;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
@@ -10,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -24,6 +24,30 @@ public class CommentController {
 
     @EJB
     private UserController userController;
+
+
+    public Comment[] getFirstComments( int id, int userId, int comNum ) {
+        return getNextComments( id, userId, comNum, Integer.MAX_VALUE );
+    }
+
+    public Comment[] getNextComments( int eventId, int userId, int comNum, int lastCommentId ) {
+
+        TypedQuery<CommentEntity> query = entityManager
+                .createNamedQuery( CommentEntity.GETPOSTCOMMENTS, CommentEntity.class );
+        query.setParameter( "eventId", eventId );
+        query.setParameter( "lastId", lastCommentId );
+        query.setMaxResults( comNum );
+
+        if ( query.getResultList() == null ) {
+            throw new NullPointerException();
+        }
+        List<CommentEntity> commentEntityList = query.getResultList();
+
+        AppUserEntity user = userController.getUser( userId );
+
+        return Utils.convertToDataCommentArray( commentEntityList, user );
+    }
+
 
 
     public com.server.datatype.Comment[] allOwnComments( int userId ) {
@@ -54,6 +78,7 @@ public class CommentController {
         }
 
     }
+
 
 
 
@@ -95,6 +120,19 @@ public class CommentController {
         List<CommentEntity> commentList = query.getResultList();
         return new Comment[0];
     }
+
+    public Comment createComment( int eventId, int userId, String text ) {
+
+        CommentEntity commentEntity = new CommentEntity();
+        commentEntity.setContent( text );
+        commentEntity.setDate( Calendar.getInstance() );
+        commentEntity.setAppUserEntity( userController.getUser( userId ) );
+        commentEntity.setEventEntity( getEventById( eventId ) );
+
+        entityManager.persist( commentEntity );
+        return null;
+    }
+
 
 
 }

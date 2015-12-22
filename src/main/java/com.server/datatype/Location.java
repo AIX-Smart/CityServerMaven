@@ -27,17 +27,17 @@ public class Location {
 
 
 
-    public Location( LocationEntity locationEntity, List<Tag> tagList, boolean liked ) {
+    public Location( LocationEntity locationEntity) {
         this.id = locationEntity.getId();
         this.name = locationEntity.getName();
-        this.tags = tagList;
+        this.tags = null;
         this.description = locationEntity.getDescription();
         this.cityId = locationEntity.getCityEntity().getId();
         this.street = locationEntity.getStreet();
         this.houseNumber = locationEntity.getHouseNumber();
         this.phoneNumber = locationEntity.getPhoneNumber();
         this.likeCount = locationEntity.getLikes();
-        this.liked = liked;
+        this.liked = false;
     }
 
 
