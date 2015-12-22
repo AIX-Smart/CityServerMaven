@@ -120,7 +120,7 @@ public class LocationController {
     }
 
 
-    public void createLocation(Location location) {
+    public Location createLocation( Location location) {
 
         LocationEntity entity = new LocationEntity();
         entity.setCityEntity( cityController.getCity( location.getCityId() ) );
@@ -134,11 +134,12 @@ public class LocationController {
 
         entityManager.persist( entity );
 
+        return location;
     }
 
 
 
-    public void createLocation( String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS ) {
+    public Location createLocation( String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS ) {
 
 
         logger.trace("XXXXXXXXXXXXXXXXXXXXXXXXX controller rein XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
@@ -156,6 +157,7 @@ public class LocationController {
         logger.trace(("XXXXXXXXXXXXXXXXXXXX controller raus XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"));
 
         entityManager.persist( locationEntity );
+        return null;
     }
 
 

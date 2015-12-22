@@ -1,6 +1,5 @@
 package com.server;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.controller.LocationController;
 import com.server.datatype.Event;
 import com.server.datatype.Location;
@@ -9,9 +8,14 @@ import org.apache.log4j.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 /**
  * Created by jp on 02.11.15.
@@ -29,52 +33,22 @@ public class LocationRestService
 
 
 
-    // Get all locations?
-    // When release, @RolesAllowed( { "admin" } )
+    //Get location
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    public Response getAll() {
+    @Path( "/{id}" )
+    public Response get( @PathParam( "id" ) int id ) {
 
-        Location[] locationBeans = controller.getAllLocation();
+        Location location = controller.getLocationById( id );
 
         try {
-            return Response.ok( mapper.writeValueAsString( locationBeans ) ).build();
-        } catch ( JsonProcessingException e ) {
-            e.printStackTrace();
+            return Response.ok( objectMapper.writeValueAsString( location ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
         }
-
-
-        return Response.status( Response.Status.NOT_FOUND ).build();
-    }
-
-
-
-    //Create Event
-    //PUT
-    @POST
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}" )
-    public Response createPost( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) int userId,
-                                String text ) {
-        controller.createPost( id, userId, text );
-        return Response.ok().build();
+        return Response.serverError().build();
 
     }
-
-    //Create Event over Web Application
-    //PUT
-    @POST
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{content}" )
-    public Response createPostWebsite( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) int userId,
-                                @PathParam("content") String text ) {
-        controller.createPost( id, userId, text );
-        return Response.ok().build();
-
-    }
-
 
 
 
@@ -88,12 +62,11 @@ public class LocationRestService
     ) {
         Event[] events = controller.getFirstPosts( id, userId, postNum );
         try {
-            return Response.ok( mapper.writeValueAsString(events) ).build();
-        } catch ( Exception e ) {
-
+            return Response.ok( objectMapper.writeValueAsString( events ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
         }
-
-        return Response.status( Response.Status.NOT_FOUND ).build();
+        return Response.serverError().build();
 
     }
 
@@ -110,33 +83,27 @@ public class LocationRestService
     ) {
         Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
         try {
-            return Response.ok( mapper.writeValueAsString(events) ).build();
-        } catch ( Exception e ) {
-
+            return Response.ok( objectMapper.writeValueAsString( events ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
         }
-
-        return Response.status( Response.Status.NOT_FOUND ).build();
+        return Response.serverError().build();
     }
 
-
-    //Get locationInformation
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}" )
-    public Response get( @PathParam( "id" ) int id ) {
+    @Path( "/all" )
+    public Response getAll() {
 
-        Location location = controller.getLocationById( id );
+        Location[] locationBeans = controller.getAllLocation();
 
         try {
-            return Response.ok( mapper.writeValueAsString(location) ).build();
-        } catch ( Exception e ) {
-
+            return Response.ok( objectMapper.writeValueAsString( locationBeans ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
         }
-
-        return Response.status( Response.Status.NOT_FOUND ).build();
-
+        return Response.serverError().build();
     }
-
 
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
@@ -144,31 +111,16 @@ public class LocationRestService
     public Response create( Location location){
 
 
-        controller.createLocation(location);
-
-
-        return Response.ok().build();
-
-    }
-
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/search" )
-    public Response get( String searchText ) {
-
-        Location[] locations = controller.getLocationBySearchText(searchText);
+        Location newLocation = controller.createLocation(location);
 
         try {
-            return Response.ok( mapper.writeValueAsString(locations) ).build();
-        } catch ( Exception e ) {
-
+            return Response.ok( objectMapper.writeValueAsString( newLocation ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
         }
-
-        return Response.status( Response.Status.NOT_FOUND ).build();
+        return Response.serverError().build();
 
     }
-
-
     //create Location with Webservice
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
@@ -182,13 +134,16 @@ public class LocationRestService
                             @PathParam( "houseNumber" ) String houseNumber ){
 
 
-
-        logger.info("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXHier komme ich rein >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        controller.createLocation(name, cityId, street, houseNumber, phoneNumber, description, gPS);
+        Location location= controller.createLocation(name, cityId, street, houseNumber, phoneNumber, description, gPS);
 
 
-        return Response.ok().build();
-
+        try {
+            return Response.ok( objectMapper.writeValueAsString( location ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
     }
+
 
 }
