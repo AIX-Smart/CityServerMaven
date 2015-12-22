@@ -36,7 +36,7 @@ public class UserRestService
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
 
-        User [] users  = controller.getAllUser();
+        User[] users  = controller.getAllUser();
         try {
             return Response.ok( mapper.writeValueAsString( users ) ).build();
         } catch ( Exception e ) {

@@ -50,6 +50,7 @@ public class LocationRestService
 
 
     //Create Event
+    //PUT
     @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}" )
@@ -62,6 +63,7 @@ public class LocationRestService
     }
 
     //Create Event over Web Application
+    //PUT
     @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/{content}" )

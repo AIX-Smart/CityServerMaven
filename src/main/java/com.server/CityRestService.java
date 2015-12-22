@@ -5,14 +5,14 @@ package com.server;
  */
 
 import com.server.controller.CityController;
+import com.server.datatype.City;
 import com.server.datatype.Event;
-import com.server.entities.CityEntity;
+import com.server.datatype.Location;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -21,7 +21,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.List;
 
 
 @Path( "/city" )
@@ -36,34 +35,20 @@ public class CityRestService
     private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 
-
-    // Get all cities in the database
-    // When release, @RolesAllowed( { "admin" } )
-
-    //Methode fehlerhaft
+    //get city
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    public Response getAll() {
-        Event[] events = controller.getAllPost();
+    @Path( "/{id}" )
+    public Response get( @PathParam( "id" ) int id ) {
+
+        City city = controller.getCity( id );
         try {
-            return Response.ok( mapper.writeValueAsString( events ) ).build();
-        } catch ( Exception e ) {
-
+            return Response.ok( objectMapper.writeValueAsString( city ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
         }
-        return Response.status( Response.Status.NOT_FOUND ).build();
-    }
+        return Response.serverError().build();
 
-
-
-    //Create Event
-    @PUT
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "{id}/{userId}" )
-    public Response CreatePost( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) int userId,
-                                String text ) {
-        controller.createPost( id, userId, text );
-        return Response.ok().build();
     }
 
 
@@ -76,31 +61,17 @@ public class CityRestService
                              @PathParam( "postNum" ) int postNum,
                              @PathParam( "userId" ) int userId ) {
 
+        Event[] events = controller.getFirstPosts( id, userId, postNum );
         try {
-
-            Event[] events = controller.getFirstPosts( id, userId, postNum );
-            return Response.ok( mapper.writeValueAsString( events ) ).build();
-        } catch ( Exception e ) {
-            return Response.ok( e.toString() ).build();
+            return Response.ok( objectMapper.writeValueAsString( events ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
         }
+        return Response.serverError().build();
+
 
     }
 
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{postId}" )
-    public Response isUpToDate( @PathParam( "id" ) int id,
-                             @PathParam( "postId" ) int postId ) {
-
-        try {
-
-            Boolean upToDate= controller.isUpToDate( id, postId );
-            return Response.ok( mapper.writeValueAsString( upToDate ) ).build();
-        } catch ( Exception e ) {
-            return Response.ok( e.toString() ).build();
-        }
-
-    }
 
 
     //Get following post from last PostId on
@@ -116,21 +87,62 @@ public class CityRestService
         try {
             return Response.ok( mapper.writeValueAsString( events ) ).build();
         } catch ( Exception e ) {
-
+            logger.error( e );
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();
+        return Response.serverError().build();
 
     }
 
 
 
-    //Get cityInformation
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}" )
-    public Response get( @PathParam( "id" ) long id ) {
-        return Response.ok().build();
+    @Path( "/all" )
+    public Response getAll() {
+        City[] cities = controller.getAll();
+        try {
+            return Response.ok( objectMapper.writeValueAsString( cities ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+
+    }
+
+
+
+    //Get all locations in the city
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{cityId}/location" )
+    public Response getLocations( @PathParam( "cityId" ) int cityId ) {
+
+        Location[] allLocations = controller.getLocations( cityId );
+        try {
+            return Response.ok( objectMapper.writeValueAsString( allLocations ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+
+    }
+
+
+
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/search" )
+    public Response get( String searchText ) {
+
+        Location[] locations = controller.getLocationBySearchText( searchText );
+
+        try {
+            return Response.ok( objectMapper.writeValueAsString( locations ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
     }
 
 
@@ -140,46 +152,35 @@ public class CityRestService
     @Path( "/{cityName}" )
     public Response create( @PathParam( "cityName" ) String cityName ) {
 
-        controller.createCity( cityName );
+        City city = controller.createCity( cityName );
 
-
-        return Response.ok().build();
-
-    }
-
-
-
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{cityId}/location" )
-    public Response getLocations( @PathParam( "cityId" ) int cityId ) {
-
-        com.server.datatype.Location[] allLocations = controller.getLocations( cityId );
 
         try {
-            return Response.ok( objectMapper.writeValueAsString( allLocations ) ).build();
+            return Response.ok( objectMapper.writeValueAsString( city ) ).build();
         } catch ( IOException e ) {
+            logger.error( e );
         }
+
         return Response.noContent().build();
 
     }
 
-
-
-    //for web application
-    @GET
+    //Muss noch diskutiert werden
+    @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/getAllCities" )
-    public Response getAllCities() {
-
-        List<CityEntity> allCities = controller.getAllCities();
+    @Path( "{id}/{userId}" )
+    public Response CreatePost( @PathParam( "id" ) int id,
+                                @PathParam( "userId" ) int userId,
+                                String text ) {
+        Event event = controller.createEvent( id, userId, text );
 
         try {
-            return Response.ok( objectMapper.writeValueAsString( allCities ) ).build();
+            return Response.ok( objectMapper.writeValueAsString( event ) ).build();
         } catch ( IOException e ) {
+            logger.error( e );
         }
-        return Response.noContent().build();
 
+        return Response.noContent().build();
     }
 
 

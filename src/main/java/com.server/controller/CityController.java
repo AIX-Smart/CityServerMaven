@@ -1,7 +1,9 @@
 package com.server.controller;
 
 import com.server.Utils;
+import com.server.datatype.City;
 import com.server.datatype.Event;
+import com.server.datatype.Location;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CityEntity;
 import com.server.entities.EventEntity;
@@ -80,11 +82,12 @@ public class CityController {
     }
 
 
-    public void createCity(String cityName) {
+    public City createCity( String cityName) {
         CityEntity cityEntity = new CityEntity();
         cityEntity.setName(cityName);
 
         entityManager.persist(cityEntity);
+        return null;
     }
 
 
@@ -110,11 +113,11 @@ public class CityController {
     }
 
 
-    public CityEntity getCity(int cityId) {
+    public City getCity(int cityId) {
         TypedQuery<CityEntity> query = entityManager.createNamedQuery(CityEntity.GETCITY, CityEntity.class);
         query.setParameter("cityId", cityId);
         CityEntity city = query.getSingleResult();
-        return city;
+        return new City();
     }
 
     public Boolean isUpToDate(int cityId, int postId) {
@@ -126,5 +129,23 @@ public class CityController {
 
         return ( postId == lastEvent.getId() );
 
+    }
+
+
+
+    public City[] getAll() {
+        return  new City[0];
+    }
+
+
+
+    public Location[] getLocationBySearchText( String searchText ) {
+        return new Location[ 0 ];
+    }
+
+
+
+    public Event createEvent( int id, int userId, String text ) {
+        return null;
     }
 }
