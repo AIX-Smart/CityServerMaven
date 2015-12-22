@@ -17,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 @Path("/user")
 @Produces( MediaType.APPLICATION_JSON )
@@ -38,11 +39,11 @@ public class UserRestService
 
         User[] users  = controller.getAllUser();
         try {
-            return Response.ok( mapper.writeValueAsString( users ) ).build();
-        } catch ( Exception e ) {
-            return Response.ok( "No User found" ).build();
-
+            return Response.ok( objectMapper.writeValueAsString( users ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
         }
+        return Response.serverError().build();
 
     }
 
@@ -53,11 +54,11 @@ public class UserRestService
 
         User user  = controller.getUserByDeviceId( deviceId );
         try {
-            return Response.ok( mapper.writeValueAsString( user )).build();
-        } catch ( Exception e ) {
-            return Response.ok( "No User found" ).build();
-
+            return Response.ok( objectMapper.writeValueAsString( user ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
         }
+        return Response.serverError().build();
 
     }
 
