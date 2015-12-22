@@ -16,7 +16,8 @@ import javax.persistence.NamedQuery;
 @Entity
 public class TagEntity {
 
-    public static final String GET = "Tag.get";
+    public static final String GET      = "Tag.get";
+    public static final String GETALL   = "Tag.getAll";
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )

@@ -27,7 +27,6 @@ public class CommentController {
     private UserController userController;
 
 
-
     public com.server.datatype.Comment[] allOwnComments( int userId ) {
 
         TypedQuery<CommentEntity> query = entityManager.createNamedQuery( CommentEntity.GETOWN, CommentEntity.class );

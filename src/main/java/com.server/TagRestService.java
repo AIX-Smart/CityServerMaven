@@ -3,6 +3,7 @@ package com.server;
 import com.server.controller.TagController;
 import com.server.entities.EventEntity;
 import com.server.entities.LocationEntity;
+import com.server.entities.TagEntity;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -14,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * Created by jp on 02.11.15.
@@ -34,8 +36,16 @@ public class TagRestService
     // Get all tags?
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/getAllTags/" )
     public Response getAll() {
-        return Response.ok().build();
+        List<TagEntity> tags = controller.allTags(  );
+        try {
+            return Response.ok( mapper.writeValueAsString( tags ) ).build();
+        } catch ( Exception e ) {
+
+        }
+        return Response.status( Response.Status.NOT_FOUND ).build();
+//        return Response.ok().build();
     }
 
 
