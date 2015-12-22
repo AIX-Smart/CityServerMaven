@@ -134,7 +134,7 @@ public class LocationRestService
                             @PathParam( "houseNumber" ) String houseNumber ){
 
 
-        Location location= controller.createLocation(name, cityId, street, houseNumber, phoneNumber, description, gPS);
+        Location location= new Location( controller.createLocation(name, cityId, street, houseNumber, phoneNumber, description, gPS) );
 
 
         try {
