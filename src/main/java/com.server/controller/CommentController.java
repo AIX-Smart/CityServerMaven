@@ -4,7 +4,6 @@ import com.server.Utils;
 import com.server.datatype.Comment;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
-import com.server.entities.EventEntity;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -58,7 +57,7 @@ public class CommentController {
 
 
 
-    public void likeComment( int id, int userId, boolean isLiked ) {
+    public boolean likeComment( int id, int userId, boolean isLiked ) {
 
         CommentEntity commentEntity = getCommentById(id);
         AppUserEntity user = userController.getUser(userId);
@@ -78,6 +77,7 @@ public class CommentController {
         entityManager.merge( commentEntity );
         entityManager.merge( user );
 
+        return isLiked;
     }
 
     private CommentEntity getCommentById(int id) {
@@ -89,11 +89,11 @@ public class CommentController {
         return commentEntity;
     }
 
-    public List<CommentEntity> allComments() {
+    public Comment[] allComments() {
 
         TypedQuery<CommentEntity> query = entityManager.createNamedQuery( CommentEntity.GETALL, CommentEntity.class );
         List<CommentEntity> commentList = query.getResultList();
-        return  commentList;
+        return new Comment[0];
     }
 
 

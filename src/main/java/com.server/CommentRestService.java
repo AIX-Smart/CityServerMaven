@@ -2,16 +2,18 @@ package com.server;
 
 import com.server.controller.CommentController;
 import com.server.datatype.Comment;
-import com.server.entities.CommentEntity;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 /**
  * Created by jp on 05.11.15.
@@ -28,31 +30,28 @@ public class CommentRestService
     private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 
-
-    // Get all comments in the database which the user created himself
-    // When release, @RolesAllowed( { "admin" } )
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{userId}/" )
+    @Path( "/{userId}" )
     public Response getAll( @PathParam( "userId" ) int userId ) {
 
         Comment[] comments = controller.allOwnComments( userId );
         try {
             return Response.ok( mapper.writeValueAsString( comments ) ).build();
         } catch ( Exception e ) {
-
+            logger.error( e );
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();
+        return Response.serverError().build();
     }
 
 
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/getAllComments/" )
+    @Path( "/all" )
     public Response getAll(  ) {
 
-        List<CommentEntity> comments = controller.allComments(  );
+       Comment[] comments = controller.allComments(  );
         try {
             return Response.ok( mapper.writeValueAsString( comments ) ).build();
         } catch ( Exception e ) {
@@ -62,31 +61,23 @@ public class CommentRestService
         return Response.status( Response.Status.NOT_FOUND ).build();
     }
 
-
     //Like Comment
-    @PUT
+    @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/" )
     public Response likeComment( @PathParam( "id" ) int id,
                                  @PathParam( "userId" ) int userId,
                                  String text
     ) {
-        boolean isLiked = Boolean.parseBoolean(text);
-        controller.likeComment( id, userId, isLiked);
-        return Response.ok().build();
-    }
+        boolean like = Boolean.parseBoolean(text);
+        boolean liked = controller.likeComment( id, userId, like);
+        try {
+            return Response.ok( mapper.writeValueAsString( liked ) ).build();
+        } catch ( Exception e ) {
 
+        }
 
-
-    //Delete Comment
-    @DELETE
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/" )
-    public Response deleteComments( @PathParam( "id" ) int id,
-                                    @PathParam( "userId" ) int userId
-    ) {
-        controller.deleteComments( id, userId );
-        return Response.ok().build();
+        return Response.status( Response.Status.NOT_FOUND ).build();
     }
 
 
