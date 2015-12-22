@@ -1,9 +1,9 @@
 package com.server;
 
 import com.server.controller.TagController;
-import com.server.entities.EventEntity;
-import com.server.entities.LocationEntity;
-import com.server.entities.TagEntity;
+import com.server.datatype.Event;
+import com.server.datatype.Location;
+import com.server.datatype.Tag;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -15,7 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+import java.io.IOException;
 
 /**
  * Created by jp on 02.11.15.
@@ -33,19 +33,60 @@ public class TagRestService
 
 
 
-    // Get all tags?
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/getAllTags/" )
-    public Response getAll() {
-        List<TagEntity> tags = controller.allTags(  );
+    @Path( "/{id}" )
+    public Response get( @PathParam( "id" ) long id ) {
+
+        Tag tag = controller.getTag( id );
         try {
-            return Response.ok( mapper.writeValueAsString( tags ) ).build();
+            return Response.ok( objectMapper.writeValueAsString( tag ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+
+    }
+
+
+
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{postNum}/{userId}" )
+    public Response getPost( @PathParam( "id" ) int id,
+                             @PathParam( "postNum" ) int postNum,
+                             @PathParam( "userId" ) int userId
+
+    ) {
+        Event[] events = controller.getNextPosts( id, userId, postNum );
+        try {
+            return Response.ok( mapper.writeValueAsString( events ) ).build();
         } catch ( Exception e ) {
 
         }
+
         return Response.status( Response.Status.NOT_FOUND ).build();
-//        return Response.ok().build();
+    }
+
+
+
+    //Get following post from last PostId on with tag
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{postNum}/{userId}/{lastPostId}" )
+    public Response getPost( @PathParam( "id" ) int id,
+                             @PathParam( "postNum" ) int postNum,
+                             @PathParam( "userId" ) int userId,
+                             @PathParam( "lastPostId" ) int lastPostId
+    ) {
+        Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
+        try {
+            return Response.ok( mapper.writeValueAsString( events ) ).build();
+        } catch ( Exception e ) {
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();
     }
 
 
@@ -58,14 +99,15 @@ public class TagRestService
                                  @PathParam( "locationNum" ) int locationNum,
                                  @PathParam( "userId" ) int userId
     ) {
-        LocationEntity[] locationEntities = controller.getNextLocations( id, userId, locationNum );
-        try{
-            return  Response.ok(mapper.writeValueAsString( locationEntities )).build();
-        }catch ( Exception e ){
+        Location[] locations = controller.getNextLocations( id, userId, locationNum );
+        try {
+            return Response.ok( mapper.writeValueAsString( locations ) ).build();
+        } catch ( Exception e ) {
 
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();    }
+        return Response.status( Response.Status.NOT_FOUND ).build();
+    }
 
 
 
@@ -78,61 +120,32 @@ public class TagRestService
                                  @PathParam( "userId" ) int userId,
                                  @PathParam( "lastLocationId" ) int lastPostId
     ) {
-        LocationEntity[] locationEntities = controller.getNextLocations( id, userId, locationNum, lastPostId );
-        try{
-            return  Response.ok(mapper.writeValueAsString( locationEntities )).build();
-        }catch ( Exception e ){
+        Location[] locations = controller.getNextLocations( id, userId, locationNum, lastPostId );
+        try {
+            return Response.ok( mapper.writeValueAsString( locations ) ).build();
+        } catch ( Exception e ) {
 
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();    }
-
-    //Get first Posts with tag
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{postNum}/{userId}" )
-    public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "postNum" ) int postNum,
-                             @PathParam( "userId" ) int userId
-
-    ) {
-        EventEntity[] eventEntities = controller.getNextPosts( id, userId, postNum );
-        try{
-            return  Response.ok(mapper.writeValueAsString( eventEntities )).build();
-        }catch ( Exception e ){
-
-        }
-
-        return Response.status( Response.Status.NOT_FOUND ).build();    }
-
-
-    //Get following post from last PostId on with tag
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{postNum}/{userId}/{lastPostId}" )
-    public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "postNum" ) int postNum,
-                             @PathParam( "userId" ) int userId,
-                             @PathParam( "lastPostId" ) int lastPostId
-    ) {
-        EventEntity[] eventEntities = controller.getNextPosts( id, userId, postNum, lastPostId );
-        try{
-            return  Response.ok(mapper.writeValueAsString( eventEntities )).build();
-        }catch ( Exception e ){
-
-        }
-
-        return Response.status( Response.Status.NOT_FOUND ).build();    }
-
-    //Get tag
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}" )
-    public Response get( @PathParam( "id" ) long id ) {
-        return Response.ok().build();
+        return Response.status( Response.Status.NOT_FOUND ).build();
     }
 
 
+
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/all" )
+    public Response getAll() {
+
+        Tag[] tags = controller.getAllTags();
+
+        try {
+            return Response.ok( objectMapper.writeValueAsString( tags ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+    }
 
 
 }

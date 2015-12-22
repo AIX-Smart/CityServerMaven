@@ -30,6 +30,7 @@ public class CommentRestService
     private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 
+
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{userId}" )
@@ -46,12 +47,13 @@ public class CommentRestService
     }
 
 
+
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/all" )
-    public Response getAll(  ) {
+    public Response getAll() {
 
-       Comment[] comments = controller.allComments(  );
+        Comment[] comments = controller.allComments();
         try {
             return Response.ok( mapper.writeValueAsString( comments ) ).build();
         } catch ( Exception e ) {
@@ -61,6 +63,8 @@ public class CommentRestService
         return Response.status( Response.Status.NOT_FOUND ).build();
     }
 
+
+
     //Like Comment
     @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
@@ -69,8 +73,8 @@ public class CommentRestService
                                  @PathParam( "userId" ) int userId,
                                  String text
     ) {
-        boolean like = Boolean.parseBoolean(text);
-        boolean liked = controller.likeComment( id, userId, like);
+        boolean like = Boolean.parseBoolean( text );
+        boolean liked = controller.likeComment( id, userId, like );
         try {
             return Response.ok( mapper.writeValueAsString( liked ) ).build();
         } catch ( Exception e ) {
