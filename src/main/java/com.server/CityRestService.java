@@ -39,6 +39,8 @@ public class CityRestService
 
     // Get all cities in the database
     // When release, @RolesAllowed( { "admin" } )
+
+    //Methode fehlerhaft
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
@@ -57,7 +59,7 @@ public class CityRestService
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Consumes( "text/plain" )
-    @Path( "{id}/{userId}" )
+    @Path( "/{id}/{userId}" )
     public Response CreatePost( @PathParam( "id" ) int id,
                                 @PathParam( "userId" ) int userId,
                                 String text ) {
