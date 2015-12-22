@@ -35,6 +35,8 @@ public class AppUserEntity {
 
     private int businessId;
 
+    private boolean deleted;
+
     @OneToMany
     private List<EventEntity> likedEventEntities;
 
@@ -126,5 +128,17 @@ public class AppUserEntity {
 
     public void setLikedLocationEntities( List<LocationEntity> likedLocationEntities ) {
         this.likedLocationEntities = likedLocationEntities;
+    }
+
+
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+
+
+    public void setDeleted( boolean deleted ) {
+        this.deleted = deleted;
     }
 }

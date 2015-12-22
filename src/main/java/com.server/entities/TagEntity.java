@@ -33,7 +33,6 @@ public class TagEntity {
     }
 
 
-
     public void setName( String name ) {
         this.name = name;
     }
@@ -42,7 +41,6 @@ public class TagEntity {
     public int getId() {
         return id;
     }
-
 
 
     public void setId( int id ) {

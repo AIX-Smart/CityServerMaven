@@ -50,6 +50,8 @@ public class LocationEntity {
 
     private String houseNumber;
 
+    private boolean deleted;
+
 
 
     public static String getGETALL() {
@@ -166,7 +168,22 @@ public class LocationEntity {
 
 
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+
+
+    public void setDeleted( boolean deleted ) {
+        this.deleted = deleted;
+    }
+
+
+
     public void setDescription( String description ) {
         this.description = description;
+
     }
+
+
 }

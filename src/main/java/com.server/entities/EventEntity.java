@@ -64,6 +64,8 @@ public class EventEntity {
 
     private int likes;
 
+    private boolean deleted;
+
 
 
     public int getId() {
@@ -148,4 +150,15 @@ public class EventEntity {
         this.appUserEntity = appUserEntity;
     }
 
+
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+
+
+    public void setDeleted( boolean deleted ) {
+        this.deleted = deleted;
+    }
 }

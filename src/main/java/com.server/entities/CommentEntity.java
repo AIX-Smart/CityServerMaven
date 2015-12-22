@@ -52,6 +52,9 @@ public class CommentEntity {
     private AppUserEntity appUserEntity;
 
 
+    private boolean deleted;
+
+
     private int likes;
 
 
@@ -125,4 +128,15 @@ public class CommentEntity {
     public void setEventEntity( EventEntity eventEntity ) {
         this.eventEntity = eventEntity;
     }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+
+
+    public void setDeleted( boolean deleted ) {
+        this.deleted = deleted;
+    }
+
 }
