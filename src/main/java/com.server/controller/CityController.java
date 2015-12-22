@@ -38,12 +38,16 @@ public class CityController {
     private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 
-
-    public City getCity( int cityId ) {
+    public CityEntity getCityEntity( int cityId ) {
         TypedQuery<CityEntity> query = entityManager.createNamedQuery( CityEntity.GETCITYBYID, CityEntity.class );
         query.setParameter( "cityId", cityId );
         CityEntity city = query.getSingleResult();
-        return new City( city );
+        return city;
+    }
+
+    public City getCity( int cityId ) {
+
+        return new City( getCityEntity( cityId ) );
     }
 
 
@@ -252,4 +256,8 @@ public class CityController {
     public Event createEvent( int id, int userId, String text ) {
         return null;
     }
+
+
+
+
 }
