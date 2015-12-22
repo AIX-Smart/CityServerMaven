@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -35,7 +34,6 @@ public class EventRestService
 
 
 
-    // Get all events in the database which the user created himself
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{userId}/" )
@@ -43,42 +41,12 @@ public class EventRestService
 
         Event[] events = controller.allOwnPosts( userId );
         try {
-            return Response.ok( mapper.writeValueAsString(events) ).build();
+            return Response.ok( mapper.writeValueAsString( events ) ).build();
         } catch ( Exception e ) {
-
+            logger.error( e );
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();
-    }
-
-
-
-    //Create Comment
-    @POST
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/" )
-    public Response createComment( @PathParam( "id" ) int id,
-                                   @PathParam( "userId" ) int userId,
-                                   String text
-
-    ) {
-        controller.createComment( id, userId, text );
-        return Response.ok().build();
-    }
-
-
-
-    //like Event
-    @PUT
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/" )
-    public Response likePost( @PathParam( "id" ) int id,
-                              @PathParam( "userId" ) int userId,
-                              String text
-    ) {
-        boolean like = Boolean.parseBoolean(text);
-        controller.likePost( id, userId, like );
-        return Response.ok().build();
+        return Response.serverError().build();
     }
 
 
@@ -94,10 +62,10 @@ public class EventRestService
         try {
             return Response.ok( mapper.writeValueAsString( comments ) ).build();
         } catch ( Exception e ) {
-
+            logger.error( e );
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();
+        return Response.serverError().build();
     }
 
 
@@ -115,13 +83,71 @@ public class EventRestService
         try {
             return Response.ok( mapper.writeValueAsString( comments ) ).build();
         } catch ( Exception e ) {
-
+            logger.error( e );
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();
+        return Response.serverError().build();
     }
 
 
+
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/all" )
+    public Response getAll() {
+
+        Event[] events = controller.getAllPost();
+
+        try {
+            return Response.ok( mapper.writeValueAsString( events ) ).build();
+        } catch ( Exception e ) {
+            logger.error( e );
+        }
+
+        return Response.serverError().build();
+    }
+
+
+
+    //Create Comment
+    @PUT
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{userId}/" )
+    public Response createComment( @PathParam( "id" ) int id,
+                                   @PathParam( "userId" ) int userId,
+                                   String text
+
+    ) {
+        Comment comment = controller.createComment( id, userId, text );
+        try {
+            return Response.ok( mapper.writeValueAsString( comment ) ).build();
+        } catch ( Exception e ) {
+            logger.error( e );
+        }
+
+        return Response.serverError().build();
+    }
+
+
+
+    //like Event
+    @POST
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{userId}/" )
+    public Response likePost( @PathParam( "id" ) int id,
+                              @PathParam( "userId" ) int userId,
+                              String text
+    ) {
+        boolean like = Boolean.parseBoolean( text );
+        boolean liked = controller.likePost( id, userId, like );
+        try {
+            return Response.ok( mapper.writeValueAsString( liked ) ).build();
+        } catch ( Exception e ) {
+            logger.error( e );
+        }
+
+        return Response.serverError().build();
+    }
 
     //Delete Event
     @DELETE
@@ -134,21 +160,7 @@ public class EventRestService
         return Response.ok().build();
     }
 
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/getAllPosts" )
-    public Response getAll( ) {
-
-        Event[] events = controller.getAllPost();
-
-        try {
-            return Response.ok( mapper.writeValueAsString(events) ).build();
-        } catch ( Exception e ) {
-
-        }
-
-        return Response.status( Response.Status.NOT_FOUND ).build();
-    }
-
 
 }
+
+

@@ -1,6 +1,7 @@
 package com.server.controller;
 
 import com.server.Utils;
+import com.server.datatype.Comment;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
 import com.server.entities.EventEntity;
@@ -38,7 +39,7 @@ public class EventController {
 
 
 
-    public void createComment( int eventId, int userId, String text ) {
+    public Comment createComment( int eventId, int userId, String text ) {
 
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setContent( text );
@@ -47,6 +48,7 @@ public class EventController {
         commentEntity.setEventEntity( getEventById( eventId ) );
 
         entityManager.persist( commentEntity );
+        return null;
     }
 
 
@@ -100,7 +102,7 @@ public class EventController {
     }
 
 
-    public void likePost( int id, int userId, boolean isLiked ) {
+    public boolean likePost( int id, int userId, boolean isLiked ) {
 
         EventEntity eventEntity = getEventById(id);
         AppUserEntity user = userController.getUser(userId);
@@ -120,6 +122,7 @@ public class EventController {
         entityManager.merge( eventEntity );
         entityManager.merge( user );
 
+        return isLiked;
     }
 
 
