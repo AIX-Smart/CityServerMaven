@@ -13,9 +13,9 @@ import java.util.List;
  * Created by jp on 02.11.15.
  */
 @NamedQueries( {
-        @NamedQuery( name = AppUserEntity.GET, query = "SELECT u FROM AppUser u WHERE u.id = :id" ),
-        @NamedQuery( name = AppUserEntity.GETBYDEVICEID, query = "SELECT u FROM AppUser u WHERE u.deviceId = :deviceId" ),
-        @NamedQuery( name = AppUserEntity.GETALL, query = "SELECT u FROM AppUser u" )
+        @NamedQuery( name = AppUserEntity.GET, query = "SELECT u FROM AppUserEntity u WHERE u.id = :id" ),
+        @NamedQuery( name = AppUserEntity.GETBYDEVICEID, query = "SELECT u FROM AppUserEntity u WHERE u.deviceId = :deviceId" ),
+        @NamedQuery( name = AppUserEntity.GETALL, query = "SELECT u FROM AppUserEntity u" )
 } )
 @Entity
 public class AppUserEntity {

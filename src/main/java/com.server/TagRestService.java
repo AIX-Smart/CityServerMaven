@@ -43,10 +43,10 @@ public class TagRestService
     //Get first Location with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{locationNum}" )
+    @Path( "/{id}/location/{locationNum}/{userId}" )
     public Response getLocation( @PathParam( "id" ) int id,
-                             @PathParam( "userId" ) int userId,
-                             @PathParam( "locationNum" ) int locationNum
+                                 @PathParam( "locationNum" ) int locationNum,
+                                 @PathParam( "userId" ) int userId
     ) {
         LocationEntity[] locationEntities = controller.getNextLocations( id, userId, locationNum );
         try{
@@ -62,13 +62,13 @@ public class TagRestService
     //Get following Location from lastLocationId on with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{postNum}/{lastPostId}" )
+    @Path( "/{id}/location/{locationNum}/{userId}/{lastLocationId}" )
     public Response getLocation( @PathParam( "id" ) int id,
-                              @PathParam( "userId" ) int userId,
-                              @PathParam( "postNum" ) int postNum,
-                              @PathParam( "lastPostId" ) int lastPostId
+                                 @PathParam( "locationNum" ) int locationNum,
+                                 @PathParam( "userId" ) int userId,
+                                 @PathParam( "lastLocationId" ) int lastPostId
     ) {
-        LocationEntity[] locationEntities = controller.getNextLocations( id, userId, postNum, lastPostId );
+        LocationEntity[] locationEntities = controller.getNextLocations( id, userId, locationNum, lastPostId );
         try{
             return  Response.ok(mapper.writeValueAsString( locationEntities )).build();
         }catch ( Exception e ){
@@ -80,10 +80,11 @@ public class TagRestService
     //Get first Posts with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/location/{userId}/{locationNum}" )
+    @Path( "/{id}/{postNum}/{userId}" )
     public Response getPost( @PathParam( "id" ) int id,
-                              @PathParam( "userId" ) int userId,
-                              @PathParam( "locationNum" ) int postNum
+                             @PathParam( "postNum" ) int postNum,
+                             @PathParam( "userId" ) int userId
+
     ) {
         EventEntity[] eventEntities = controller.getNextPosts( id, userId, postNum );
         try{
@@ -98,11 +99,11 @@ public class TagRestService
     //Get following post from last PostId on with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/location/{userId}/{locationNum}/{lastLocationId}" )
+    @Path( "/{id}/{postNum}/{userId}/{lastPostId}" )
     public Response getPost( @PathParam( "id" ) int id,
-                              @PathParam( "userId" ) int userId,
-                              @PathParam( "locationNum" ) int postNum,
-                              @PathParam( "lastLocationId" ) int lastPostId
+                             @PathParam( "postNum" ) int postNum,
+                             @PathParam( "userId" ) int userId,
+                             @PathParam( "lastPostId" ) int lastPostId
     ) {
         EventEntity[] eventEntities = controller.getNextPosts( id, userId, postNum, lastPostId );
         try{

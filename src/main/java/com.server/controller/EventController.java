@@ -38,25 +38,25 @@ public class EventController {
 
 
 
-    public void createComment( int id, int userId, String text ) {
+    public void createComment( int eventId, int userId, String text ) {
+
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setContent( text );
         commentEntity.setDate( Calendar.getInstance() );
         commentEntity.setAppUserEntity( userController.getUser( userId ) );
-
-        commentEntity.setEventEntity( getEventById( id ) );
+        commentEntity.setEventEntity( getEventById( eventId ) );
 
         entityManager.persist( commentEntity );
     }
 
 
 
-    public com.server.datatype.Comment[] getNextComments( int id, int userId, int comNum, int lastCommentId ) {
+    public com.server.datatype.Comment[] getNextComments( int eventId, int userId, int comNum, int lastCommentId ) {
 
         TypedQuery<CommentEntity> query = entityManager
                 .createNamedQuery( CommentEntity.GETPOSTCOMMENTS, CommentEntity.class );
-        query.setParameter( "postId", id );
-        query.setParameter( "lastCommentId", lastCommentId );
+        query.setParameter( "eventId", eventId );
+        query.setParameter( "lastId", lastCommentId );
         query.setMaxResults( comNum );
 
         if ( query.getResultList() == null ) {
@@ -72,7 +72,7 @@ public class EventController {
 
 
     public EventEntity getEventById( int id ) {
-        TypedQuery<EventEntity> query = entityManager.createQuery( EventEntity.GET, EventEntity.class );
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GET, EventEntity.class );
         query.setParameter( "id", id );
 
         EventEntity eventEntity = query.getSingleResult();
@@ -100,23 +100,25 @@ public class EventController {
     }
 
 
+    public void likePost( int id, int userId, boolean isLiked ) {
 
-    public void likePost( int id, int userId ) {
+        EventEntity eventEntity = getEventById(id);
+        AppUserEntity user = userController.getUser(userId);
 
-        TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GET, EventEntity.class );
-        query.setParameter( "id", id );
-        EventEntity eventEntity = query.getSingleResult();
+        List<EventEntity> likeEventList = user.getLikedEventEntities();
+        int likeCount = eventEntity.getLikes();
 
-        TypedQuery<AppUserEntity> queryUser = entityManager.createNamedQuery( AppUserEntity.GET, AppUserEntity.class );
-        query.setParameter( "id", userId );
-        AppUserEntity user = queryUser.getSingleResult();
-
-
-        int likes = eventEntity.getLikes() + 1;
-        eventEntity.setLikes( likes );
-
-        entityManager.persist( eventEntity );
-
+        if (isLiked && !likeEventList.contains(eventEntity)) {
+                likeEventList.add(eventEntity);
+                likeCount++;
+        }
+       else if (!isLiked && likeEventList.contains(eventEntity)) {
+                likeEventList.remove(eventEntity);
+                likeCount--;
+        }
+        eventEntity.setLikes( likeCount );
+        entityManager.merge( eventEntity );
+        entityManager.merge( user );
 
     }
 

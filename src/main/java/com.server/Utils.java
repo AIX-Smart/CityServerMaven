@@ -1,5 +1,6 @@
 package com.server;
 
+import com.server.controller.UserController;
 import com.server.datatype.Tag;
 import com.server.datatype.User;
 import com.server.entities.AppUserEntity;
@@ -45,6 +46,7 @@ public class Utils {
         }
         return datatypeComment;
     }
+
 
     public static com.server.datatype.Location[] convertToDataLocationArray(List<LocationEntity> locationEntityList ){
         com.server.datatype.Location[] datatypeLocations = new com.server.datatype.Location[ locationEntityList.size()];

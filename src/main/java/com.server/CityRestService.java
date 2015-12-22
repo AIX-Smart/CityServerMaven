@@ -58,8 +58,7 @@ public class CityRestService
     //Create Event
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Consumes( "text/plain" )
-    @Path( "/{id}/{userId}" )
+    @Path( "{id}/{userId}" )
     public Response CreatePost( @PathParam( "id" ) int id,
                                 @PathParam( "userId" ) int userId,
                                 String text ) {
@@ -87,15 +86,30 @@ public class CityRestService
 
     }
 
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{postId}" )
+    public Response isUpToDate( @PathParam( "id" ) int id,
+                             @PathParam( "postId" ) int postId ) {
+
+        try {
+
+            Boolean upToDate= controller.isUpToDate( id, postId );
+            return Response.ok( mapper.writeValueAsString( upToDate ) ).build();
+        } catch ( Exception e ) {
+            return Response.ok( e.toString() ).build();
+        }
+
+    }
 
 
     //Get following post from last PostId on
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{postNum}/{lastPostId}" )
+    @Path( "/{id}/{postNum}/{userId}/{lastPostId}" )
     public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "userId" ) int userId,
                              @PathParam( "postNum" ) int postNum,
+                             @PathParam( "userId" ) int userId,
                              @PathParam( "lastPostId" ) int lastPostId
     ) {
         Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );

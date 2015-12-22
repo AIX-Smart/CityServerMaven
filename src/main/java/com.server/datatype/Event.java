@@ -46,68 +46,68 @@ public class Event {
 
 
     public int getId() {
-            return id;
-        }
+        return id;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        public String getContent() {
-            return content;
-        }
+    public String getContent() {
+        return content;
+    }
 
-        public void setContent(String content) {
-            this.content = content;
-        }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-        public long getCreationTime() {
-            return creationTime;
-        }
+    public long getCreationTime() {
+        return creationTime;
+    }
 
-        public void setCreationTime(long creationTime) {
-            this.creationTime = creationTime;
-        }
+    public void setCreationTime(long creationTime) {
+        this.creationTime = creationTime;
+    }
 
-        public int getLikeCount() {
-            return likeCount;
-        }
+    public int getLikeCount() {
+        return likeCount;
+    }
 
-        public void setLikeCount(int likeCount) {
-            this.likeCount = likeCount;
-        }
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
 
-        public int getAuthorId() {
-            return authorId;
-        }
+    public int getAuthorId() {
+        return authorId;
+    }
 
-        public void setAuthorId(int authorId) {
-            this.authorId = authorId;
-        }
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
+    }
 
-        public boolean isLiked() {
-            return liked;
-        }
+    public boolean isLiked() {
+        return liked;
+    }
 
-        public void setLiked(boolean liked) {
-            this.liked = liked;
-        }
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
 
-        public int getLocation() {
-            return locationId;
-        }
+    public int getLocationId() {
+        return locationId;
+    }
 
-        public void setLocation(int locationId) {
-            this.locationId = locationId;
-        }
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
+    }
 
-        public int getCommentCount() {
-            return commentCount;
-        }
+    public int getCommentCount() {
+        return commentCount;
+    }
 
-        public void setCommentCount(int commentCount) {
-            this.commentCount = commentCount;
-        }
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
 
 
 

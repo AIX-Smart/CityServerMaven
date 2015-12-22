@@ -18,25 +18,30 @@ import java.util.List;
  */
 
 @NamedQueries( {
-        @NamedQuery( name = EventEntity.GETALL, query = "SELECT d FROM Event d ORDER BY d.id DESC" ),
+        @NamedQuery( name = EventEntity.GETALL, query = "SELECT d FROM EventEntity d ORDER BY d.id DESC" ),
         @NamedQuery( name = EventEntity.GETCITY, query =
                 "SELECT d " +
-                "FROM Event d JOIN d.location lc " +
-                "WHERE d.id < :lastId AND lc.cityId = :cityId " +
+                "FROM EventEntity d JOIN d.locationEntity lc " +
+                "WHERE d.id < :lastId AND lc.cityEntity.id = :cityId " +
                 "ORDER BY d.id DESC" ),
-        @NamedQuery( name = EventEntity.GET, query = "SELECT d FROM Event d WHERE d.id = :id" ),
-        @NamedQuery( name = EventEntity.GETUSER, query = "SELECT d FROM Event d WHERE d.appuserid = :appuserid ORDER BY d.id DESC" ),
-        @NamedQuery( name = EventEntity.GETLOCATION, query = "SELECT d  FROM Event d join d.location l WHERE l.id = :locatioid ORDER BY d.id DESC" )
+        @NamedQuery( name = EventEntity.GET, query = "SELECT d FROM EventEntity d WHERE d.id = :id ORDER BY d.id DESC" ),
+        @NamedQuery( name = EventEntity.GETUSER, query = "SELECT d FROM EventEntity d WHERE d.appUserEntity.id = :appuserid ORDER BY d.id DESC" ),
+        @NamedQuery( name = EventEntity.GETLOCATION, query =
+                "SELECT d  " +
+                "FROM EventEntity d join d.locationEntity l " +
+                "WHERE d.id < :lastId AND l.id = :locationId " +
+                       // "WHERE d.id < :lastId AND l.id = :locationid " +
+                "ORDER BY d.id DESC" )
 } )
 @Entity
 public class EventEntity {
 
-    public static final String GETALL       = "Event.getAll";
-    public static final String GETCITY      = "Event.getCity";
-    public static final String GET          = "Event.get";
-    public static final String GETUSER      = "Event.getUser";
-    public static final String GETLOCATION  = "Event.getLocation";
-    public static final String GETEVENTLIKE = "Event.getEventLike";
+    public static final String GETALL       = "EventEntity.getAll";
+    public static final String GETCITY      = "EventEntity.getCity";
+    public static final String GET          = "EventEntity.get";
+    public static final String GETUSER      = "EventEntity.getUser";
+    public static final String GETLOCATION  = "EventEntity.getLocation";
+    public static final String GETEVENTLIKE = "EventEntity.getEventLike";
 
 
     @Id

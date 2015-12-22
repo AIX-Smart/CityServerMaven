@@ -2,6 +2,7 @@ package com.server;
 
 import com.server.controller.CommentController;
 import com.server.datatype.Comment;
+import com.server.entities.CommentEntity;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -10,6 +11,7 @@ import javax.interceptor.Interceptors;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * Created by jp on 05.11.15.
@@ -31,7 +33,7 @@ public class CommentRestService
     // When release, @RolesAllowed( { "admin" } )
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "{userId}/" )
+    @Path( "/{userId}/" )
     public Response getAll( @PathParam( "userId" ) int userId ) {
 
         Comment[] comments = controller.allOwnComments( userId );
@@ -45,15 +47,32 @@ public class CommentRestService
     }
 
 
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/getAllComments/" )
+    public Response getAll(  ) {
+
+        List<CommentEntity> comments = controller.allComments(  );
+        try {
+            return Response.ok( mapper.writeValueAsString( comments ) ).build();
+        } catch ( Exception e ) {
+
+        }
+
+        return Response.status( Response.Status.NOT_FOUND ).build();
+    }
+
 
     //Like Comment
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/" )
     public Response likeComment( @PathParam( "id" ) int id,
-                                 @PathParam( "userId" ) int userId
+                                 @PathParam( "userId" ) int userId,
+                                 String text
     ) {
-        controller.likeComment( id, userId );
+        boolean isLiked = Boolean.parseBoolean(text);
+        controller.likeComment( id, userId, isLiked);
         return Response.ok().build();
     }
 

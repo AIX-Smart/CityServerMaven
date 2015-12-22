@@ -1,8 +1,10 @@
 package com.server.controller;
 
 import com.server.Utils;
+import com.server.datatype.Comment;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
+import com.server.entities.EventEntity;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -57,22 +59,43 @@ public class CommentController {
 
 
 
-    public void likeComment( int id, int userId ) {
+    public void likeComment( int id, int userId, boolean isLiked ) {
 
-        // es muss noch eine Abfrage hinzukommen ob der User den Comment schonmal geliked hat
+        CommentEntity commentEntity = getCommentById(id);
+        AppUserEntity user = userController.getUser(userId);
 
-        TypedQuery<CommentEntity> query = entityManager.createNamedQuery( CommentEntity.GET, CommentEntity.class );
-        query.setParameter( "id", id );
-        CommentEntity commentEntity = query.getSingleResult();
+        List<CommentEntity> likeCommentList = user.getLikedCommentEntities();
+        int likeCount = commentEntity.getLikes();
 
-        TypedQuery<AppUserEntity> queryUser = entityManager.createNamedQuery( AppUserEntity.GET, AppUserEntity.class );
-        query.setParameter( "id", userId );
-        AppUserEntity user = queryUser.getSingleResult();
-
-        int likes = commentEntity.getLikes() + 1;
-        commentEntity.setLikes( likes );
-
-        entityManager.persist( commentEntity );
+        if (isLiked && !likeCommentList.contains(commentEntity)) {
+            likeCommentList.add(commentEntity);
+            likeCount++;
+        }
+        else if (!isLiked && likeCommentList.contains(commentEntity)) {
+            likeCommentList.remove(commentEntity);
+            likeCount--;
+        }
+        commentEntity.setLikes( likeCount );
+        entityManager.merge( commentEntity );
+        entityManager.merge( user );
 
     }
+
+    private CommentEntity getCommentById(int id) {
+        TypedQuery<CommentEntity> query = entityManager.createNamedQuery( CommentEntity.GET, CommentEntity.class );
+        query.setParameter( "id", id );
+
+        CommentEntity commentEntity = query.getSingleResult();
+
+        return commentEntity;
+    }
+
+    public List<CommentEntity> allComments() {
+
+        TypedQuery<CommentEntity> query = entityManager.createNamedQuery( CommentEntity.GETALL, CommentEntity.class );
+        List<CommentEntity> commentList = query.getResultList();
+        return  commentList;
+    }
+
+
 }

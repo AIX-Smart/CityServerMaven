@@ -62,7 +62,7 @@ public class LocationRestService
     }
 
     //Create Event over Web Application
-    @PUT
+    @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/{content}" )
     public Response createPostWebsite( @PathParam( "id" ) int id,
@@ -79,10 +79,10 @@ public class LocationRestService
     //Get first Posts
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{postNum}" )
+    @Path( "/{id}/{postNum}/{userId}" )
     public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "userId" ) int userId,
-                             @PathParam( "postNum" ) int postNum
+                             @PathParam( "postNum" ) int postNum,
+                             @PathParam( "userId" ) int userId
     ) {
         Event[] events = controller.getFirstPosts( id, userId, postNum );
         try {
@@ -100,10 +100,10 @@ public class LocationRestService
     //Get following post from last PostId on
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{postNum}/{lastPostId}" )
+    @Path( "/{id}/{postNum}/{userId}/{lastPostId}" )
     public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "userId" ) int userId,
                              @PathParam( "postNum" ) int postNum,
+                             @PathParam( "userId" ) int userId,
                              @PathParam( "lastPostId" ) int lastPostId
     ) {
         Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
@@ -177,9 +177,11 @@ public class LocationRestService
                             @PathParam( "phoneNumber" ) String phoneNumber,
                             @PathParam( "GPS" ) String gPS,
                             @PathParam( "description" ) String description,
-                            @PathParam( "houseNumber" ) String houseNumber){
+                            @PathParam( "houseNumber" ) String houseNumber ){
 
 
+
+        logger.info("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXHier komme ich rein >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         controller.createLocation(name, cityId, street, houseNumber, phoneNumber, description, gPS);
 
 

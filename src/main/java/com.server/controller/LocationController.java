@@ -5,6 +5,7 @@ import com.server.datatype.Location;
 import com.server.entities.AppUserEntity;
 import com.server.entities.EventEntity;
 import com.server.entities.LocationEntity;
+import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -25,8 +26,11 @@ public class LocationController {
 
     @EJB
     private UserController userController;
+
     @EJB
     private CityController cityController;
+
+    private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 
 
@@ -51,7 +55,7 @@ public class LocationController {
         EventEntity eventEntity = new EventEntity();
         eventEntity.setContent( text );
         eventEntity.setDate( Calendar.getInstance() );
-        eventEntity.setAppUserEntity( userController.getUser( id ) );
+        eventEntity.setAppUserEntity( userController.getUser( userId ) );
         eventEntity.setLocationEntity( getLocationEntityById( id ) );
 
         entityManager.persist( eventEntity );
@@ -102,7 +106,7 @@ public class LocationController {
     public com.server.datatype.Event[] getNextPosts( int id, int userId, int postNum, int lastPostId ) {
 
         TypedQuery<EventEntity> query = entityManager.createNamedQuery( EventEntity.GETLOCATION, EventEntity.class );
-        query.setParameter( "lastPostId", lastPostId );
+        query.setParameter( "lastId", lastPostId );
         query.setParameter( "locationId", id );
         query.setMaxResults( postNum );
         if(query.getResultList() == null){
@@ -135,6 +139,10 @@ public class LocationController {
 
 
     public void createLocation( String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS ) {
+
+
+        logger.trace("XXXXXXXXXXXXXXXXXXXXXXXXX controller rein XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+
         LocationEntity locationEntity = new LocationEntity();
         locationEntity.setCityEntity( cityController.getCity( cityId ) );
         locationEntity.setDescription( description );
@@ -144,6 +152,8 @@ public class LocationController {
         locationEntity.setStreet( street );
         locationEntity.setLikes( 0 );
         locationEntity.setPhoneNumber( phoneNumber );
+
+        logger.trace(("XXXXXXXXXXXXXXXXXXXX controller raus XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"));
 
         entityManager.persist( locationEntity );
     }

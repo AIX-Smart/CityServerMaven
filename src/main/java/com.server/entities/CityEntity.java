@@ -11,8 +11,8 @@ import javax.persistence.NamedQuery;
  * Created by Thomas on 15.11.2015.
  */
 @NamedQueries( {
-        @NamedQuery( name = CityEntity.GETCITY, query = "SELECT c FROM City c WHERE c.id = :cityId" ),
-        @NamedQuery( name = CityEntity.GETALLCITIES, query = "SELECT c FROM City c" ),
+        @NamedQuery( name = CityEntity.GETCITY, query = "SELECT c FROM CityEntity c WHERE c.id = :cityId" ),
+        @NamedQuery( name = CityEntity.GETALLCITIES, query = "SELECT c FROM CityEntity c" ),
 } )
 
 @Entity
