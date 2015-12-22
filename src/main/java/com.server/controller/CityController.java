@@ -1,22 +1,21 @@
 package com.server.controller;
 
-import com.server.Utils;
 import com.server.datatype.City;
 import com.server.datatype.Event;
 import com.server.datatype.Location;
-import com.server.entities.AppUserEntity;
 import com.server.entities.CityEntity;
-import com.server.entities.EventEntity;
-import com.server.entities.LocationEntity;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by jp on 02.11.15.
@@ -30,117 +29,222 @@ public class CityController {
     @EJB
     private UserController userController;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    @EJB
+    private LocationController locationController;
+
+    @EJB
+    private EventController eventController;
+
+    private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 
-    //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Event aus der Tabelle wieder
-    public com.server.datatype.Event[] getAllPost() {
-        TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETALL, EventEntity.class);
-        if (query.getResultList() == null) {
-            throw new NullPointerException();
-        }
-        List<EventEntity> eventEntityList = query.getResultList();
 
-        AppUserEntity user = new AppUserEntity();
-
-        return Utils.convertToDataEventArray(eventEntityList);
-
-    }
-
-
-    public void createPost(int cityId, int userId, String text) {
-
-        //zurzeit nur Aachen deswegen ist cityId egal
-
-        EventEntity eventEntity = new EventEntity();
-        eventEntity.setContent(text);
-        eventEntity.setDate(Calendar.getInstance());
-        eventEntity.setAppUserEntity(userController.getUser(userId));
-
-        entityManager.persist(eventEntity);
-
-
-    }
-
-
-    public com.server.datatype.Event[] getFirstPosts(int cityId, int userId, int postNum) {
-        return getNextPosts(cityId, userId, postNum, Integer.MAX_VALUE);
-    }
-
-
-    public com.server.datatype.Event[] getNextPosts(int cityId, int userId, int postNum, int lastPostId) {
-        TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETCITY, EventEntity.class);
-        query.setParameter("cityId", cityId);
-        query.setParameter("lastId", lastPostId);
-        query.setMaxResults(postNum);
-
-
-        AppUserEntity user = userController.getUser(userId);
-        List<EventEntity> eventEntityList = query.getResultList();
-
-        return Utils.convertToDataEventArray(eventEntityList, user);
-    }
-
-
-    public City createCity( String cityName) {
-        CityEntity cityEntity = new CityEntity();
-        cityEntity.setName(cityName);
-
-        entityManager.persist(cityEntity);
-        return null;
-    }
-
-
-    public List<CityEntity> getAllCities() {
-
-        TypedQuery<CityEntity> query = entityManager.createNamedQuery(CityEntity.GETALLCITIES, CityEntity.class);
-        List<CityEntity> cityEntityList = query.getResultList();
-
-
-        return cityEntityList;
-
-
-    }
-
-
-    public com.server.datatype.Location[] getLocations(int cityId) {
-        TypedQuery<LocationEntity> query = entityManager
-                .createNamedQuery(LocationEntity.GETCITYLOCATIONS, LocationEntity.class);
-        query.setParameter("cityId", cityId);
-        List<LocationEntity> locationEntityList = query.getResultList();
-
-        return Utils.convertToDataLocationArray(locationEntityList);
-    }
-
-
-    public City getCity(int cityId) {
-        TypedQuery<CityEntity> query = entityManager.createNamedQuery(CityEntity.GETCITY, CityEntity.class);
-        query.setParameter("cityId", cityId);
+    public City getCity( int cityId ) {
+        TypedQuery<CityEntity> query = entityManager.createNamedQuery( CityEntity.GETCITYBYID, CityEntity.class );
+        query.setParameter( "cityId", cityId );
         CityEntity city = query.getSingleResult();
-        return new City();
-    }
-
-    public Boolean isUpToDate(int cityId, int postId) {
-
-        TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETCITY, EventEntity.class);
-        query.setParameter("cityId", cityId );
-        query.setMaxResults(1);
-        EventEntity lastEvent = query.getResultList().get(0);
-
-        return ( postId == lastEvent.getId() );
-
+        return new City( city );
     }
 
 
 
     public City[] getAll() {
-        return  new City[0];
+        TypedQuery<CityEntity> query = entityManager.createNamedQuery( CityEntity.GETALL, CityEntity.class );
+        if ( query.getResultList() == null ) {
+            throw new NullPointerException();
+        }
+        List<CityEntity> cityEntityList = query.getResultList();
+        List<City> cityList = new List<City>() {
+
+            public int size() {
+                return 0;
+            }
+
+
+
+            public boolean isEmpty() {
+                return false;
+            }
+
+
+
+            public boolean contains( Object o ) {
+                return false;
+            }
+
+
+
+            public Iterator<City> iterator() {
+                return null;
+            }
+
+
+
+            public Object[] toArray() {
+                return new Object[ 0 ];
+            }
+
+
+
+            public <T> T[] toArray( T[] a ) {
+                return null;
+            }
+
+
+
+            public boolean add( City city ) {
+                return false;
+            }
+
+
+
+            public boolean remove( Object o ) {
+                return false;
+            }
+
+
+
+            public boolean containsAll( Collection<?> c ) {
+                return false;
+            }
+
+
+
+            public boolean addAll( Collection<? extends City> c ) {
+                return false;
+            }
+
+
+
+            public boolean addAll( int index, Collection<? extends City> c ) {
+                return false;
+            }
+
+
+
+            public boolean removeAll( Collection<?> c ) {
+                return false;
+            }
+
+
+
+            public boolean retainAll( Collection<?> c ) {
+                return false;
+            }
+
+
+
+            public void clear() {
+
+            }
+
+
+
+            public City get( int index ) {
+                return null;
+            }
+
+
+
+            public City set( int index, City element ) {
+                return null;
+            }
+
+
+
+            public void add( int index, City element ) {
+
+            }
+
+
+
+            public City remove( int index ) {
+                return null;
+            }
+
+
+
+            public int indexOf( Object o ) {
+                return 0;
+            }
+
+
+
+            public int lastIndexOf( Object o ) {
+                return 0;
+            }
+
+
+
+            public ListIterator<City> listIterator() {
+                return null;
+            }
+
+
+
+            public ListIterator<City> listIterator( int index ) {
+                return null;
+            }
+
+
+
+            public List<City> subList( int fromIndex, int toIndex ) {
+                return null;
+            }
+        };
+
+        for ( CityEntity c : cityEntityList ) {
+            cityList.add( new City( c ) );
+        }
+
+        return ( City[] )cityList.toArray();
+    }
+
+
+
+    public Location[] getLocations( int cityId ) {
+        return locationController.getLocations( cityId );
     }
 
 
 
     public Location[] getLocationBySearchText( String searchText ) {
-        return new Location[ 0 ];
+        return locationController.getLocationBySearchText( searchText );
+    }
+
+
+
+    public com.server.datatype.Event[] getFirstPosts( int cityId, int userId, int postNum ) {
+        return eventController.getFirstPosts( cityId, userId, postNum );
+    }
+
+
+
+    public com.server.datatype.Event[] getNextPosts( int cityId, int userId, int postNum, int lastPostId ) {
+        return eventController.getNextPosts( cityId, userId, postNum, lastPostId );
+    }
+
+
+
+    public City createCity( String cityName ) {
+
+        CityEntity cityEntity;
+
+        try {
+            TypedQuery<CityEntity> query = entityManager.createNamedQuery( CityEntity.GETCITYBYNAME, CityEntity.class );
+            query.setParameter( "cityName", cityName  );
+
+            cityEntity = query.getSingleResult();
+
+        } catch ( NoResultException e ){
+
+            cityEntity = new CityEntity();
+            cityEntity.setName( cityName );
+            entityManager.persist( cityEntity );
+
+        }
+
+            return new City (cityEntity);
     }
 
 
