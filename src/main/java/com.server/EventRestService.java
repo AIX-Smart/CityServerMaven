@@ -110,7 +110,7 @@ public class EventRestService
 
 
     //Create Comment
-    @PUT
+    @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/" )
     public Response createComment( @PathParam( "id" ) int id,
@@ -131,7 +131,7 @@ public class EventRestService
 
 
     //like Event
-    @POST
+    @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{userId}/" )
     public Response likePost( @PathParam( "id" ) int id,

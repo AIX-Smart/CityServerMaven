@@ -14,7 +14,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -147,7 +147,7 @@ public class CityRestService
 
 
 
-    @PUT
+    @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{cityName}" )
     public Response create( @PathParam( "cityName" ) String cityName ) {
@@ -166,7 +166,7 @@ public class CityRestService
     }
 
     //Muss noch diskutiert werden
-    @PUT
+    @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "{id}/{userId}" )
     public Response CreatePost( @PathParam( "id" ) int id,
