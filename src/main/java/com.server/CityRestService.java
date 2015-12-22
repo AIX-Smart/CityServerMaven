@@ -39,6 +39,8 @@ public class CityRestService
 
     // Get all cities in the database
     // When release, @RolesAllowed( { "admin" } )
+
+    //Methode fehlerhaft
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     public Response getAll() {
@@ -120,6 +122,7 @@ public class CityRestService
         return Response.status( Response.Status.NOT_FOUND ).build();
 
     }
+
 
 
     //Get cityInformation
