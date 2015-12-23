@@ -31,6 +31,15 @@ public class Comment {
         this.eventId = commentEntity.getEventEntity().getId();
     }
 
+    public Comment( CommentEntity commentEntity ) {
+        this.id = commentEntity.getId();
+        this.content = commentEntity.getContent();
+        this.creationTime = commentEntity.getDate().getTimeInMillis();
+        this.likeCount = commentEntity.getLikes();
+        this.authorId = commentEntity.getAppUserEntity().getId();
+        this.liked = false;
+        this.eventId = commentEntity.getEventEntity().getId();
+    }
 
 
     public int getId() {

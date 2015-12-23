@@ -32,6 +32,17 @@ public class Event {
         this.commentCount = commentCount;
     }
 
+    public Event(EventEntity eventEntity){
+        this.id = eventEntity.getId();
+        this.content = eventEntity.getContent();
+        this.creationTime = eventEntity.getDate().getTimeInMillis();
+        this.likeCount = eventEntity.getLikes();
+        this.authorId = eventEntity.getAppUserEntity().getId();
+        this.liked = true;
+        this.locationId = eventEntity.getLocationEntity().getId();
+        this.commentCount = eventEntity.getCommentEntities().size();
+    }
+
     public Event(EventEntity eventEntity, boolean liked){
         this.id = eventEntity.getId();
         this.content = eventEntity.getContent();

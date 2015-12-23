@@ -1,5 +1,6 @@
 package com.server.controller;
 
+import com.server.datatype.Comment;
 import com.server.datatype.User;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
@@ -40,6 +41,15 @@ public class Utils {
             CommentEntity commentEntity = commentEntityList.get(i);
             datatypeComment[i] = new com.server.datatype.Comment(
                     commentEntity, user.getLikedCommentEntities().contains( commentEntity ));
+        }
+        return datatypeComment;
+    }
+    public static Comment[] convertToDataCommentArray(List<CommentEntity> commentEntityList){
+        Comment[] datatypeComment = new Comment[ commentEntityList.size()];
+        for(int i = 0; i< commentEntityList.size(); i++){
+            CommentEntity commentEntity = commentEntityList.get(i);
+            datatypeComment[i] = new Comment(
+                    commentEntity);
         }
         return datatypeComment;
     }

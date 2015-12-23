@@ -18,70 +18,67 @@ import javax.ws.rs.core.Response;
 /**
  * Created by jp on 05.11.15.
  */
-@Path( "/comment" )
-@Produces( MediaType.APPLICATION_JSON )
+@Path("/comment")
+@Produces(MediaType.APPLICATION_JSON)
 @Stateless
-@Interceptors( AuditingInterceptor.class )
+@Interceptors(AuditingInterceptor.class)
 public class CommentRestService
         extends ApplicationRestService {
 
     @EJB
     private CommentController controller;
-    private Logger logger = Logger.getLogger( this.getClass().getName() );
-
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
 
     @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{userId}" )
-    public Response getAll( @PathParam( "userId" ) int userId ) {
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{userId}")
+    public Response getAll(@PathParam("userId") int userId) {
 
-        Comment[] comments = controller.allOwnComments( userId );
+        Comment[] comments = controller.allOwnComments(userId);
         try {
-            return Response.ok( mapper.writeValueAsString( comments ) ).build();
-        } catch ( Exception e ) {
-            logger.error( e );
+            return Response.ok(mapper.writeValueAsString(comments)).build();
+        } catch (Exception e) {
+            logger.error(e);
         }
 
         return Response.serverError().build();
     }
 
 
-
     @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/all" )
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/all")
     public Response getAll() {
 
         Comment[] comments = controller.allComments();
         try {
-            return Response.ok( mapper.writeValueAsString( comments ) ).build();
-        } catch ( Exception e ) {
-
+            return Response.ok(mapper.writeValueAsString(comments)).build();
+        } catch (Exception e) {
+            logger.error(e);
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();
+        return Response.serverError().build();
     }
-
 
 
     //Like Comment
     @PUT
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/" )
-    public Response likeComment( @PathParam( "id" ) int id,
-                                 @PathParam( "userId" ) int userId,
-                                 String text
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{userId}/")
+    public Response likeComment(@PathParam("id") int id,
+                                @PathParam("userId") int userId,
+                                String text
     ) {
-        boolean like = Boolean.parseBoolean( text );
-        boolean liked = controller.likeComment( id, userId, like );
+        boolean like = Boolean.parseBoolean(text);
+        boolean liked = controller.likeComment(id, userId, like);
         try {
-            return Response.ok( mapper.writeValueAsString( liked ) ).build();
-        } catch ( Exception e ) {
-
+            return Response.ok(mapper.writeValueAsString(liked)).build();
+        } catch (Exception e) {
+            logger.error(e);
         }
 
-        return Response.status( Response.Status.NOT_FOUND ).build();
+        return Response.serverError().build();
     }
 
 
