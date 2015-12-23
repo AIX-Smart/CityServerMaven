@@ -61,4 +61,11 @@ public class TagController {
     public Tag[] getAllTags() {
         return new Tag[ 0 ];
     }
+
+    public Tag createTag(String name) {
+            TagEntity tagEntity = new TagEntity();
+            tagEntity.setName( name );
+            entityManager.persist( tagEntity );
+            return new Tag (tagEntity);
+    }
 }

@@ -9,10 +9,7 @@ import org.apache.log4j.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -147,5 +144,20 @@ public class TagRestService
         return Response.serverError().build();
     }
 
+
+    //Create Tag
+    @POST
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{userId}/" )
+    public Response createTag(String name) {
+        Tag tag = controller.createTag( name );
+        try {
+            return Response.ok( mapper.writeValueAsString( tag ) ).build();
+        } catch ( Exception e ) {
+            logger.error( e );
+        }
+
+        return Response.serverError().build();
+    }
 
 }

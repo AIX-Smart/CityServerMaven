@@ -151,4 +151,7 @@ public class EventController {
     }
 
 
+    public Comment createComment(int id, int userId, String text) {
+        return null;
+    }
 }
