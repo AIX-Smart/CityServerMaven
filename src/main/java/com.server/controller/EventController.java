@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -26,6 +27,9 @@ public class EventController {
 
     @EJB
     private CommentController commentController;
+
+    @EJB
+    private LocationController locationController;
 
 
     public Event[] allOwnPosts(int userId) {
@@ -137,6 +141,20 @@ public class EventController {
         entityManager.merge(user);
 
         return isLiked;
+    }
+
+    public EventEntity createEvent(int id, int userId, String text ) {
+
+        EventEntity eventEntity = new EventEntity();
+        eventEntity.setContent( text );
+        eventEntity.setDate( Calendar.getInstance() );
+        eventEntity.setAppUserEntity( userController.getUser( userId ) );
+        eventEntity.setLocationEntity( locationController.getLocationEntityById(id)) ;
+
+        entityManager.persist( eventEntity );
+
+        return eventEntity;
+
     }
 
 

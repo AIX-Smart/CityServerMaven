@@ -52,32 +52,6 @@ public class LocationRestService
 
 
 
-    //Create Event
-    @POST
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}" )
-    public Response createPost( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) int userId,
-                                String text ) {
-        controller.createEvent( id, userId, text );
-        return Response.ok().build();
-
-    }
-
-    //Create Event over Web Application
-    @POST
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{content}" )
-    public Response createPostWebsite( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) int userId,
-                                @PathParam("content") String text ) {
-        controller.createEvent( id, userId, text );
-        return Response.ok().build();
-
-    }
-
-
-
 
     //Get first Posts
     @GET
@@ -165,6 +139,46 @@ public class LocationRestService
         }
         return Response.serverError().build();
     }
+
+    //Create Event
+    @POST
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{userId}" )
+    public Response createPost( @PathParam( "id" ) int id,
+                                @PathParam( "userId" ) int userId,
+                                String text ) {
+
+        Event event = controller.createEvent(id, userId, text);
+
+        try {
+            return Response.ok( objectMapper.writeValueAsString( event ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+
+    }
+
+    //Create Event over Web Application
+    @POST
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{userId}/{content}" )
+    public Response createPostWebsite( @PathParam( "id" ) int id,
+                                       @PathParam( "userId" ) int userId,
+                                       @PathParam("content") String text ) {
+
+        Event event = controller.createEvent(id, userId, text);
+
+        try {
+            return Response.ok( objectMapper.writeValueAsString( event ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+
+    }
+
+
 
     @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )

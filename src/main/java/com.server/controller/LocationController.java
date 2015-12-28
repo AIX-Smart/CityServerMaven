@@ -35,7 +35,7 @@ public class LocationController {
     private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 
-    private LocationEntity getLocationEntityById( int id ) {
+    public LocationEntity getLocationEntityById( int id ) {
         TypedQuery<LocationEntity> query = entityManager.createNamedQuery( LocationEntity.GET, LocationEntity.class );
         query.setParameter( "id", id );
 
@@ -130,15 +130,9 @@ public class LocationController {
         return locationEntity;
     }
 
-    public void createEvent(int id, int userId, String text ) {
+    public Event createEvent(int id, int userId, String text ) {
 
-        EventEntity eventEntity = new EventEntity();
-        eventEntity.setContent( text );
-        eventEntity.setDate( Calendar.getInstance() );
-        eventEntity.setAppUserEntity( userController.getUser( userId ) );
-        eventEntity.setLocationEntity( getLocationEntityById( id ) );
-
-        entityManager.persist( eventEntity );
+        return new Event(eventController.createEvent(id, userId, text));
 
     }
 
