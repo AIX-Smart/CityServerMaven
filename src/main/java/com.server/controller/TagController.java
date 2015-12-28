@@ -5,6 +5,7 @@ import com.server.datatype.Location;
 import com.server.datatype.Tag;
 import com.server.entities.TagEntity;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,50 +23,66 @@ public class TagController {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Location[] getNextLocations( int id, int userId, int locationNum ) {
-        return new Location[ 0 ];
+    @EJB
+    private LocationController locationController;
+
+    @EJB
+    private EventController eventController;
+
+
+    public Location[] getFirstLocations(int tagId, int cityId, int locationNum) {
+        return getNextLocations( tagId, cityId, locationNum, Integer.MAX_VALUE);
     }
 
 
-
-    public Location[] getNextLocations( int id, int userId, int postNum, int lastPostId ) {
-        return new Location[ 0 ];
+    public Location[] getNextLocations(int tagId, int cityId, int postNum, int lastLocationId) {
+       return locationController.getNextLocationsWithTagId( tagId, cityId, postNum, lastLocationId);
     }
 
 
-
-    public Event[] getNextPosts( int tagid, int userId, int postNum, int lastPostId ) {
-        return new Event[0];
+    public Event[] getNextEvents(int tagId, int cityId, int userId, int postNum, int lastPostId) {
+        return eventController.getNextEventsWithTagId( tagId, cityId, userId, postNum, lastPostId);
     }
 
 
-
-    public Event[] getNextPosts( int id, int userId, int postNum ) {
-        return new Event[ 0 ];
+    public Event[] getFirstEvents(int tagId, int cityId, int userId, int postNum) {
+        return getNextEvents(tagId, cityId, userId, postNum, Integer.MAX_VALUE);
     }
 
-    public List<TagEntity> allTags() {
-        TypedQuery<TagEntity> query = entityManager.createNamedQuery( TagEntity.GETALL, TagEntity.class );
+    public List<TagEntity> getAllTagEntities() {
+
+        TypedQuery<TagEntity> query = entityManager.createNamedQuery(TagEntity.GETALL, TagEntity.class);
         List<TagEntity> tagList = query.getResultList();
+
         return tagList;
     }
 
 
+    public Tag getTag(long id) {
+        TypedQuery<TagEntity> query = entityManager.createNamedQuery(TagEntity.GET, TagEntity.class);
+        query.setParameter("id", id);
 
-    public Tag getTag( long id ) {
-        return null;
+        TagEntity tagEntity = query.getSingleResult();
+
+        return new Tag(tagEntity);
     }
-
 
 
     public Tag[] getAllTags() {
-        return new Tag[ 0 ];
+
+        List<TagEntity> tagEntities = getAllTagEntities();
+
+        return Utils.convertToDataTagArray(tagEntities);
     }
 
     public Tag createTag(String name) {
-            TagEntity tagEntity = new TagEntity();
-            tagEntity.setName( name );
-            entityManager.persist( tagEntity );
-            return new Tag (tagEntity);
+
+        TagEntity tagEntity = new TagEntity();
+        tagEntity.setName(name);
+
+        entityManager.persist(tagEntity);
+
+        return new Tag(tagEntity);
     }
+
 }

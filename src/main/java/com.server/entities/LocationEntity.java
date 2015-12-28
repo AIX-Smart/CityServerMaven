@@ -19,7 +19,7 @@ import java.util.List;
         @NamedQuery( name = LocationEntity.GET, query = "SELECT l FROM LocationEntity l WHERE l.id = :id and l.deleted = false" ),
         @NamedQuery( name = LocationEntity.GETBYNAME, query = "SELECT l FROM LocationEntity l WHERE l.name = :name and l.deleted = false" ),
         @NamedQuery( name = LocationEntity.GETCITYLOCATIONS, query = "SELECT l FROM LocationEntity l WHERE l.cityEntity.id = :cityId and l.deleted = false" ),
-        @NamedQuery( name = LocationEntity.GETCITYLOCATIONSWITHTAG, query = "SELECT l FROM LocationEntity l join l.tags t WHERE l.cityEntity.id = :cityId AND t.id = :tagId and l.deleted = false" ),
+        @NamedQuery( name = LocationEntity.GETCITYLOCATIONSWITHTAG, query = "SELECT l FROM LocationEntity l join l.tags t WHERE  l.id < :lastLocationId and l.cityEntity.id = :cityId AND t.id = :tagId and l.deleted = false" ),
         @NamedQuery( name = LocationEntity.GETALL, query = "SELECT l FROM LocationEntity l where l.deleted = false" )
 
 } )

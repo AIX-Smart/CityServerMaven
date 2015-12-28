@@ -2,6 +2,7 @@ package com.server.controller;
 
 import com.server.datatype.Comment;
 import com.server.datatype.Location;
+import com.server.datatype.Tag;
 import com.server.datatype.User;
 import com.server.entities.*;
 
@@ -72,8 +73,13 @@ public class Utils {
         return users;
     }
 
-    public static User convertToDataUser(AppUserEntity userEntity) {
-        return new User(userEntity);
+    public static Tag[] convertToDataTagArray(List<TagEntity> tagEntityList ){
+        Tag[] tags = new Tag[ tagEntityList.size()];
+        for(int i = 0; i< tagEntityList.size(); i++){
+            TagEntity tagEntity = tagEntityList.get(i);
+            tags[i] = new Tag( tagEntity );
+        }
+        return tags;
     }
 
 

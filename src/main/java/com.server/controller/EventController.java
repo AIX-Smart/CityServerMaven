@@ -3,6 +3,7 @@ package com.server.controller;
 import com.server.datatype.Comment;
 import com.server.datatype.Event;
 import com.server.entities.AppUserEntity;
+import com.server.entities.CommentEntity;
 import com.server.entities.EventEntity;
 
 import javax.ejb.EJB;
@@ -10,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -150,6 +152,7 @@ public class EventController {
         eventEntity.setDate( Calendar.getInstance() );
         eventEntity.setAppUserEntity( userController.getUser( userId ) );
         eventEntity.setLocationEntity( locationController.getLocationEntityById(id)) ;
+        eventEntity.setCommentEntities( new ArrayList<CommentEntity>());
 
         entityManager.persist( eventEntity );
 
@@ -160,5 +163,22 @@ public class EventController {
 
     public Comment createComment(int id, int userId, String text) {
         return commentController.createComment(id, userId, text);
+    }
+
+    public Event[] getNextEventsWithTagId(int tagId, int cityId, int userId, int postNum, int lastPostId) {
+
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETWITHTAG, EventEntity.class);
+        query.setParameter("tagId", tagId);
+        query.setParameter("cityId", cityId);
+        query.setParameter("lastId", lastPostId);
+        query.setMaxResults(postNum);
+
+
+        AppUserEntity user = userController.getUser(userId);
+        List<EventEntity> eventEntityList = query.getResultList();
+
+        return Utils.convertToDataEventArray(eventEntityList, user);
+
+
     }
 }

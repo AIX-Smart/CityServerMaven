@@ -32,127 +32,123 @@ public class LocationController {
     @EJB
     private EventController eventController;
 
-    private Logger logger = Logger.getLogger( this.getClass().getName() );
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
 
-    public LocationEntity getLocationEntityById( int id ) {
-        TypedQuery<LocationEntity> query = entityManager.createNamedQuery( LocationEntity.GET, LocationEntity.class );
-        query.setParameter( "id", id );
+    public LocationEntity getLocationEntityById(int id) {
+        TypedQuery<LocationEntity> query = entityManager.createNamedQuery(LocationEntity.GET, LocationEntity.class);
+        query.setParameter("id", id);
 
         LocationEntity locationEntity;
 
         try {
             locationEntity = query.getSingleResult();
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             locationEntity = null;
         }
 
         return locationEntity;
 
     }
+
     // noch kaputt
-    public Location getLocationById( int id ) {
-        LocationEntity locationEntity = getLocationEntityById( id );
-        return new Location( locationEntity );
+    public Location getLocationById(int id) {
+        LocationEntity locationEntity = getLocationEntityById(id);
+        return new Location(locationEntity);
     }
 
 
-
-    public Event[] getFirstPosts( int id, int userId, int postNum ) {
-        return eventController.getFirstPosts( id, userId, postNum );
+    public Event[] getFirstPosts(int id, int userId, int postNum) {
+        return eventController.getFirstPosts(id, userId, postNum);
     }
 
 
-
-    public com.server.datatype.Event[] getNextPosts( int id, int userId, int postNum, int lastPostId ) {
-        return eventController.getNextPosts( id, userId, postNum, lastPostId );
+    public com.server.datatype.Event[] getNextPosts(int id, int userId, int postNum, int lastPostId) {
+        return eventController.getNextPosts(id, userId, postNum, lastPostId);
     }
-
 
 
     //Zurzeit achtet der Controller nicht wirklich auf die City sondern gibt einfach die Event aus der Tabelle wieder
     public com.server.datatype.Location[] getAllLocation() {
         TypedQuery<LocationEntity> query = entityManager
-                .createNamedQuery( LocationEntity.GETALL, LocationEntity.class );
-        if ( query.getResultList() == null ) {
+                .createNamedQuery(LocationEntity.GETALL, LocationEntity.class);
+        if (query.getResultList() == null) {
             throw new NullPointerException();
         }
         List<LocationEntity> locationEntityList = query.getResultList();
 
 
-        return Utils.convertToDataLocationArray( locationEntityList );
+        return Utils.convertToDataLocationArray(locationEntityList);
 
     }
 
 
-
-    public Location[] getLocations( int cityId ) {
+    public Location[] getLocations(int cityId) {
         TypedQuery<LocationEntity> query = entityManager
-                .createNamedQuery( LocationEntity.GETCITYLOCATIONS, LocationEntity.class );
-        query.setParameter( "cityId", cityId );
+                .createNamedQuery(LocationEntity.GETCITYLOCATIONS, LocationEntity.class);
+        query.setParameter("cityId", cityId);
         List<LocationEntity> locationEntityList = query.getResultList();
 
-        return Utils.convertToDataLocationArray( locationEntityList );
+        return Utils.convertToDataLocationArray(locationEntityList);
     }
 
 
-    public Location createLocation( Location location ) {
+    public Location createLocation(Location location) {
 
 
-        LocationEntity locationEntity = createLocation( location.getName(),
-                                                        location.getCityId(),
-                                                        location.getStreet(),
-                                                        location.getHouseNumber(),
-                                                        location.getPhoneNumber(),
-                                                        location.getDescription(),
-                                                        location.getGps() );
+        LocationEntity locationEntity = createLocation(location.getName(),
+                location.getCityId(),
+                location.getStreet(),
+                location.getHouseNumber(),
+                location.getPhoneNumber(),
+                location.getDescription(),
+                location.getGps());
 
-        return new Location( locationEntity );
+        return new Location(locationEntity);
 
     }
 
 
-
-    public LocationEntity createLocation( String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS ) {
+    public LocationEntity createLocation(String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS) {
 
         LocationEntity locationEntity = new LocationEntity();
-        locationEntity.setCityEntity( cityController.getCityEntity( cityId ) );
-        locationEntity.setDescription( description );
-        locationEntity.setGPS( gPS );
-        locationEntity.setName( name );
-        locationEntity.setHouseNumber( houseNumber );
-        locationEntity.setStreet( street );
-        locationEntity.setLikes( 0 );
-        locationEntity.setPhoneNumber( phoneNumber );
+        locationEntity.setCityEntity(cityController.getCityEntity(cityId));
+        locationEntity.setDescription(description);
+        locationEntity.setGPS(gPS);
+        locationEntity.setName(name);
+        locationEntity.setHouseNumber(houseNumber);
+        locationEntity.setStreet(street);
+        locationEntity.setLikes(0);
+        locationEntity.setPhoneNumber(phoneNumber);
 
 
-        entityManager.persist( locationEntity );
+        entityManager.persist(locationEntity);
         return locationEntity;
     }
 
-    public Event createEvent(int id, int userId, String text ) {
+    public Event createEvent(int id, int userId, String text) {
 
         return new Event(eventController.createEvent(id, userId, text));
 
     }
 
 
-    public Location[] getLocationBySearchText( String searchText ) {
+    public Location[] getLocationBySearchText(String searchText) {
         TypedQuery<LocationEntity> locationEntityTypedQuery = entityManager
-                .createQuery( LocationEntity.GETBYNAME, LocationEntity.class );
-        locationEntityTypedQuery.setParameter( "name", searchText );
+                .createQuery(LocationEntity.GETBYNAME, LocationEntity.class);
+        locationEntityTypedQuery.setParameter("name", searchText);
         List<LocationEntity> locationEntityList = locationEntityTypedQuery.getResultList();
 
-        return Utils.convertToDataLocationArray( locationEntityList );
+        return Utils.convertToDataLocationArray(locationEntityList);
     }
 
     public boolean getLiked(int id, int userId) {
-        List <LocationEntity> likedLocation = userController.getUser(userId).getLikedLocationEntities();
+        List<LocationEntity> likedLocation = userController.getUser(userId).getLikedLocationEntities();
         LocationEntity locationEntity = getLocationEntityById(id);
 
         boolean liked = false;
-        for ( LocationEntity l : likedLocation){
-            if (locationEntity.getId() == l.getId()){
+        for (LocationEntity l : likedLocation) {
+            if (locationEntity.getId() == l.getId()) {
                 liked = true;
             }
         }
@@ -162,5 +158,20 @@ public class LocationController {
 
     public int getLikeCount(int id) {
         return getLocationEntityById(id).getLikes();
+    }
+
+    public Location[] getNextLocationsWithTagId(int tagId, int cityId, int postNum, int lastLocationId) {
+
+        TypedQuery<LocationEntity> locationEntityTypedQuery = entityManager
+                .createQuery(LocationEntity.GETCITYLOCATIONSWITHTAG, LocationEntity.class);
+        locationEntityTypedQuery.setParameter("tagId", tagId );
+        locationEntityTypedQuery.setParameter("lastLocationId", lastLocationId);
+        locationEntityTypedQuery.setParameter("cityId", cityId);
+        locationEntityTypedQuery.setMaxResults(postNum);
+
+        List<LocationEntity> locationEntityList = locationEntityTypedQuery.getResultList();
+
+
+        return Utils.convertToDataLocationArray(locationEntityList);
     }
 }

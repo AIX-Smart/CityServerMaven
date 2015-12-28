@@ -49,13 +49,14 @@ public class TagRestService
 
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{postNum}/{userId}" )
+    @Path( "/{id}/{cityId}/{postNum}/{userId}" )
     public Response getPost( @PathParam( "id" ) int id,
+                             @PathParam( "cityId" ) int cityId,
                              @PathParam( "postNum" ) int postNum,
                              @PathParam( "userId" ) int userId
 
     ) {
-        Event[] events = controller.getNextPosts( id, userId, postNum );
+        Event[] events = controller.getFirstEvents( id, cityId, userId, postNum );
         try {
             return Response.ok( mapper.writeValueAsString( events ) ).build();
         } catch ( Exception e ) {
@@ -70,13 +71,14 @@ public class TagRestService
     //Get following post from last PostId on with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{postNum}/{userId}/{lastPostId}" )
+    @Path( "/{id}/{cityId}/{postNum}/{userId}/{lastPostId}" )
     public Response getPost( @PathParam( "id" ) int id,
+                             @PathParam( "cityId" ) int cityId,
                              @PathParam( "postNum" ) int postNum,
                              @PathParam( "userId" ) int userId,
                              @PathParam( "lastPostId" ) int lastPostId
     ) {
-        Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
+        Event[] events = controller.getNextEvents( id, cityId, userId, postNum, lastPostId );
         try {
             return Response.ok( mapper.writeValueAsString( events ) ).build();
         } catch ( Exception e ) {
@@ -91,12 +93,12 @@ public class TagRestService
     //Get first Location with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/location/{locationNum}/{userId}" )
+    @Path( "/{id}/{cityId}/location/{locationNum}" )
     public Response getLocation( @PathParam( "id" ) int id,
-                                 @PathParam( "locationNum" ) int locationNum,
-                                 @PathParam( "userId" ) int userId
+                                 @PathParam( "cityId") int cityId,
+                                 @PathParam( "locationNum" ) int locationNum
     ) {
-        Location[] locations = controller.getNextLocations( id, userId, locationNum );
+        Location[] locations = controller.getFirstLocations( id, cityId, locationNum );
         try {
             return Response.ok( mapper.writeValueAsString( locations ) ).build();
         } catch ( Exception e ) {
@@ -111,13 +113,13 @@ public class TagRestService
     //Get following Location from lastLocationId on with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/location/{locationNum}/{userId}/{lastLocationId}" )
+    @Path( "/{id}/{cityId}/location/{locationNum}/{lastLocationId}" )
     public Response getLocation( @PathParam( "id" ) int id,
+                                 @PathParam( "cityId") int cityId,
                                  @PathParam( "locationNum" ) int locationNum,
-                                 @PathParam( "userId" ) int userId,
-                                 @PathParam( "lastLocationId" ) int lastPostId
+                                 @PathParam( "lastLocationId" ) int lastLocationId
     ) {
-        Location[] locations = controller.getNextLocations( id, userId, locationNum, lastPostId );
+        Location[] locations = controller.getNextLocations( id, cityId, locationNum, lastLocationId );
         try {
             return Response.ok( mapper.writeValueAsString( locations ) ).build();
         } catch ( Exception e ) {
@@ -148,8 +150,8 @@ public class TagRestService
     //Create Tag
     @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/" )
-    public Response createTag(String name) {
+    @Path( "/{tagName}" )
+    public Response createTag( @PathParam( "tagName" ) String name) {
         Tag tag = controller.createTag( name );
         try {
             return Response.ok( mapper.writeValueAsString( tag ) ).build();
