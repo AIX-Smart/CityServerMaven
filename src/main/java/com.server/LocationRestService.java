@@ -90,6 +90,40 @@ public class LocationRestService
         return Response.serverError().build();
     }
 
+
+    //Get following post from last PostId on
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{userId}" )
+    public Response getPost( @PathParam( "id" ) int id,
+                             @PathParam( "userId" ) int userId
+    ) {
+        boolean liked = controller.getLiked( id, userId );
+        try {
+            return Response.ok( objectMapper.writeValueAsString( liked ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+    }
+
+
+    //Get following post from last PostId on
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/likeCount" )
+    public Response getPost( @PathParam( "id" ) int id
+    ) {
+        int likeCount = controller.getLikeCount( id );
+        try {
+            return Response.ok( objectMapper.writeValueAsString( likeCount ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+    }
+
+
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/all" )

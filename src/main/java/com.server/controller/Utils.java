@@ -1,12 +1,11 @@
 package com.server.controller;
 
 import com.server.datatype.Comment;
+import com.server.datatype.Location;
 import com.server.datatype.User;
-import com.server.entities.AppUserEntity;
-import com.server.entities.CommentEntity;
-import com.server.entities.EventEntity;
-import com.server.entities.LocationEntity;
+import com.server.entities.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,11 +54,11 @@ public class Utils {
     }
 
 
-    public static com.server.datatype.Location[] convertToDataLocationArray(List<LocationEntity> locationEntityList ){
-        com.server.datatype.Location[] datatypeLocations = new com.server.datatype.Location[ locationEntityList.size()];
+    public static Location[] convertToDataLocationArray(List<LocationEntity> locationEntityList ){
+       Location[] datatypeLocations = new Location[ locationEntityList.size()];
         for(int i = 0; i< locationEntityList.size(); i++){
             LocationEntity locationEntity = locationEntityList.get(i);
-            //datatypeLocations[i] = new com.server.datatype.Location( locationEntity, new ArrayList<Tag>(), false);
+            datatypeLocations[i] = new Location( locationEntity );
         }
         return datatypeLocations;
     }
