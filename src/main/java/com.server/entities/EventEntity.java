@@ -35,7 +35,7 @@ import java.util.List;
         @NamedQuery( name = EventEntity.GETWITHTAG, query =
         "SELECT d  " +
                 "FROM EventEntity d join d.locationEntity l join l.tags lt " +
-                "WHERE d.id < :lastId AND l.id = :locationId and d.deleted = false AND lt.id = :tagId AND l.cityEntity.id = :cityId " +
+                "WHERE d.id < :lastId AND d.deleted = false AND lt.id = :tagId AND l.cityEntity.id = :cityId " +
                 // "WHERE d.id < :lastId AND l.id = :locationid " +
                 "ORDER BY d.id DESC" )
 } )
