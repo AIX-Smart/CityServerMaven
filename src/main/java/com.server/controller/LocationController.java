@@ -2,6 +2,7 @@ package com.server.controller;
 
 import com.server.datatype.Event;
 import com.server.datatype.Location;
+import com.server.entities.EventEntity;
 import com.server.entities.LocationEntity;
 import org.apache.log4j.Logger;
 
@@ -10,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -128,6 +130,17 @@ public class LocationController {
         return locationEntity;
     }
 
+    public void createEvent(int id, int userId, String text ) {
+
+        EventEntity eventEntity = new EventEntity();
+        eventEntity.setContent( text );
+        eventEntity.setDate( Calendar.getInstance() );
+        eventEntity.setAppUserEntity( userController.getUser( userId ) );
+        eventEntity.setLocationEntity( getLocationEntityById( id ) );
+
+        entityManager.persist( eventEntity );
+
+    }
 
 
     public Location[] getLocationBySearchText( String searchText ) {
