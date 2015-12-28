@@ -151,4 +151,22 @@ public class LocationController {
 
         return Utils.convertToDataLocationArray( locationEntityList );
     }
+
+    public boolean getLiked(int id, int userId) {
+        List <LocationEntity> likedLocation = userController.getUser(userId).getLikedLocationEntities();
+        LocationEntity locationEntity = getLocationEntityById(id);
+
+        boolean liked = false;
+        for ( LocationEntity l : likedLocation){
+            if (locationEntity.getId() == l.getId()){
+                liked = true;
+            }
+        }
+
+        return liked;
+    }
+
+    public int getLikeCount(int id) {
+        return getLocationEntityById(id).getLikes();
+    }
 }
