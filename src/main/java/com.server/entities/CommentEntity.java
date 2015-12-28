@@ -17,13 +17,13 @@ import java.util.Calendar;
 
 
 @NamedQueries( {
-        @NamedQuery( name = CommentEntity.GETALL, query = "SELECT c FROM CommentEntity c where c.deletd = false ORDER BY c.id DESC" ),
-        @NamedQuery( name = CommentEntity.GET, query = "SELECT c FROM CommentEntity c WHERE c.id = :id and c.deletd = false ORDER BY c.id DESC" ),
-        @NamedQuery( name = CommentEntity.GETOWN, query = "SELECT c FROM CommentEntity c WHERE c.appUserEntity.id = :userId and c.deletd = false ORDER BY c.id DESC" ),
+        @NamedQuery( name = CommentEntity.GETALL, query = "SELECT c FROM CommentEntity c where c.deleted = false ORDER BY c.id DESC" ),
+        @NamedQuery( name = CommentEntity.GET, query = "SELECT c FROM CommentEntity c WHERE c.id = :id and c.deleted = false ORDER BY c.id DESC" ),
+        @NamedQuery( name = CommentEntity.GETOWN, query = "SELECT c FROM CommentEntity c WHERE c.appUserEntity.id = :userId and c.deleted = false ORDER BY c.id DESC" ),
         @NamedQuery( name = CommentEntity.GETPOSTCOMMENTS, query =
                 "SELECT c " +
                 "FROM CommentEntity c JOIN c.eventEntity ev " +
-                "WHERE c.id < :lastId AND ev.id = :eventId and c.deletd = false " +
+                "WHERE c.id < :lastId AND ev.id = :eventId and c.deleted = false " +
                 "ORDER BY c.id DESC" ),
 
 } )
