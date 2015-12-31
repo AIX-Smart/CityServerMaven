@@ -1,9 +1,6 @@
 package com.server.controller;
 
-import com.server.datatype.Comment;
-import com.server.datatype.Location;
-import com.server.datatype.Tag;
-import com.server.datatype.User;
+import com.server.datatype.*;
 import com.server.entities.*;
 
 import java.util.ArrayList;
@@ -80,6 +77,15 @@ public class Utils {
             tags[i] = new Tag( tagEntity );
         }
         return tags;
+    }
+
+    public static City[] convertToDataCityArray(List<CityEntity> cityEntityList){
+        City[] cities = new City[ cityEntityList.size()];
+        for (int i = 0; i< cityEntityList.size(); i++){
+            CityEntity cityEntity = cityEntityList.get(i);
+            cities [i] = new City (cityEntity);
+        }
+        return cities;
     }
 
 
