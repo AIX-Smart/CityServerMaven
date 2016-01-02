@@ -3,6 +3,7 @@ package com.server;
 import com.server.controller.EventController;
 import com.server.datatype.Comment;
 import com.server.datatype.Event;
+import com.server.datatype.TestEvent;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -92,7 +93,7 @@ public class EventRestService
     @Path("/all")
     public Response getAll() {
 
-        Event[] events = controller.getAllPost();
+        TestEvent[] events = controller.getAllPost();
 
         try {
             return Response.ok(mapper.writeValueAsString(events)).build();

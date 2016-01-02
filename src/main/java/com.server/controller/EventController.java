@@ -2,6 +2,7 @@ package com.server.controller;
 
 import com.server.datatype.Comment;
 import com.server.datatype.Event;
+import com.server.datatype.TestEvent;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
 import com.server.entities.EventEntity;
@@ -77,12 +78,12 @@ public class EventController {
     }
 
 
-    public Event[] getAllPost() {
-        return Utils.convertToDataEventArray(getAllPostEntity());
+    public TestEvent[] getAllPost() {
+        return Utils.convertToDataTestEventArray(getAllPostEntity());
     }
 
 
-    private List<EventEntity> getAllPostEntity() {
+    public List<EventEntity> getAllPostEntity() {
         TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETALL, EventEntity.class);
         List<EventEntity> eventList = query.getResultList();
 
