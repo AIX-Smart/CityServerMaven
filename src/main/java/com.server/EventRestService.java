@@ -150,7 +150,9 @@ public class EventRestService
     public Response deletePost(@PathParam("id") int id,
                                @PathParam("userId") int userId
     ) {
+        logger.info("Hier komm ich in die Service Klasse rein");
         Event event = controller.deletePost(id, userId);
+
         try {
             return Response.ok(mapper.writeValueAsString(event)).build();
         } catch (Exception e) {
