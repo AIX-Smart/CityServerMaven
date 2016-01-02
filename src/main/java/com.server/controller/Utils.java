@@ -32,14 +32,6 @@ public class Utils {
         return datatypeEvents;
     }
 
-    public static TestEvent[] convertToDataTestEventArray(List<EventEntity> eventEntityList ){
-        TestEvent[] datatypeEvents = new TestEvent[ eventEntityList.size()];
-        for(int i = 0; i< eventEntityList.size(); i++){
-            EventEntity eventEntity = eventEntityList.get(i);
-            datatypeEvents[i] = new TestEvent( eventEntity );
-        }
-        return datatypeEvents;
-    }
 
     public static com.server.datatype.Comment[] convertToDataCommentArray(List<CommentEntity> commentEntityList, AppUserEntity user){
         com.server.datatype.Comment[] datatypeComment = new com.server.datatype.Comment[ commentEntityList.size()];

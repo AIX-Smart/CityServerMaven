@@ -2,7 +2,6 @@ package com.server.controller;
 
 import com.server.datatype.Comment;
 import com.server.datatype.Event;
-import com.server.datatype.TestEvent;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
 import com.server.entities.EventEntity;
@@ -78,8 +77,8 @@ public class EventController {
     }
 
 
-    public TestEvent[] getAllPost() {
-        return Utils.convertToDataTestEventArray(getAllPostEntity());
+    public Event[] getAllPost() {
+        return Utils.convertToDataEventArray(getAllPostEntity());
     }
 
 
@@ -112,9 +111,7 @@ public class EventController {
 
         EventEntity eventEntity = getEventEntityById(id);
 
-        AppUserEntity user = userController.getUser(userId);
-
-        if (user.equals(eventEntity.getAppUserEntity().getId())) {
+        if (userId == (eventEntity.getAppUserEntity().getId())) {
             eventEntity.setDeleted(true);
         }
         entityManager.merge(eventEntity);

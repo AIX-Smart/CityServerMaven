@@ -3,7 +3,6 @@ package com.server;
 import com.server.controller.EventController;
 import com.server.datatype.Comment;
 import com.server.datatype.Event;
-import com.server.datatype.TestEvent;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -93,7 +92,7 @@ public class EventRestService
     @Path("/all")
     public Response getAll() {
 
-        TestEvent[] events = controller.getAllPost();
+        Event[] events = controller.getAllPost();
 
         try {
             return Response.ok(mapper.writeValueAsString(events)).build();
@@ -151,7 +150,7 @@ public class EventRestService
     public Response deletePost(@PathParam("id") int id,
                                @PathParam("userId") int userId
     ) {
-        logger.info("Hier komm ich in die Service Klasse rein");
+        logger.info("delete RestService");
         Event event = controller.deletePost(id, userId);
 
         try {

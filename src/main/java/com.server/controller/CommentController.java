@@ -71,19 +71,17 @@ public class CommentController {
     }
 
 
-    public void deleteComments(int id, int userId) {
+    public Comment deleteComment(int id, int userId) {
 
-        TypedQuery<CommentEntity> query = entityManager.createNamedQuery(CommentEntity.GET, CommentEntity.class);
-        query.setParameter("id", id);
-        CommentEntity commentEntity = query.getSingleResult();
+       CommentEntity commentEntity = getCommentById(id);
 
-        TypedQuery<AppUserEntity> queryUser = entityManager.createNamedQuery(AppUserEntity.GET, AppUserEntity.class);
-        query.setParameter("id", userId);
-        AppUserEntity user = queryUser.getSingleResult();
-
-        if (user.equals(commentEntity.getAppUserEntity().getId())) {
-            entityManager.remove(commentEntity);
+        if (userId == (commentEntity.getAppUserEntity().getId())) {
+            commentEntity.setDeleted(true);
         }
+
+        entityManager.merge(commentEntity);
+
+        return new Comment(getCommentById(id));
 
     }
 

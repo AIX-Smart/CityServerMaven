@@ -24,7 +24,7 @@ import java.util.List;
                 "FROM EventEntity d JOIN d.locationEntity lc " +
                 "WHERE d.id < :lastId AND lc.cityEntity.id = :cityId and d.deleted = false " +
                 "ORDER BY d.id DESC" ),
-        @NamedQuery( name = EventEntity.GET, query = "SELECT d FROM EventEntity d WHERE d.id = :id and d.deleted = false ORDER BY d.id DESC" ),
+        @NamedQuery( name = EventEntity.GET, query = "SELECT d FROM EventEntity d WHERE d.id = :id" ),
         @NamedQuery( name = EventEntity.GETUSER, query = "SELECT d FROM EventEntity d WHERE d.appUserEntity.id = :appuserid and d.deleted = false ORDER BY d.id DESC" ),
         @NamedQuery( name = EventEntity.GETLOCATION, query =
                 "SELECT d  " +
