@@ -8,11 +8,7 @@ import org.apache.log4j.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -139,6 +135,44 @@ public class LocationRestService
         }
         return Response.serverError().build();
     }
+
+    @PUT
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/addTag" )
+    public Response addTag( @PathParam( "id" ) int id,
+                             String tagId){
+
+        Location location = controller.addTag(id, Integer.parseInt(tagId));
+
+        try {
+            return Response.ok( objectMapper.writeValueAsString( location ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+
+
+    }
+
+    @PUT
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/removeTag" )
+    public Response removeTag( @PathParam( "id" ) int id,
+                                String tagId){
+
+        Location location = controller.removeTag(id, Integer.parseInt(tagId));
+
+        try {
+            return Response.ok( objectMapper.writeValueAsString( location ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+
+
+    }
+
+
 
     //Create Event
     @POST

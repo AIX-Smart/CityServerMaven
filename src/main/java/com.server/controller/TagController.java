@@ -58,11 +58,9 @@ public class TagController {
     }
 
 
-    public Tag getTag(long id) {
-        TypedQuery<TagEntity> query = entityManager.createNamedQuery(TagEntity.GET, TagEntity.class);
-        query.setParameter("id", id);
+    public Tag getTag(int id) {
 
-        TagEntity tagEntity = query.getSingleResult();
+        TagEntity tagEntity = getTagEntity(id);
 
         return new Tag(tagEntity);
     }
@@ -85,4 +83,12 @@ public class TagController {
         return new Tag(tagEntity);
     }
 
+    public TagEntity getTagEntity(int id) {
+        TypedQuery<TagEntity> query = entityManager.createNamedQuery(TagEntity.GET, TagEntity.class);
+        query.setParameter("id", id);
+
+        TagEntity tagEntity = query.getSingleResult();
+
+        return  tagEntity;
+    }
 }

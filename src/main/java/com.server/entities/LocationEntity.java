@@ -205,4 +205,12 @@ public class LocationEntity {
     public void setTags( List<TagEntity> tags ) {
         this.tags = tags;
     }
+
+    public void addTag(TagEntity tagEntity) {
+        this.tags.add(tagEntity);
+    }
+
+    public void removeTag(TagEntity tagEntity) {
+        this.tags.remove(tagEntity);
+    }
 }

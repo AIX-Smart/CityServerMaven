@@ -4,6 +4,7 @@ import com.server.datatype.Event;
 import com.server.datatype.Location;
 import com.server.entities.EventEntity;
 import com.server.entities.LocationEntity;
+import com.server.entities.TagEntity;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -31,6 +32,9 @@ public class LocationController {
 
     @EJB
     private EventController eventController;
+
+    @EJB
+    private TagController tagController;
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -173,5 +177,29 @@ public class LocationController {
 
 
         return Utils.convertToDataLocationArray(locationEntityList);
+    }
+
+    public Location addTag(int id, int tagId) {
+        LocationEntity locationEntity = getLocationEntityById(id);
+        TagEntity tagEntity = tagController.getTagEntity(id);
+
+        locationEntity.addTag(tagEntity);
+
+        entityManager.merge(locationEntity);
+
+        return new Location(locationEntity);
+
+    }
+
+    public Location removeTag(int id, int i) {
+        LocationEntity locationEntity = getLocationEntityById(id);
+        TagEntity tagEntity = tagController.getTagEntity(id);
+
+        locationEntity.removeTag(tagEntity);
+
+        entityManager.merge(locationEntity);
+
+        return new Location(locationEntity);
+
     }
 }

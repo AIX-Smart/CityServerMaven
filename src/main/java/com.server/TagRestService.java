@@ -33,7 +33,7 @@ public class TagRestService
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}" )
-    public Response get( @PathParam( "id" ) long id ) {
+    public Response get( @PathParam( "id" ) int id ) {
 
         Tag tag = controller.getTag( id );
         try {
