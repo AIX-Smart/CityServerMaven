@@ -34,10 +34,9 @@ public class CommentEntity {
     private String content;
 
     @ManyToOne
-    @JoinColumn
     private EventEntity eventEntity;
 
-    @Temporal( TemporalType.DATE )
+    @Temporal( TemporalType.TIMESTAMP )
     private Calendar date;
 
     @ManyToOne( optional = false )

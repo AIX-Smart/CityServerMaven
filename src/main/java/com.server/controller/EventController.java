@@ -196,7 +196,7 @@ public class EventController {
         return eventEntity.getLikes();
     }
 
-    public boolean getLiked(int id, int userId) {
+    public boolean isLiked(int id, int userId) {
 
         Event event = getEventById(id);
         AppUserEntity user = userController.getUser(userId);
@@ -211,5 +211,12 @@ public class EventController {
 
         return liked;
 
+    }
+
+    public void deleteComment(CommentEntity commentEntity) {
+        EventEntity event = commentEntity.getEventEntity();
+        event.removeComment(commentEntity);
+
+        entityManager.merge(event);
     }
 }

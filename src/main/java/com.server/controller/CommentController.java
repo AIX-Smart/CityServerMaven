@@ -78,6 +78,7 @@ public class CommentController {
 
         if (userId == (commentEntity.getAppUserEntity().getId())) {
             commentEntity.setDeleted(true);
+            eventController.deleteComment(commentEntity);
         }
 
         entityManager.merge(commentEntity);

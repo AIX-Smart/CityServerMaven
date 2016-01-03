@@ -55,7 +55,7 @@ public class EventEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar date;
 
     @ManyToOne(optional = false)
@@ -154,5 +154,9 @@ public class EventEntity {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public void removeComment(CommentEntity commentEntity) {
+        this.commentEntities.remove(commentEntity);
     }
 }

@@ -104,15 +104,14 @@ public class EventRestService
     }
 
     //Get liked
-    //Get likecount
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/likeCount")
-    public Response getLiked(@PathParam("id") int id,
+    @Path("/{id}/{userId}")
+    public Response isLiked(@PathParam("id") int id,
                              @PathParam("userId") int userId
     ) {
 
-        boolean liked = controller.getLiked(id, userId);
+        boolean liked = controller.isLiked(id, userId);
         try {
             return Response.ok(mapper.writeValueAsString(liked)).build();
         } catch (Exception e) {
