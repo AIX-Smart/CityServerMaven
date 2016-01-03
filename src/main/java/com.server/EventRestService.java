@@ -87,6 +87,43 @@ public class EventRestService
     }
 
 
+    //Get likecount
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/likeCount")
+    public Response getLikeCount(@PathParam("id") int id
+    ) {
+        int likeCount = controller.getLikeCount(id);
+        try {
+            return Response.ok(mapper.writeValueAsString(likeCount)).build();
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+        return Response.serverError().build();
+    }
+
+    //Get liked
+    //Get likecount
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/likeCount")
+    public Response getLiked(@PathParam("id") int id,
+                             @PathParam("userId") int userId
+    ) {
+
+        boolean liked = controller.getLiked(id, userId);
+        try {
+            return Response.ok(mapper.writeValueAsString(liked)).build();
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+        return Response.serverError().build();
+    }
+
+
+
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
     @Path("/all")

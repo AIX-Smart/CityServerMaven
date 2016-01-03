@@ -3,6 +3,7 @@ package com.server.controller;
 import com.server.datatype.Comment;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
+import com.server.entities.EventEntity;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -73,7 +74,7 @@ public class CommentController {
 
     public Comment deleteComment(int id, int userId) {
 
-       CommentEntity commentEntity = getCommentById(id);
+        CommentEntity commentEntity = getCommentById(id);
 
         if (userId == (commentEntity.getAppUserEntity().getId())) {
             commentEntity.setDeleted(true);
@@ -124,7 +125,11 @@ public class CommentController {
         commentEntity.setContent(text);
         commentEntity.setDate(Calendar.getInstance());
         commentEntity.setAppUserEntity(userController.getUser(userId));
-        commentEntity.setEventEntity(eventController.getEventEntityById(eventId));
+
+        EventEntity eventEntity = eventController.getEventEntityById(eventId);
+        commentEntity.setEventEntity(eventEntity);
+
+        eventController.eventEntityAddComment(eventId, commentEntity);
 
         entityManager.persist(commentEntity);
         return new Comment(commentEntity);

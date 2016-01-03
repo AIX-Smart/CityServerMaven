@@ -2,6 +2,7 @@ package com.server.controller;
 
 import com.server.datatype.Comment;
 import com.server.datatype.Event;
+import com.server.datatype.User;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
 import com.server.entities.EventEntity;
@@ -11,9 +12,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by jp on 02.11.15.
@@ -143,16 +142,17 @@ public class EventController {
         return isLiked;
     }
 
-    public EventEntity createEvent(int id, int userId, String text ) {
+    public EventEntity createEvent(int id, int userId, String text) {
 
         EventEntity eventEntity = new EventEntity();
-        eventEntity.setContent( text );
-        eventEntity.setDate( Calendar.getInstance() );
-        eventEntity.setAppUserEntity( userController.getUser( userId ) );
-        eventEntity.setLocationEntity( locationController.getLocationEntityById(id)) ;
-        eventEntity.setCommentEntities( new ArrayList<CommentEntity>());
+        eventEntity.setContent(text);
+        Calendar calendar = Calendar.getInstance();
+        eventEntity.setDate(calendar);
+        eventEntity.setAppUserEntity(userController.getUser(userId));
+        eventEntity.setLocationEntity(locationController.getLocationEntityById(id));
+        eventEntity.setCommentEntities(new ArrayList<CommentEntity>());
 
-        entityManager.persist( eventEntity );
+        entityManager.persist(eventEntity);
 
         return eventEntity;
 
@@ -177,6 +177,39 @@ public class EventController {
 
         return Utils.convertToDataEventArray(eventEntityList, user);
 
+
+    }
+
+    public void eventEntityAddComment(int id, CommentEntity commentEntity) {
+
+        EventEntity eventEntity = getEventEntityById(id);
+        eventEntity.addCommentEntities(commentEntity);
+
+        entityManager.persist(eventEntity);
+
+    }
+
+    public int getLikeCount(int id) {
+
+        EventEntity eventEntity = getEventEntityById(id);
+
+        return eventEntity.getLikes();
+    }
+
+    public boolean getLiked(int id, int userId) {
+
+        Event event = getEventById(id);
+        AppUserEntity user = userController.getUser(userId);
+
+        boolean liked = false;
+
+        for (EventEntity eventEntity : user.getLikedEventEntities()){
+            if (eventEntity.equals(event)){
+                liked = true;
+            }
+        }
+
+        return liked;
 
     }
 }
