@@ -57,24 +57,24 @@ public class EventController {
     }
 
 
-    public Event[] getFirstPosts(int cityId, int userId, int postNum) {
-        return getNextPosts(cityId, userId, postNum, Integer.MAX_VALUE);
+    public Event[] getFirstPostsOfCity(int cityId, int userId, int postNum) {
+        return getNextPostsOfCity(cityId, userId, postNum, Integer.MAX_VALUE);
     }
 
-    public List<EventEntity> getFirstPosts(int cityId, int postNum) {
-        return getNextPosts(cityId, postNum, Integer.MAX_VALUE);
+    public List<EventEntity> getFirstPostsOfCity(int cityId, int postNum) {
+        return getNextPostsOfCity(cityId, postNum, Integer.MAX_VALUE);
     }
 
 
-    public Event[] getNextPosts(int cityId, int userId, int postNum, int lastPostId) {
-        List<EventEntity> eventEntityList = getNextPosts(cityId, postNum, lastPostId);
+    public Event[] getNextPostsOfCity(int cityId, int userId, int postNum, int lastPostId) {
+        List<EventEntity> eventEntityList = getNextPostsOfCity(cityId, postNum, lastPostId);
 
         AppUserEntity user = userController.getUser(userId);
 
         return Utils.convertToDataEventArray(eventEntityList, user);
     }
 
-    public List<EventEntity> getNextPosts(int cityId, int postNum, int lastPostId) {
+    public List<EventEntity> getNextPostsOfCity(int cityId, int postNum, int lastPostId) {
         TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETCITY, EventEntity.class);
         query.setParameter("cityId", cityId);
         query.setParameter("lastId", lastPostId);
@@ -231,4 +231,36 @@ public class EventController {
 
         entityManager.merge(event);
     }
+
+    public Event[] getFirstPostsOfLocation(int id, int userId, int postNum) {
+        return getNextPostsOfLocation(id, userId, postNum, Integer.MAX_VALUE);
+
+    }
+
+    public Event[] getNextPostsOfLocation(int id, int userId, int postNum, int lastPostId) {
+
+        List<EventEntity> eventEntityList = getNextPostsOfLocation(id, postNum, lastPostId);
+
+        AppUserEntity user = userController.getUser(userId);
+
+        return Utils.convertToDataEventArray(eventEntityList, user);
+
+    }
+
+    public List<EventEntity> getNextPostsOfLocation(int locationId, int postNum, int lastPostId) {
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETLOCATION, EventEntity.class);
+        query.setParameter("locationId", locationId);
+        query.setParameter("lastId", lastPostId);
+        query.setMaxResults(postNum);
+
+
+        List<EventEntity> eventEntityList = query.getResultList();
+
+        return eventEntityList;
+    }
+
+    public List<EventEntity> getFirstPostsOfLocation(int locationId, int postNum) {
+        return getNextPostsOfLocation(locationId, postNum, Integer.MAX_VALUE);
+    }
+
 }

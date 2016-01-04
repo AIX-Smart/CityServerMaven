@@ -19,13 +19,15 @@
       </profile>
       <profile default="false" name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="CityServer" />
         <module name="CityServerMaven" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="CityServer" target="1.5" />
       <module name="CityServerMaven" target="1.5" />
     </bytecodeTargetLevel>
   </component>

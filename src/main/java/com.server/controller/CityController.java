@@ -71,14 +71,14 @@ public class CityController {
 
 
 
-    public com.server.datatype.Event[] getFirstPosts( int cityId, int userId, int postNum ) {
-        return eventController.getFirstPosts( cityId, userId, postNum );
+    public com.server.datatype.Event[] getFirstPostsOfCity( int cityId, int userId, int postNum ) {
+        return eventController.getFirstPostsOfCity( cityId, userId, postNum );
     }
 
 
 
-    public com.server.datatype.Event[] getNextPosts( int cityId, int userId, int postNum, int lastPostId ) {
-        return eventController.getNextPosts( cityId, userId, postNum, lastPostId );
+    public com.server.datatype.Event[] getNextPostsOfCity( int cityId, int userId, int postNum, int lastPostId ) {
+        return eventController.getNextPostsOfCity( cityId, userId, postNum, lastPostId );
     }
 
 
@@ -115,7 +115,7 @@ public class CityController {
 
         boolean isUpToDate = true;
 
-        EventEntity eventEntity = eventController.getFirstPosts(id, 1).get(0);
+        EventEntity eventEntity = eventController.getFirstPostsOfCity(id, 1).get(0);
         if (eventId < eventEntity.getId() ){
             isUpToDate = false;
         }

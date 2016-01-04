@@ -63,12 +63,12 @@ public class LocationController {
 
 
     public Event[] getFirstPosts(int id, int userId, int postNum) {
-        return eventController.getFirstPosts(id, userId, postNum);
+        return eventController.getFirstPostsOfLocation(id, userId, postNum);
     }
 
 
     public com.server.datatype.Event[] getNextPosts(int id, int userId, int postNum, int lastPostId) {
-        return eventController.getNextPosts(id, userId, postNum, lastPostId);
+        return eventController.getNextPostsOfLocation(id, userId, postNum, lastPostId);
     }
 
 
@@ -206,7 +206,7 @@ public class LocationController {
     public boolean isUpToDate(int id, int eventId) {
         boolean isUpToDate = true;
 
-        EventEntity eventEntity = eventController.getFirstPosts(id, 1).get(0);
+        EventEntity eventEntity = eventController.getFirstPostsOfLocation(id, 1).get(0);
         if (eventId < eventEntity.getId() ){
             isUpToDate = false;
         }
