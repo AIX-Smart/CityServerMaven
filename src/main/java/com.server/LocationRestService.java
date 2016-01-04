@@ -16,90 +16,86 @@ import java.io.IOException;
 /**
  * Created by jp on 02.11.15.
  */
-@Path( "/location" )
-@Produces( MediaType.APPLICATION_JSON )
+@Path("/location")
+@Produces(MediaType.APPLICATION_JSON)
 @Stateless
-@Interceptors( AuditingInterceptor.class )
+@Interceptors(AuditingInterceptor.class)
 public class LocationRestService
         extends ApplicationRestService {
 
     @EJB
     private LocationController controller;
-    private Logger logger = Logger.getLogger( this.getClass().getName() );
-
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
 
     //Get location
     @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}" )
-    public Response get( @PathParam( "id" ) int id ) {
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}")
+    public Response get(@PathParam("id") int id) {
 
-        Location location = controller.getLocationById( id );
+        Location location = controller.getLocationById(id);
 
         try {
-            return Response.ok( objectMapper.writeValueAsString( location ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
+            return Response.ok(objectMapper.writeValueAsString(location)).build();
+        } catch (IOException e) {
+            logger.error(e);
         }
         return Response.serverError().build();
 
     }
 
+    //get isUpToDate
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{eventId}")
+    public Response get(@PathParam("id") int id,
+                        @PathParam("eventId") int eventId) {
 
+        boolean isUpToDate = controller.isUpToDate(id, eventId);
+        try {
+            return Response.ok(objectMapper.writeValueAsString(isUpToDate)).build();
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        return Response.serverError().build();
+
+    }
 
 
     //Get first Posts
     @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{postNum}/{userId}" )
-    public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "postNum" ) int postNum,
-                             @PathParam( "userId" ) int userId
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{postNum}/{userId}")
+    public Response getPost(@PathParam("id") int id,
+                            @PathParam("postNum") int postNum,
+                            @PathParam("userId") int userId
     ) {
-        Event[] events = controller.getFirstPosts( id, userId, postNum );
+        Event[] events = controller.getFirstPosts(id, userId, postNum);
         try {
-            return Response.ok( objectMapper.writeValueAsString( events ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
+            return Response.ok(objectMapper.writeValueAsString(events)).build();
+        } catch (IOException e) {
+            logger.error(e);
         }
         return Response.serverError().build();
 
     }
 
 
-
     //Get following post from last PostId on
     @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{postNum}/{userId}/{lastPostId}" )
-    public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "postNum" ) int postNum,
-                             @PathParam( "userId" ) int userId,
-                             @PathParam( "lastPostId" ) int lastPostId
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{postNum}/{userId}/{lastPostId}")
+    public Response getPost(@PathParam("id") int id,
+                            @PathParam("postNum") int postNum,
+                            @PathParam("userId") int userId,
+                            @PathParam("lastPostId") int lastPostId
     ) {
-        Event[] events = controller.getNextPosts( id, userId, postNum, lastPostId );
+        Event[] events = controller.getNextPosts(id, userId, postNum, lastPostId);
         try {
-            return Response.ok( objectMapper.writeValueAsString( events ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
-        }
-        return Response.serverError().build();
-    }
-
-
-    //Get following post from last PostId on
-    @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}" )
-    public Response getPost( @PathParam( "id" ) int id,
-                             @PathParam( "userId" ) int userId
-    ) {
-        boolean liked = controller.getLiked( id, userId );
-        try {
-            return Response.ok( objectMapper.writeValueAsString( liked ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
+            return Response.ok(objectMapper.writeValueAsString(events)).build();
+        } catch (IOException e) {
+            logger.error(e);
         }
         return Response.serverError().build();
     }
@@ -107,47 +103,64 @@ public class LocationRestService
 
     //Get following post from last PostId on
     @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/likeCount" )
-    public Response getPost( @PathParam( "id" ) int id
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{userId}")
+    public Response getPost(@PathParam("id") int id,
+                            @PathParam("userId") int userId
     ) {
-        int likeCount = controller.getLikeCount( id );
+        boolean liked = controller.getLiked(id, userId);
         try {
-            return Response.ok( objectMapper.writeValueAsString( likeCount ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
+            return Response.ok(objectMapper.writeValueAsString(liked)).build();
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        return Response.serverError().build();
+    }
+
+
+    //Get following post from last PostId on
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/likeCount")
+    public Response getPost(@PathParam("id") int id
+    ) {
+        int likeCount = controller.getLikeCount(id);
+        try {
+            return Response.ok(objectMapper.writeValueAsString(likeCount)).build();
+        } catch (IOException e) {
+            logger.error(e);
         }
         return Response.serverError().build();
     }
 
 
     @GET
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/all" )
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/all")
     public Response getAll() {
 
         Location[] locationBeans = controller.getAllLocation();
 
         try {
-            return Response.ok( objectMapper.writeValueAsString( locationBeans ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
+            return Response.ok(objectMapper.writeValueAsString(locationBeans)).build();
+        } catch (IOException e) {
+            logger.error(e);
         }
         return Response.serverError().build();
     }
 
     @PUT
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/addTag" )
-    public Response addTag( @PathParam( "id" ) int id,
-                             String tagId){
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{tagId}/addTag")
+    public Response addTag(@PathParam("id") int id,
+                           @PathParam("tagId") int tagId) {
 
-        Location location = controller.addTag(id, Integer.parseInt(tagId));
+        Location location = controller.addTag(id, tagId);
 
         try {
-            return Response.ok( objectMapper.writeValueAsString( location ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
+            return Response.ok(objectMapper.writeValueAsString(location)).build();
+        } catch (IOException e) {
+            logger.error(e);
         }
         return Response.serverError().build();
 
@@ -155,39 +168,38 @@ public class LocationRestService
     }
 
     @PUT
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/removeTag" )
-    public Response removeTag( @PathParam( "id" ) int id,
-                                String tagId){
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{tagId}/removeTag")
+    public Response removeTag(@PathParam("id") int id,
+                              @PathParam("tagId") int tagId) {
 
-        Location location = controller.removeTag(id, Integer.parseInt(tagId));
+        Location location = controller.removeTag(id, tagId);
 
         try {
-            return Response.ok( objectMapper.writeValueAsString( location ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
+            return Response.ok(objectMapper.writeValueAsString(location)).build();
+        } catch (IOException e) {
+            logger.error(e);
         }
         return Response.serverError().build();
 
 
     }
-
 
 
     //Create Event
     @POST
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}" )
-    public Response createPost( @PathParam( "id" ) int id,
-                                @PathParam( "userId" ) int userId,
-                                String text ) {
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{userId}")
+    public Response createPost(@PathParam("id") int id,
+                               @PathParam("userId") int userId,
+                               String text) {
 
         Event event = controller.createEvent(id, userId, text);
 
         try {
-            return Response.ok( objectMapper.writeValueAsString( event ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
+            return Response.ok(objectMapper.writeValueAsString(event)).build();
+        } catch (IOException e) {
+            logger.error(e);
         }
         return Response.serverError().build();
 
@@ -195,61 +207,61 @@ public class LocationRestService
 
     //Create Event over Web Application
     @POST
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{content}" )
-    public Response createPostWebsite( @PathParam( "id" ) int id,
-                                       @PathParam( "userId" ) int userId,
-                                       @PathParam("content") String text ) {
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{userId}/{content}")
+    public Response createPostWebsite(@PathParam("id") int id,
+                                      @PathParam("userId") int userId,
+                                      @PathParam("content") String text) {
 
         Event event = controller.createEvent(id, userId, text);
 
         try {
-            return Response.ok( objectMapper.writeValueAsString( event ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
+            return Response.ok(objectMapper.writeValueAsString(event)).build();
+        } catch (IOException e) {
+            logger.error(e);
         }
         return Response.serverError().build();
 
     }
 
 
-
     @POST
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/create" )
-    public Response create( Location location){
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/create")
+    public Response create(Location location) {
 
 
         Location newLocation = controller.createLocation(location);
 
         try {
-            return Response.ok( objectMapper.writeValueAsString( newLocation ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
+            return Response.ok(objectMapper.writeValueAsString(newLocation)).build();
+        } catch (IOException e) {
+            logger.error(e);
         }
         return Response.serverError().build();
 
     }
+
     //create Location with Webservice
     @POST
-    @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/create/{name}/{cityId}/{street}/{phoneNumber}/{GPS}/{description}/{houseNumber}" )
-    public Response create( @PathParam( "name" ) String name,
-                            @PathParam( "cityId" ) int cityId,
-                            @PathParam( "street" ) String street,
-                            @PathParam( "phoneNumber" ) String phoneNumber,
-                            @PathParam( "GPS" ) String gPS,
-                            @PathParam( "description" ) String description,
-                            @PathParam( "houseNumber" ) String houseNumber ){
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/create/{name}/{cityId}/{street}/{phoneNumber}/{GPS}/{description}/{houseNumber}")
+    public Response create(@PathParam("name") String name,
+                           @PathParam("cityId") int cityId,
+                           @PathParam("street") String street,
+                           @PathParam("phoneNumber") String phoneNumber,
+                           @PathParam("GPS") String gPS,
+                           @PathParam("description") String description,
+                           @PathParam("houseNumber") String houseNumber) {
 
 
-        Location location= new Location( controller.createLocation(name, cityId, street, houseNumber, phoneNumber, description, gPS) );
+        Location location = new Location(controller.createLocation(name, cityId, street, houseNumber, phoneNumber, description, gPS));
 
 
         try {
-            return Response.ok( objectMapper.writeValueAsString( location ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
+            return Response.ok(objectMapper.writeValueAsString(location)).build();
+        } catch (IOException e) {
+            logger.error(e);
         }
         return Response.serverError().build();
     }

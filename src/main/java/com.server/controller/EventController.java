@@ -61,19 +61,31 @@ public class EventController {
         return getNextPosts(cityId, userId, postNum, Integer.MAX_VALUE);
     }
 
+    public List<EventEntity> getFirstPosts(int cityId, int postNum) {
+        return getNextPosts(cityId, postNum, Integer.MAX_VALUE);
+    }
+
 
     public Event[] getNextPosts(int cityId, int userId, int postNum, int lastPostId) {
+        List<EventEntity> eventEntityList = getNextPosts(cityId, postNum, lastPostId);
+
+        AppUserEntity user = userController.getUser(userId);
+
+        return Utils.convertToDataEventArray(eventEntityList, user);
+    }
+
+    public List<EventEntity> getNextPosts(int cityId, int postNum, int lastPostId) {
         TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETCITY, EventEntity.class);
         query.setParameter("cityId", cityId);
         query.setParameter("lastId", lastPostId);
         query.setMaxResults(postNum);
 
 
-        AppUserEntity user = userController.getUser(userId);
         List<EventEntity> eventEntityList = query.getResultList();
 
-        return Utils.convertToDataEventArray(eventEntityList, user);
+        return eventEntityList;
     }
+
 
 
     public Event[] getAllPost() {

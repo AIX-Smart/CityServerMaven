@@ -202,4 +202,15 @@ public class LocationController {
         return new Location(locationEntity);
 
     }
+
+    public boolean isUpToDate(int id, int eventId) {
+        boolean isUpToDate = true;
+
+        EventEntity eventEntity = eventController.getFirstPosts(id, 1).get(0);
+        if (eventId < eventEntity.getId() ){
+            isUpToDate = false;
+        }
+
+        return isUpToDate;
+    }
 }

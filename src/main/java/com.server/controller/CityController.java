@@ -4,6 +4,7 @@ import com.server.datatype.City;
 import com.server.datatype.Event;
 import com.server.datatype.Location;
 import com.server.entities.CityEntity;
+import com.server.entities.EventEntity;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -110,6 +111,15 @@ public class CityController {
     }
 
 
+    public boolean isUpToDate(int id, int eventId) {
 
+        boolean isUpToDate = true;
 
+        EventEntity eventEntity = eventController.getFirstPosts(id, 1).get(0);
+        if (eventId < eventEntity.getId() ){
+            isUpToDate = false;
+        }
+
+        return isUpToDate;
+    }
 }
