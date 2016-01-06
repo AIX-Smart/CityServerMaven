@@ -45,6 +45,24 @@ public class TagRestService
 
     }
 
+    //get isUpToDate
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{eventId}")
+    public Response get(@PathParam("id") int id,
+                        @PathParam("cityId") int cityId,
+                        @PathParam("eventId") int eventId) {
+
+        boolean isUpToDate = controller.isUpToDate(id, cityId, eventId);
+        try {
+            return Response.ok(objectMapper.writeValueAsString(isUpToDate)).build();
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        return Response.serverError().build();
+
+    }
+
 
 
     @GET

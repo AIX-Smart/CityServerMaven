@@ -17,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 /**
  * Created by jp on 02.11.15.
@@ -46,6 +47,23 @@ public class EventRestService
         }
 
         return Response.serverError().build();
+    }
+
+    //get isUpToDate
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{commentId}")
+    public Response get(@PathParam("id") int id,
+                        @PathParam("commentId") int commentId) {
+
+        boolean isUpToDate = controller.isUpToDate(id, commentId);
+        try {
+            return Response.ok(objectMapper.writeValueAsString(isUpToDate)).build();
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        return Response.serverError().build();
+
     }
 
 

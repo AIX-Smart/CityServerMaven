@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 /**
  * Created by jp on 02.11.15.
@@ -177,19 +178,23 @@ public class EventController {
 
     public Event[] getNextEventsWithTagId(int tagId, int cityId, int userId, int postNum, int lastPostId) {
 
+        List<EventEntity> eventEntityList = getNextEventsWithTagId(tagId, cityId, postNum, lastPostId);
+
+        AppUserEntity user = userController.getUser(userId);
+
+        return Utils.convertToDataEventArray(eventEntityList, user);
+
+
+    }
+
+    private List<EventEntity> getNextEventsWithTagId(int tagId, int cityId, int postNum, int lastPostId) {
         TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETWITHTAG, EventEntity.class);
         query.setParameter("tagId", tagId);
         query.setParameter("cityId", cityId);
         query.setParameter("lastId", lastPostId);
         query.setMaxResults(postNum);
 
-
-        AppUserEntity user = userController.getUser(userId);
-        List<EventEntity> eventEntityList = query.getResultList();
-
-        return Utils.convertToDataEventArray(eventEntityList, user);
-
-
+        return query.getResultList();
     }
 
     public void eventEntityAddComment(int id, CommentEntity commentEntity) {
@@ -210,13 +215,14 @@ public class EventController {
 
     public boolean isLiked(int id, int userId) {
 
-        Event event = getEventById(id);
+        EventEntity event = getEventEntityById(id);
+        int eventId = event.getId();
         AppUserEntity user = userController.getUser(userId);
 
         boolean liked = false;
 
         for (EventEntity eventEntity : user.getLikedEventEntities()){
-            if (eventEntity.equals(event)){
+            if (eventEntity.getId() == eventId){
                 liked = true;
             }
         }
@@ -263,4 +269,19 @@ public class EventController {
         return getNextPostsOfLocation(locationId, postNum, Integer.MAX_VALUE);
     }
 
+    public List<EventEntity> getFirstPostsOfTag(int tagId, int cityId, int i) {
+        return getNextEventsWithTagId(tagId, cityId, i, Integer.MAX_VALUE);
+    }
+
+    public boolean isUpToDate(int id, int commentId) {
+
+        boolean isUpToDate = true;
+
+        CommentEntity commentEntity = commentController.getFirstComments(id, 1).get(0);
+        if (commentId < commentEntity.getId() ){
+            isUpToDate = false;
+        }
+
+        return isUpToDate;
+    }
 }

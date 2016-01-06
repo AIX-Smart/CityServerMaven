@@ -36,6 +36,14 @@ public class CommentController {
 
     public Comment[] getNextComments(int eventId, int userId, int comNum, int lastCommentId) {
 
+        List<CommentEntity> commentEntityList = getNextComments(eventId, comNum, lastCommentId);
+
+        AppUserEntity user = userController.getUser(userId);
+
+        return Utils.convertToDataCommentArray(commentEntityList, user);
+    }
+
+    private List<CommentEntity> getNextComments(int eventId, int comNum, int lastCommentId) {
         TypedQuery<CommentEntity> query = entityManager
                 .createNamedQuery(CommentEntity.GETPOSTCOMMENTS, CommentEntity.class);
         query.setParameter("eventId", eventId);
@@ -45,11 +53,7 @@ public class CommentController {
         if (query.getResultList() == null) {
             throw new NullPointerException();
         }
-        List<CommentEntity> commentEntityList = query.getResultList();
-
-        AppUserEntity user = userController.getUser(userId);
-
-        return Utils.convertToDataCommentArray(commentEntityList, user);
+        return query.getResultList();
     }
 
 
@@ -137,4 +141,32 @@ public class CommentController {
     }
 
 
+    public int getLikeCount(int id) {
+
+        return getCommentById(id).getLikes();
+
+    }
+
+    public boolean isLiked(int id, int userId) {
+        CommentEntity comment = getCommentById(id);
+        int commentId = comment.getId();
+
+        AppUserEntity user = userController.getUser(userId);
+
+        boolean liked = false;
+
+        for (CommentEntity commentEntity : user.getLikedCommentEntities()){
+            if (commentEntity.getId() == commentId){
+                liked = true;
+            }
+        }
+
+        return liked;
+    }
+
+
+    public List<CommentEntity> getFirstComments(int id, int i) {
+        return getNextComments(id, i, Integer.MAX_VALUE);
+
+    }
 }

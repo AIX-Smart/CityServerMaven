@@ -3,6 +3,7 @@ package com.server.controller;
 import com.server.datatype.Event;
 import com.server.datatype.Location;
 import com.server.datatype.Tag;
+import com.server.entities.EventEntity;
 import com.server.entities.TagEntity;
 
 import javax.ejb.EJB;
@@ -90,5 +91,16 @@ public class TagController {
         TagEntity tagEntity = query.getSingleResult();
 
         return  tagEntity;
+    }
+
+    public boolean isUpToDate(int tagId, int cityId, int eventId) {
+        boolean isUpToDate = true;
+
+        EventEntity eventEntity = eventController.getFirstPostsOfTag(tagId, cityId, 1).get(0);
+        if (eventId < eventEntity.getId() ){
+            isUpToDate = false;
+        }
+
+        return isUpToDate;
     }
 }

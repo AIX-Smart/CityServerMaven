@@ -101,7 +101,7 @@ public class LocationRestService
     }
 
 
-    //Get following post from last PostId on
+    //Get liked
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
     @Path("/{id}/{userId}")
@@ -118,7 +118,7 @@ public class LocationRestService
     }
 
 
-    //Get following post from last PostId on
+    //Get like count of a Location
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
     @Path("/{id}/likeCount")

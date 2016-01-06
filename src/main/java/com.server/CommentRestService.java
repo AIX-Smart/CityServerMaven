@@ -10,6 +10,7 @@ import javax.interceptor.Interceptors;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 /**
  * Created by jp on 05.11.15.
@@ -42,6 +43,8 @@ public class CommentRestService
     }
 
 
+
+
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
     @Path("/all")
@@ -56,6 +59,41 @@ public class CommentRestService
 
         return Response.serverError().build();
     }
+
+    //Get likecount
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/likeCount")
+    public Response getLikeCount(@PathParam("id") int id
+    ) {
+        int likeCount = controller.getLikeCount(id);
+        try {
+            return Response.ok(mapper.writeValueAsString(likeCount)).build();
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+        return Response.serverError().build();
+    }
+
+    //Get liked
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{userId}")
+    public Response isLiked(@PathParam("id") int id,
+                            @PathParam("userId") int userId
+    ) {
+
+        boolean liked = controller.isLiked(id, userId);
+        try {
+            return Response.ok(mapper.writeValueAsString(liked)).build();
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+        return Response.serverError().build();
+    }
+
 
 
     //Like Comment
