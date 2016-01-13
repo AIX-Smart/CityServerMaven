@@ -92,4 +92,5 @@ public class LocationOwnerController {
         entityManager.merge(locationEntity);
 
     }
+
 }

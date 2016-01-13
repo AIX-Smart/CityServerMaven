@@ -164,6 +164,26 @@ public class LocationRestService
 
 
 
+    //isOwner
+    @GET
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "/{id}/{userId}/isOwner" )
+    public Response isOwner( @PathParam( "id" ) int id,
+                             @PathParam( "userId" ) int userId
+    ) {
+        boolean isOwner = controller.isOwner( id, userId );
+        try {
+            return Response.ok( objectMapper.writeValueAsString( isOwner ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+    }
+
+
+
+
+
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
     @Path( "/{id}/{tagId}/addTag" )

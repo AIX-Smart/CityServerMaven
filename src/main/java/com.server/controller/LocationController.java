@@ -2,6 +2,7 @@ package com.server.controller;
 
 import com.server.datatype.Event;
 import com.server.datatype.Location;
+import com.server.entities.AppUserEntity;
 import com.server.entities.EventEntity;
 import com.server.entities.LocationEntity;
 import com.server.entities.LocationOwnerEntity;
@@ -223,6 +224,20 @@ public class LocationController {
         LocationEntity locationEntity = getLocationEntityById( locationId );
 
         return locationEntity.getLocationOwnerEntity();
+
+    }
+
+
+
+    public boolean isOwner( int id, int userId ) {
+
+        LocationOwnerEntity locationOwnerEntity = getLocationEntityById( id ).getLocationOwnerEntity();
+        AppUserEntity appUserEntity = userController.getUser( userId );
+        if (locationOwnerEntity.getAppUserEntityList().contains( appUserEntity )){
+            return true;
+        }else{
+            return false;
+        }
 
     }
 }
