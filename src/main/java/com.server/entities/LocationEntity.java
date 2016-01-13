@@ -27,12 +27,11 @@ import java.util.List;
 public class LocationEntity {
 
 
-    public static final String GET              = "Location.get";
-    public static final String GETBYNAME        = "Locaiton.getByName";
-    public static final String GETCITYLOCATIONS = "Location.getCityLocations";
+    public static final String GET                     = "Location.get";
+    public static final String GETBYNAME               = "Locaiton.getByName";
+    public static final String GETCITYLOCATIONS        = "Location.getCityLocations";
     public static final String GETCITYLOCATIONSWITHTAG = "Location.getCityLocationsWithTag";
-    public static final String GETALL           = "Location.getAll";
-
+    public static final String GETALL                  = "Location.getAll";
 
 
     @Id
@@ -60,6 +59,9 @@ public class LocationEntity {
     private String houseNumber;
 
     private boolean deleted;
+
+    @ManyToOne( optional = false )
+    private LocationOwnerEntity locationOwnerEntity;
 
 
 
@@ -202,15 +204,33 @@ public class LocationEntity {
 
 
 
+    public LocationOwnerEntity getLocationOwnerEntity() {
+        return locationOwnerEntity;
+    }
+
+
+
+    public void setLocationOwnerEntity( LocationOwnerEntity locationOwnerEntity ) {
+        this.locationOwnerEntity = locationOwnerEntity;
+    }
+
+
+
     public void setTags( List<TagEntity> tags ) {
         this.tags = tags;
     }
 
-    public void addTag(TagEntity tagEntity) {
-        this.tags.add(tagEntity);
+
+
+    public void addTag( TagEntity tagEntity ) {
+        this.tags.add( tagEntity );
     }
 
-    public void removeTag(TagEntity tagEntity) {
-        this.tags.remove(tagEntity);
+
+
+    public void removeTag( TagEntity tagEntity ) {
+        this.tags.remove( tagEntity );
     }
+
+
 }

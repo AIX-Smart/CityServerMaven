@@ -4,6 +4,7 @@ import com.server.datatype.Event;
 import com.server.datatype.Location;
 import com.server.entities.EventEntity;
 import com.server.entities.LocationEntity;
+import com.server.entities.LocationOwnerEntity;
 import com.server.entities.TagEntity;
 import org.apache.log4j.Logger;
 
@@ -12,7 +13,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -35,6 +35,9 @@ public class LocationController {
 
     @EJB
     private TagController tagController;
+
+    @EJB
+    private LocationOwnerController locationOwnerController;
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -97,23 +100,10 @@ public class LocationController {
     }
 
 
-    public Location createLocation(Location location) {
+    public LocationEntity createLocation(String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS, String userMail, String password) {
 
+        LocationOwnerEntity locationOwnerEntity = locationOwnerController.createNewLocationOwner(userMail, password);
 
-        LocationEntity locationEntity = createLocation(location.getName(),
-                location.getCityId(),
-                location.getStreet(),
-                location.getHouseNumber(),
-                location.getPhoneNumber(),
-                location.getDescription(),
-                location.getGps());
-
-        return new Location(locationEntity);
-
-    }
-
-
-    public LocationEntity createLocation(String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS) {
 
         LocationEntity locationEntity = new LocationEntity();
         locationEntity.setCityEntity(cityController.getCityEntity(cityId));
@@ -124,9 +114,13 @@ public class LocationController {
         locationEntity.setStreet(street);
         locationEntity.setLikes(0);
         locationEntity.setPhoneNumber(phoneNumber);
+        locationEntity.setLocationOwnerEntity( locationOwnerEntity );
 
 
         entityManager.persist(locationEntity);
+
+        locationOwnerController.addLocationToLocationOwner( locationEntity, locationOwnerEntity);
+
         return locationEntity;
     }
 
@@ -212,5 +206,23 @@ public class LocationController {
         }
 
         return isUpToDate;
+    }
+
+
+
+    public Boolean authenticateUser( int id, int userId, String userMail, String password ) {
+
+        return locationOwnerController.authenticateUser( id, userId, userMail, password);
+
+    }
+
+
+
+    public LocationOwnerEntity getLocationOwner( int locationId ) {
+
+        LocationEntity locationEntity = getLocationEntityById( locationId );
+
+        return locationEntity.getLocationOwnerEntity();
+
     }
 }
