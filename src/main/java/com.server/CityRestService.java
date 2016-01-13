@@ -54,8 +54,8 @@ public class CityRestService
     //get isUpToDate
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{eventId}")
-    public Response get(@PathParam("id") int id,
+    @Path("/{id}/{eventId}/new")
+    public Response isUpToDate(@PathParam("id") int id,
                         @PathParam("eventId") int eventId) {
 
         boolean isUpToDate = controller.isUpToDate(id, eventId);
@@ -72,7 +72,7 @@ public class CityRestService
     //Get first Posts
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{postNum}/{userId}")
+    @Path("/{id}/{postNum}/{userId}/new")
     public Response getPost(@PathParam("id") int id,
                             @PathParam("postNum") int postNum,
                             @PathParam("userId") int userId) {
@@ -92,8 +92,50 @@ public class CityRestService
     //Get following post from last PostId on
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{postNum}/{userId}/{lastPostId}")
+    @Path("/{id}/{postNum}/{userId}/{lastPostId}/new")
     public Response getPost(@PathParam("id") int id,
+                            @PathParam("postNum") int postNum,
+                            @PathParam("userId") int userId,
+                            @PathParam("lastPostId") int lastPostId
+    ) {
+        Event[] events = controller.getNextPostsOfCity(id, userId, postNum, lastPostId);
+        try {
+            return Response.ok(mapper.writeValueAsString(events)).build();
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+        return Response.serverError().build();
+
+    }
+
+
+
+    //Get first Posts
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{postNum}/{userId}/popular")
+    public Response getPostPopular(@PathParam("id") int id,
+                            @PathParam("postNum") int postNum,
+                            @PathParam("userId") int userId) {
+
+        Event[] events = controller.getFirstPostsOfCity(id, userId, postNum);
+        try {
+            return Response.ok(objectMapper.writeValueAsString(events)).build();
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        return Response.serverError().build();
+
+
+    }
+
+
+    //Get following post from last PostId on
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{postNum}/{userId}/{lastPostId}/popular")
+    public Response getPostPopular(@PathParam("id") int id,
                             @PathParam("postNum") int postNum,
                             @PathParam("userId") int userId,
                             @PathParam("lastPostId") int lastPostId
