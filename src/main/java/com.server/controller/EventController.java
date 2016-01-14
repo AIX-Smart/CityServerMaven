@@ -2,7 +2,6 @@ package com.server.controller;
 
 import com.server.datatype.Comment;
 import com.server.datatype.Event;
-import com.server.datatype.User;
 import com.server.entities.AppUserEntity;
 import com.server.entities.CommentEntity;
 import com.server.entities.EventEntity;
@@ -12,8 +11,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by jp on 02.11.15.
@@ -283,5 +283,34 @@ public class EventController {
         }
 
         return isUpToDate;
+    }
+
+
+
+    public  List<EventEntity> getNextPostsOfCityByPopularity( int cityId, int postNum, int offset ) {
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETBYPOPULARITY, EventEntity.class);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 1);
+        query.setParameter( "today", cal.getTimeInMillis() );
+        query.setParameter("cityId", cityId);
+        query.setMaxResults(postNum);
+        query.setFirstResult( offset * postNum );
+
+
+        List<EventEntity> eventEntityList = query.getResultList();
+
+        return eventEntityList;
+    }
+
+    public Event[] getNextPostsOfCityByPopularity (int cityId, int userId, int postNum, int offset) {
+        List<EventEntity> eventEntityList = getNextPostsOfCityByPopularity(cityId, postNum, offset);
+
+        AppUserEntity user = userController.getUser(userId);
+
+        return Utils.convertToDataEventArray(eventEntityList, user);
     }
 }

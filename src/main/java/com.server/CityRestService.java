@@ -119,7 +119,7 @@ public class CityRestService
                             @PathParam("postNum") int postNum,
                             @PathParam("userId") int userId) {
 
-        Event[] events = controller.getFirstPostsOfCity(id, userId, postNum);
+        Event[] events = controller.getFirstPostsOfCityByPopularity(id, userId, postNum);
         try {
             return Response.ok(objectMapper.writeValueAsString(events)).build();
         } catch (IOException e) {
@@ -140,7 +140,7 @@ public class CityRestService
                             @PathParam("userId") int userId,
                             @PathParam("lastPostId") int lastPostId
     ) {
-        Event[] events = controller.getNextPostsOfCity(id, userId, postNum, lastPostId);
+        Event[] events = controller.getNextPostsOfCityByPopularity(id, userId, postNum, lastPostId);
         try {
             return Response.ok(mapper.writeValueAsString(events)).build();
         } catch (Exception e) {

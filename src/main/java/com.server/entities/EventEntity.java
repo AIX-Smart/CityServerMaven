@@ -37,7 +37,13 @@ import java.util.List;
                         "FROM EventEntity d join d.locationEntity l join l.tags lt " +
                         "WHERE d.id < :lastId AND d.deleted = false AND lt.id = :tagId AND l.cityEntity.id = :cityId " +
                         // "WHERE d.id < :lastId AND l.id = :locationid " +
-                        "ORDER BY d.id DESC")
+                        "ORDER BY d.id DESC"),
+        @NamedQuery(name = EventEntity.GETBYPOPULARITY, query =
+                "SELECT d " +
+                "FROM EventEntity d JOIN d.locationEntity lc " +
+                "WHERE d.date > :today and lc.cityEntity.id = :cityId and d.deleted = false " +
+                "ORDER BY d.likes DESC"),
+
 })
 @Entity
 public class EventEntity {
@@ -49,6 +55,7 @@ public class EventEntity {
     public static final String GETLOCATION = "EventEntity.getLocation";
     public static final String GETEVENTLIKE = "EventEntity.getEventLike";
     public static final String GETWITHTAG = "EventEntity.getWithTag";
+    public static final String GETBYPOPULARITY = "EventEntity.getByPopularity";
 
 
     @Id
