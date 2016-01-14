@@ -122,8 +122,9 @@ public class EventController {
     public Event deletePost(int id, int userId) {
 
         EventEntity eventEntity = getEventEntityById(id);
+        Boolean isOwner = eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains( userController.getUser( userId ) );
 
-        if (userId == (eventEntity.getAppUserEntity().getId())) {
+        if (userId == (eventEntity.getAppUserEntity().getId())  ||  isOwner) {
             eventEntity.setDeleted(true);
         }
         entityManager.merge(eventEntity);
