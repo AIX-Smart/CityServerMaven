@@ -115,7 +115,7 @@ public class LocationRestService
     //Get liked
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}" )
+    @Path( "/{id}/{userId}/isLiked" )
     public Response getPost( @PathParam( "id" ) int id,
                              @PathParam( "userId" ) int userId
     ) {
