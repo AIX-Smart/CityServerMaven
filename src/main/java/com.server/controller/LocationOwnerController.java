@@ -30,7 +30,7 @@ public class LocationOwnerController {
     public Boolean authenticateUser( int locationId, int userId, String userMail, String password ) {
 
         LocationOwnerEntity locationOwnerEntity = locationController.getLocationOwner( locationId );
-        AppUserEntity user = userController.getUser( userId );
+        AppUserEntity user = userController.getUserEntity( userId );
 
         if ( verifyPassword( locationOwnerEntity, userMail, password )){
 

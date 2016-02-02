@@ -38,7 +38,7 @@ public class CommentController {
 
         List<CommentEntity> commentEntityList = getNextComments(eventId, comNum, lastCommentId);
 
-        AppUserEntity user = userController.getUser(userId);
+        AppUserEntity user = userController.getUserEntity(userId);
 
         return Utils.convertToDataCommentArray(commentEntityList, user);
     }
@@ -64,7 +64,7 @@ public class CommentController {
 
         List<CommentEntity> commentEntityList = query.getResultList();
 
-        AppUserEntity user = userController.getUser(userId);
+        AppUserEntity user = userController.getUserEntity(userId);
         return Utils.convertToDataCommentArray(commentEntityList, user);
     }
 
@@ -95,7 +95,7 @@ public class CommentController {
     public boolean likeComment(int id, int userId, boolean isLiked) {
 
         CommentEntity commentEntity = getCommentById(id);
-        AppUserEntity user = userController.getUser(userId);
+        AppUserEntity user = userController.getUserEntity(userId);
 
         List<CommentEntity> likeCommentList = user.getLikedCommentEntities();
         int likeCount = commentEntity.getLikes();
@@ -129,7 +129,7 @@ public class CommentController {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setContent(text);
         commentEntity.setDate(Calendar.getInstance());
-        commentEntity.setAppUserEntity(userController.getUser(userId));
+        commentEntity.setAppUserEntity(userController.getUserEntity(userId));
 
         EventEntity eventEntity = eventController.getEventEntityById(eventId);
         commentEntity.setEventEntity(eventEntity);
@@ -151,7 +151,7 @@ public class CommentController {
         CommentEntity comment = getCommentById(id);
         int commentId = comment.getId();
 
-        AppUserEntity user = userController.getUser(userId);
+        AppUserEntity user = userController.getUserEntity(userId);
 
         boolean liked = false;
 

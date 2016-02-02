@@ -14,6 +14,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -142,7 +143,7 @@ public class LocationController {
     }
 
     public boolean getLiked(int id, int userId) {
-        List<LocationEntity> likedLocation = userController.getUser(userId).getLikedLocationEntities();
+        List<LocationEntity> likedLocation = userController.getUserEntity(userId).getLikedLocationEntities();
         LocationEntity locationEntity = getLocationEntityById(id);
 
         boolean liked = false;
@@ -232,12 +233,33 @@ public class LocationController {
     public boolean isOwner( int id, int userId ) {
 
         LocationOwnerEntity locationOwnerEntity = getLocationEntityById( id ).getLocationOwnerEntity();
-        AppUserEntity appUserEntity = userController.getUser( userId );
+        AppUserEntity appUserEntity = userController.getUserEntity( userId );
         if (locationOwnerEntity.getAppUserEntityList().contains( appUserEntity )){
             return true;
         }else{
             return false;
         }
 
+    }
+
+    public Location changeDescription(int userId, Location location)throws SecurityException {
+        LocationEntity locationEntity = getLocationEntityById(location.getId());
+        if (locationEntity.getLocationOwnerEntity().getAppUserEntityList().contains(userController.getUserEntity(userId))) {
+            locationEntity.setDescription(location.getDescription());
+            locationEntity.setGPS(location.getGps());
+            List<TagEntity> tagEntityList = new ArrayList<TagEntity>();
+            for (int i : location.getTagIds()) {
+                tagEntityList.add(tagController.getTagEntity(i));
+            }
+            locationEntity.setTags(tagEntityList);
+
+            entityManager.merge(locationEntity);
+
+            return new Location(locationEntity);
+
+        }else{
+
+            throw new SecurityException("No Permission");
+        }
     }
 }

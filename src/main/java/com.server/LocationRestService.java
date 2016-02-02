@@ -181,6 +181,24 @@ public class LocationRestService
     }
 
 
+    @PUT
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Path( "{userId}/changeDescription" )
+    public Response changedDescription(@PathParam( "userId" ) int userId, Location location){
+
+
+
+        try {
+            Location location1 = controller.changeDescription(userId, location);
+            return Response.ok( objectMapper.writeValueAsString( location1 ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+
+
+
+    }
 
 
 

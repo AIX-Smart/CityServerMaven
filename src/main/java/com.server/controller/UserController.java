@@ -64,7 +64,7 @@ public class UserController {
 
 
 
-    public AppUserEntity getUser( int userId ) {
+    public AppUserEntity getUserEntity(int userId ) {
 
         TypedQuery<AppUserEntity> query = entityManager.createNamedQuery( AppUserEntity.GET, AppUserEntity.class );
         query.setParameter( "id", userId );

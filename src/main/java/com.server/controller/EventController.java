@@ -70,7 +70,7 @@ public class EventController {
     public Event[] getNextPostsOfCity(int cityId, int userId, int postNum, int lastPostId) {
         List<EventEntity> eventEntityList = getNextPostsOfCity(cityId, postNum, lastPostId);
 
-        AppUserEntity user = userController.getUser(userId);
+        AppUserEntity user = userController.getUserEntity(userId);
 
         return Utils.convertToDataEventArray(eventEntityList, user);
     }
@@ -122,7 +122,7 @@ public class EventController {
     public Event deletePost(int id, int userId) {
 
         EventEntity eventEntity = getEventEntityById(id);
-        Boolean isOwner = eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains( userController.getUser( userId ) );
+        Boolean isOwner = eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains( userController.getUserEntity( userId ) );
 
         if (userId == (eventEntity.getAppUserEntity().getId())  ||  isOwner) {
             eventEntity.setDeleted(true);
@@ -137,7 +137,7 @@ public class EventController {
     public boolean likePost(int id, int userId, boolean isLiked) {
 
         EventEntity eventEntity = getEventEntityById(id);
-        AppUserEntity user = userController.getUser(userId);
+        AppUserEntity user = userController.getUserEntity(userId);
 
         List<EventEntity> likeEventList = user.getLikedEventEntities();
         int likeCount = eventEntity.getLikes();
@@ -162,7 +162,7 @@ public class EventController {
         eventEntity.setContent(text);
         Calendar calendar = Calendar.getInstance();
         eventEntity.setDate(calendar);
-        eventEntity.setAppUserEntity(userController.getUser(userId));
+        eventEntity.setAppUserEntity(userController.getUserEntity(userId));
         eventEntity.setLocationEntity(locationController.getLocationEntityById(id));
         eventEntity.setCommentEntities(new ArrayList<CommentEntity>());
 
@@ -181,7 +181,7 @@ public class EventController {
 
         List<EventEntity> eventEntityList = getNextEventsWithTagId(tagId, cityId, postNum, lastPostId);
 
-        AppUserEntity user = userController.getUser(userId);
+        AppUserEntity user = userController.getUserEntity(userId);
 
         return Utils.convertToDataEventArray(eventEntityList, user);
 
@@ -218,7 +218,7 @@ public class EventController {
 
         EventEntity event = getEventEntityById(id);
         int eventId = event.getId();
-        AppUserEntity user = userController.getUser(userId);
+        AppUserEntity user = userController.getUserEntity(userId);
 
         boolean liked = false;
 
@@ -248,7 +248,7 @@ public class EventController {
 
         List<EventEntity> eventEntityList = getNextPostsOfLocation(id, postNum, lastPostId);
 
-        AppUserEntity user = userController.getUser(userId);
+        AppUserEntity user = userController.getUserEntity(userId);
 
         return Utils.convertToDataEventArray(eventEntityList, user);
 
@@ -309,7 +309,7 @@ public class EventController {
     public Event[] getNextPostsOfCityByPopularity (int cityId, int userId, int postNum) {
         List<EventEntity> eventEntityList = getNextPostsOfCityByPopularity(cityId, postNum);
 
-        AppUserEntity user = userController.getUser(userId);
+        AppUserEntity user = userController.getUserEntity(userId);
 
         return Utils.convertToDataEventArray(eventEntityList, user);
     }
