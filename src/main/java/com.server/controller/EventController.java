@@ -314,4 +314,13 @@ public class EventController {
 
         return Utils.convertToDataEventArray(eventEntityList, user);
     }
+
+    public boolean isAuthenticatedPost(int id) {
+        EventEntity eventEntity = getEventEntityById(id);
+        if (eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains(eventEntity.getAppUserEntity())){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

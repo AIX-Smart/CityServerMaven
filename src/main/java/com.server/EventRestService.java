@@ -49,6 +49,22 @@ public class EventRestService
         return Response.serverError().build();
     }
 
+    //get isAuthenticatedPost
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/authenticated")
+    public Response get(@PathParam("id") int id) {
+
+        boolean isAuthenticatedPost = controller.isAuthenticatedPost(id);
+        try {
+            return Response.ok(objectMapper.writeValueAsString(isAuthenticatedPost)).build();
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        return Response.serverError().build();
+
+    }
+
     //get isUpToDate
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
