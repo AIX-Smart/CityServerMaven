@@ -110,37 +110,15 @@ public class CityRestService
     }
 
 
-
-    //Get first Posts
+    //Get popular post
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
     @Path("/{id}/{postNum}/{userId}/popular")
     public Response getPostPopular(@PathParam("id") int id,
                             @PathParam("postNum") int postNum,
-                            @PathParam("userId") int userId) {
-
-        Event[] events = controller.getFirstPostsOfCityByPopularity(id, userId, postNum);
-        try {
-            return Response.ok(objectMapper.writeValueAsString(events)).build();
-        } catch (IOException e) {
-            logger.error(e);
-        }
-        return Response.serverError().build();
-
-
-    }
-
-
-    //Get following post from last PostId on
-    @GET
-    @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{postNum}/{userId}/{lastPostId}/popular")
-    public Response getPostPopular(@PathParam("id") int id,
-                            @PathParam("postNum") int postNum,
-                            @PathParam("userId") int userId,
-                            @PathParam("lastPostId") int lastPostId
+                            @PathParam("userId") int userId
     ) {
-        Event[] events = controller.getNextPostsOfCityByPopularity(id, userId, postNum, lastPostId);
+        Event[] events = controller.getNextPostsOfCityByPopularity(id, userId, postNum);
         try {
             return Response.ok(mapper.writeValueAsString(events)).build();
         } catch (Exception e) {

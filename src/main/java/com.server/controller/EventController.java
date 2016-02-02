@@ -288,7 +288,7 @@ public class EventController {
 
 
 
-    public  List<EventEntity> getNextPostsOfCityByPopularity( int cityId, int postNum, int offset ) {
+    public  List<EventEntity> getNextPostsOfCityByPopularity( int cityId, int postNum ) {
         TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETBYPOPULARITY, EventEntity.class);
 
         Calendar cal = Calendar.getInstance();
@@ -299,7 +299,6 @@ public class EventController {
         query.setParameter( "today", cal.getTimeInMillis() );
         query.setParameter("cityId", cityId);
         query.setMaxResults(postNum);
-        query.setFirstResult( offset * postNum );
 
 
         List<EventEntity> eventEntityList = query.getResultList();
@@ -307,8 +306,8 @@ public class EventController {
         return eventEntityList;
     }
 
-    public Event[] getNextPostsOfCityByPopularity (int cityId, int userId, int postNum, int offset) {
-        List<EventEntity> eventEntityList = getNextPostsOfCityByPopularity(cityId, postNum, offset);
+    public Event[] getNextPostsOfCityByPopularity (int cityId, int userId, int postNum) {
+        List<EventEntity> eventEntityList = getNextPostsOfCityByPopularity(cityId, postNum);
 
         AppUserEntity user = userController.getUser(userId);
 

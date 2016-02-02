@@ -125,13 +125,11 @@ public class CityController {
 
 
 
-    public Event[] getNextPostsOfCityByPopularity( int id, int userId, int postNum, int offset ) {
-        return eventController.getNextPostsOfCityByPopularity(id, userId, postNum, offset);
+    public Event[] getNextPostsOfCityByPopularity( int id, int userId, int postNum) {
+        return eventController.getNextPostsOfCityByPopularity(id, userId, postNum);
     }
 
 
 
-    public Event[] getFirstPostsOfCityByPopularity( int id, int userId, int postNum ) {
-       return getNextPostsOfCityByPopularity( id, userId, postNum, 0 );
-    }
+
 }
