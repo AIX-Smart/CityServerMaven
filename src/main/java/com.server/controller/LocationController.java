@@ -262,4 +262,26 @@ public class LocationController {
             throw new SecurityException("No Permission");
         }
     }
+
+    public boolean likeLocation(int id, int userId, boolean isLike) {
+        LocationEntity location = getLocationEntityById(id);
+        AppUserEntity user = userController.getUserEntity(userId);
+
+        List<LocationEntity> locationEntityList = user.getLikedLocationEntities();
+        int likeCount = location.getLikes();
+
+        if(isLike && !locationEntityList.contains(location)){
+            locationEntityList.add(location);
+            likeCount ++;
+        }else if(!isLike && locationEntityList.contains(location)){
+            locationEntityList.remove(location);
+            likeCount--;
+        }
+
+        location.setLikes(likeCount);
+        entityManager.merge(location);
+        entityManager.merge(user);
+
+        return isLike;
+    }
 }

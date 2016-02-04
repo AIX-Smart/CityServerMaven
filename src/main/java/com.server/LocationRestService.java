@@ -180,6 +180,25 @@ public class LocationRestService
         return Response.serverError().build();
     }
 
+    //like Location
+    @PUT
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{userId}/")
+    public Response likePost(@PathParam("id") int id,
+                             @PathParam("userId") int userId,
+                             String text
+    ) {
+        boolean like = Boolean.parseBoolean(text);
+        boolean liked = controller.likeLocation(id, userId, like);
+        try {
+            return Response.ok(mapper.writeValueAsString(liked)).build();
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+        return Response.serverError().build();
+    }
+
 
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
