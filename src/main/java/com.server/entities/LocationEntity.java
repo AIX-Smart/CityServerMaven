@@ -62,6 +62,8 @@ public class LocationEntity {
 
     private boolean deleted;
 
+    private String postalCode;
+
     @ManyToOne( optional = false )
     private LocationOwnerEntity locationOwnerEntity;
 
@@ -241,5 +243,13 @@ public class LocationEntity {
 
     public void setOpenHours(String openHours) {
         this.openHours = openHours;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 }

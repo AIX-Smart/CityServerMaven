@@ -20,6 +20,7 @@ public class Location {
     private String phoneNumber;
     private String gps;
     private String openHours;
+    private String postalCode;
 
 
     public Location(LocationEntity locationEntity) {
@@ -141,5 +142,13 @@ public class Location {
 
     public void setOpenHours(String openHours) {
         this.openHours = openHours;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 }

@@ -102,7 +102,7 @@ public class LocationController {
     }
 
 
-    public LocationEntity createLocation(String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS, String userMail, String password, String openHours) {
+    public LocationEntity createLocation(String name, int cityId, String postalCode, String street, String houseNumber, String phoneNumber, String description, String gPS, String userMail, String password, String openHours) {
 
         LocationOwnerEntity locationOwnerEntity = locationOwnerController.createNewLocationOwner(userMail, password);
 
@@ -112,12 +112,14 @@ public class LocationController {
         locationEntity.setDescription(description);
         locationEntity.setGPS(gPS);
         locationEntity.setName(name);
+        locationEntity.setPostalCode(postalCode);
         locationEntity.setHouseNumber(houseNumber);
         locationEntity.setStreet(street);
         locationEntity.setLikes(0);
         locationEntity.setPhoneNumber(phoneNumber);
         locationEntity.setLocationOwnerEntity( locationOwnerEntity );
         locationEntity.setOpenHours(openHours);
+
 
 
         entityManager.persist(locationEntity);
