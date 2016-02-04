@@ -10,14 +10,12 @@ import java.util.List;
 public class User {
 
     private int            id;
-    private int            permission;
     private List<Location> ownLocations;
 
 
 
     public User( AppUserEntity user ) {
         this.id = user.getId();
-        this.permission = user.getPermission();
     }
 
 
@@ -36,18 +34,6 @@ public class User {
 
     public void setId( int id ) {
         this.id = id;
-    }
-
-
-
-    public int getPermission() {
-        return permission;
-    }
-
-
-
-    public void setPermission( int permission ) {
-        this.permission = permission;
     }
 
 

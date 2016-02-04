@@ -264,7 +264,7 @@ public class LocationRestService
     //Authenticate User
     @PUT
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{userId}/{userMail}" )
+    @Path( "/{id}/{userId}/{userMail}/authenticate" )
     public Response authenticateUser( @PathParam( "id" ) int id,
                                       @PathParam( "userId" ) int userId,
                                       @PathParam( "userMail" ) String userMail,

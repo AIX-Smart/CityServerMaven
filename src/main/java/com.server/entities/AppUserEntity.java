@@ -31,8 +31,7 @@ public class AppUserEntity {
 
     private String deviceId;
 
-    //überflüssig
-    private int permission;
+
 
     private int businessId;
 
@@ -69,18 +68,6 @@ public class AppUserEntity {
 
     public void setDeviceId( String deviceId ) {
         this.deviceId = deviceId;
-    }
-
-
-
-    public int getPermission() {
-        return permission;
-    }
-
-
-
-    public void setPermission( int permission ) {
-        this.permission = permission;
     }
 
 
