@@ -81,6 +81,19 @@ public class EventEntity {
     private boolean deleted;
 
 
+    private boolean isAuthenticated;
+
+
+    public boolean isAuthenticated() {
+        return isAuthenticated;
+    }
+
+    public void setAuthenticated(boolean authenticated) {
+        isAuthenticated = authenticated;
+    }
+
+
+
     public int getId() {
         return id;
     }

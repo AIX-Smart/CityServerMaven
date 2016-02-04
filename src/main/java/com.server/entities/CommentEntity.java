@@ -49,6 +49,9 @@ public class CommentEntity {
     private int likes;
 
 
+    private boolean isAuthenticated;
+
+
 
     public int getLikes() {
         return likes;
@@ -130,4 +133,11 @@ public class CommentEntity {
         this.deleted = deleted;
     }
 
+    public boolean isAuthenticated() {
+        return isAuthenticated;
+    }
+
+    public void setAuthenticated(boolean authenticated) {
+        isAuthenticated = authenticated;
+    }
 }

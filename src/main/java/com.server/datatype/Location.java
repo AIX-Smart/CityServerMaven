@@ -19,6 +19,7 @@ public class Location {
     private String houseNumber;
     private String phoneNumber;
     private String gps;
+    private String openHours;
 
 
     public Location(LocationEntity locationEntity) {
@@ -132,5 +133,13 @@ public class Location {
 
     public void setTagIds(int[] tagIds) {
         this.tagIds = tagIds;
+    }
+
+    public String getOpenHours() {
+        return openHours;
+    }
+
+    public void setOpenHours(String openHours) {
+        this.openHours = openHours;
     }
 }

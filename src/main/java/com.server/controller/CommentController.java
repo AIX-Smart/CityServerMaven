@@ -126,13 +126,22 @@ public class CommentController {
 
     public Comment createComment(int eventId, int userId, String text) {
 
+        AppUserEntity appUserEntity = userController.getUserEntity(userId);
+
+
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setContent(text);
         commentEntity.setDate(Calendar.getInstance());
-        commentEntity.setAppUserEntity(userController.getUserEntity(userId));
+        commentEntity.setAppUserEntity(appUserEntity);
 
         EventEntity eventEntity = eventController.getEventEntityById(eventId);
         commentEntity.setEventEntity(eventEntity);
+
+        if ( eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains(appUserEntity)  ){
+            commentEntity.setAuthenticated(true);
+        }else{
+            commentEntity.setAuthenticated(false);
+        }
 
         eventController.eventEntityAddComment(eventId, commentEntity);
 

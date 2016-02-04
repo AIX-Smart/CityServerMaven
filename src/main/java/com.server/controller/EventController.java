@@ -166,6 +166,14 @@ public class EventController {
         eventEntity.setLocationEntity(locationController.getLocationEntityById(id));
         eventEntity.setCommentEntities(new ArrayList<CommentEntity>());
 
+        AppUserEntity appUserEntity = userController.getUserEntity(userId);
+
+        if ( eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains(appUserEntity)  ){
+            eventEntity.setAuthenticated(true);
+        }else{
+            eventEntity.setAuthenticated(false);
+        }
+
         entityManager.persist(eventEntity);
 
         return eventEntity;

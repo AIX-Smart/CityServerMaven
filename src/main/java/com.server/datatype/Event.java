@@ -16,6 +16,9 @@ public class Event {
         private int authorId;
         private boolean liked; //current user has already liked this post
 
+
+    private boolean isAuthenticatedPost;
+
         private int locationId;
         private int commentCount;
 
@@ -40,7 +43,7 @@ public class Event {
         this.authorId = eventEntity.getAppUserEntity().getId();
         this.liked = true;
         this.locationId = eventEntity.getLocationEntity().getId();
-        this.commentCount = eventEntity.getCommentEntities().size();
+        this.isAuthenticatedPost = eventEntity.isAuthenticated();
     }
 
     public Event(EventEntity eventEntity, boolean liked){
@@ -52,6 +55,7 @@ public class Event {
         this.liked = liked;
         this.locationId = eventEntity.getLocationEntity().getId();
         this.commentCount = eventEntity.getCommentEntities().size();
+        this.isAuthenticatedPost = eventEntity.isAuthenticated();
     }
 
 
@@ -120,6 +124,13 @@ public class Event {
         this.commentCount = commentCount;
     }
 
+    public boolean isAuthenticatedPost() {
+        return isAuthenticatedPost;
+    }
+
+    public void setAuthenticatedPost(boolean authenticatedPost) {
+        isAuthenticatedPost = authenticatedPost;
+    }
 
 
 

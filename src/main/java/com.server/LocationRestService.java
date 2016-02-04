@@ -330,7 +330,7 @@ public class LocationRestService
     //create Location with Webservice
     @POST
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/create/{name}/{cityId}/{street}/{phoneNumber}/{GPS}/{description}/{houseNumber}/{userMail}" )
+    @Path( "/create/{name}/{cityId}/{street}/{phoneNumber}/{GPS}/{description}/{houseNumber}/{userMail}/{openHours}/" )
     public Response create( @PathParam( "name" ) String name,
                             @PathParam( "cityId" ) int cityId,
                             @PathParam( "street" ) String street,
@@ -339,11 +339,12 @@ public class LocationRestService
                             @PathParam( "description" ) String description,
                             @PathParam( "houseNumber" ) String houseNumber,
                             @PathParam( "userMail" ) String userMail,
+                            @PathParam( "openHours") String openHours,
                             String password) {
 
 
         Location location = new Location(
-                controller.createLocation( name, cityId, street, houseNumber, phoneNumber, description, gPS, userMail, password ) );
+                controller.createLocation( name, cityId, street, houseNumber, phoneNumber, description, gPS, userMail, password, openHours ) );
 
 
         try {

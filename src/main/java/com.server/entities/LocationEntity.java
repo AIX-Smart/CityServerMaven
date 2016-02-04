@@ -58,6 +58,8 @@ public class LocationEntity {
 
     private String houseNumber;
 
+    private String openHours;
+
     private boolean deleted;
 
     @ManyToOne( optional = false )
@@ -233,4 +235,11 @@ public class LocationEntity {
     }
 
 
+    public String getOpenHours() {
+        return openHours;
+    }
+
+    public void setOpenHours(String openHours) {
+        this.openHours = openHours;
+    }
 }

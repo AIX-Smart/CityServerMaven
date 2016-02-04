@@ -102,7 +102,7 @@ public class LocationController {
     }
 
 
-    public LocationEntity createLocation(String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS, String userMail, String password) {
+    public LocationEntity createLocation(String name, int cityId, String street, String houseNumber, String phoneNumber, String description, String gPS, String userMail, String password, String openHours) {
 
         LocationOwnerEntity locationOwnerEntity = locationOwnerController.createNewLocationOwner(userMail, password);
 
@@ -117,6 +117,7 @@ public class LocationController {
         locationEntity.setLikes(0);
         locationEntity.setPhoneNumber(phoneNumber);
         locationEntity.setLocationOwnerEntity( locationOwnerEntity );
+        locationEntity.setOpenHours(openHours);
 
 
         entityManager.persist(locationEntity);
@@ -247,6 +248,7 @@ public class LocationController {
         if (locationEntity.getLocationOwnerEntity().getAppUserEntityList().contains(userController.getUserEntity(userId))) {
             locationEntity.setDescription(location.getDescription());
             locationEntity.setGPS(location.getGps());
+            locationEntity.setOpenHours(location.getOpenHours());
             List<TagEntity> tagEntityList = new ArrayList<TagEntity>();
             for (int i : location.getTagIds()) {
                 tagEntityList.add(tagController.getTagEntity(i));

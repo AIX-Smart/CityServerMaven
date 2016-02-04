@@ -16,6 +16,7 @@ public class Comment {
     private int     likeCount;
     private int     authorId;
     private boolean liked;
+    private boolean isAuthenticated;
 
     private int eventId;
 
@@ -29,6 +30,7 @@ public class Comment {
         this.authorId = commentEntity.getAppUserEntity().getId();
         this.liked = liked;
         this.eventId = commentEntity.getEventEntity().getId();
+        this.isAuthenticated = commentEntity.isAuthenticated();
     }
 
     public Comment( CommentEntity commentEntity ) {
@@ -39,6 +41,7 @@ public class Comment {
         this.authorId = commentEntity.getAppUserEntity().getId();
         this.liked = false;
         this.eventId = commentEntity.getEventEntity().getId();
+        this.isAuthenticated = commentEntity.isAuthenticated();
     }
 
 
@@ -122,5 +125,13 @@ public class Comment {
 
     public void setEventId( int eventId ) {
         this.eventId = eventId;
+    }
+
+    public boolean isAuthenticated() {
+        return isAuthenticated;
+    }
+
+    public void setAuthenticated(boolean authenticated) {
+        isAuthenticated = authenticated;
     }
 }
