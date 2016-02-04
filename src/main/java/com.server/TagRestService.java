@@ -67,7 +67,7 @@ public class TagRestService
 
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{cityId}/{postNum}/{userId}" )
+    @Path( "/{id}/{cityId}/{postNum}/{userId}/new" )
     public Response getPost( @PathParam( "id" ) int id,
                              @PathParam( "cityId" ) int cityId,
                              @PathParam( "postNum" ) int postNum,
@@ -89,7 +89,7 @@ public class TagRestService
     //Get following post from last PostId on with tag
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{cityId}/{postNum}/{userId}/{lastPostId}" )
+    @Path( "/{id}/{cityId}/{postNum}/{userId}/{lastPostId}/new" )
     public Response getPost( @PathParam( "id" ) int id,
                              @PathParam( "cityId" ) int cityId,
                              @PathParam( "postNum" ) int postNum,

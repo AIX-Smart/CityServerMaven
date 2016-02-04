@@ -37,7 +37,6 @@ public class User {
     }
 
 
-
     public List<Location> getOwnLocations() {
         return ownLocations;
     }

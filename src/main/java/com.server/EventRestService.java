@@ -86,7 +86,7 @@ public class EventRestService
     //Get first Comments
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{comNum}/{userId}")
+    @Path("/{id}/{comNum}/{userId}/new")
     public Response getComment(@PathParam("id") int id,
                                @PathParam("comNum") int comNum,
                                @PathParam("userId") int userId) {
@@ -104,7 +104,7 @@ public class EventRestService
     //Get following comment from last commentId on
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{comNum}/{userId}/{lastCommentId}")
+    @Path("/{id}/{comNum}/{userId}/{lastCommentId}/new")
     public Response getComment(@PathParam("id") int id,
                                @PathParam("comNum") int comNum,
                                @PathParam("userId") int userId,

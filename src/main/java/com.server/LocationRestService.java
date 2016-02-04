@@ -75,7 +75,7 @@ public class LocationRestService
     //Get first Posts
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{postNum}/{userId}" )
+    @Path( "/{id}/{postNum}/{userId}/new" )
     public Response getPost( @PathParam( "id" ) int id,
                              @PathParam( "postNum" ) int postNum,
                              @PathParam( "userId" ) int userId
@@ -95,7 +95,7 @@ public class LocationRestService
     //Get following post from last PostId on
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{postNum}/{userId}/{lastPostId}" )
+    @Path( "/{id}/{postNum}/{userId}/{lastPostId}/new" )
     public Response getPost( @PathParam( "id" ) int id,
                              @PathParam( "postNum" ) int postNum,
                              @PathParam( "userId" ) int userId,
