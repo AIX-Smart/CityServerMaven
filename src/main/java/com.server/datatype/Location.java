@@ -32,6 +32,8 @@ public class Location {
         this.street = locationEntity.getStreet();
         this.houseNumber = locationEntity.getHouseNumber();
         this.phoneNumber = locationEntity.getPhoneNumber();
+        this.openHours = locationEntity.getOpenHours();
+        this.postalCode = locationEntity.getPostalCode();
 
         setTagArray(locationEntity.getTags());
 
