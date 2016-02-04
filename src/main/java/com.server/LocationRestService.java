@@ -56,8 +56,8 @@ public class LocationRestService
     //get isUpToDate
     @GET
     @Produces( MediaType.APPLICATION_XHTML_XML )
-    @Path( "/{id}/{eventId}" )
-    public Response get( @PathParam( "id" ) int id,
+    @Path( "/{id}/{eventId}/new" )
+    public Response isUpToDate( @PathParam( "id" ) int id,
                          @PathParam( "eventId" ) int eventId ) {
 
         boolean isUpToDate = controller.isUpToDate( id, eventId );

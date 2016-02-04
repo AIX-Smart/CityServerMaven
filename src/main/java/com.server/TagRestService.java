@@ -48,8 +48,8 @@ public class TagRestService
     //get isUpToDate
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{eventId}")
-    public Response get(@PathParam("id") int id,
+    @Path("/{id}/{cityId}/{eventId}/new")
+    public Response isUpToDate(@PathParam("id") int id,
                         @PathParam("cityId") int cityId,
                         @PathParam("eventId") int eventId) {
 

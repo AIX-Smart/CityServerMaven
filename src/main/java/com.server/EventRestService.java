@@ -68,8 +68,8 @@ public class EventRestService
     //get isUpToDate
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{commentId}")
-    public Response get(@PathParam("id") int id,
+    @Path("/{id}/{commentId}/new")
+    public Response isUpToDate(@PathParam("id") int id,
                         @PathParam("commentId") int commentId) {
 
         boolean isUpToDate = controller.isUpToDate(id, commentId);
