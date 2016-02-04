@@ -138,7 +138,7 @@ public class LocationController {
 
     public Location[] getLocationBySearchText(String searchText) {
         TypedQuery<LocationEntity> locationEntityTypedQuery = entityManager
-                .createQuery(LocationEntity.GETBYNAME, LocationEntity.class);
+                .createNamedQuery(LocationEntity.GETBYNAME, LocationEntity.class);
         locationEntityTypedQuery.setParameter("name", searchText);
         List<LocationEntity> locationEntityList = locationEntityTypedQuery.getResultList();
 
@@ -166,7 +166,7 @@ public class LocationController {
     public Location[] getNextLocationsWithTagId(int tagId, int cityId, int postNum, int lastLocationId) {
 
         TypedQuery<LocationEntity> locationEntityTypedQuery = entityManager
-                .createQuery(LocationEntity.GETCITYLOCATIONSWITHTAG, LocationEntity.class);
+                .createNamedQuery(LocationEntity.GETCITYLOCATIONSWITHTAG, LocationEntity.class);
         locationEntityTypedQuery.setParameter("tagId", tagId );
         locationEntityTypedQuery.setParameter("lastLocationId", lastLocationId);
         locationEntityTypedQuery.setParameter("cityId", cityId);

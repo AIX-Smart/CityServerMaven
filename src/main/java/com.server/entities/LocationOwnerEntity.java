@@ -16,7 +16,7 @@ public class LocationOwnerEntity {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private String id;
+    private int id;
 
     @OneToMany
     private List<AppUserEntity> appUserEntityList;
@@ -77,21 +77,15 @@ public class LocationOwnerEntity {
     }
 
 
-
-    @Id
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-
-
-    public void setId( String id ) {
+    public void setId(int id) {
         this.id = id;
     }
 
-
-
-    public void addAppUser( AppUserEntity user ) {
+    public void addAppUser(AppUserEntity user ) {
         this.appUserEntityList.add( user );
     }
 
