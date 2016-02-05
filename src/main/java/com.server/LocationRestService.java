@@ -3,20 +3,17 @@ package com.server;
 import com.server.controller.LocationController;
 import com.server.datatype.Event;
 import com.server.datatype.Location;
+import com.sun.jersey.core.header.FormDataContentDisposition;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by jp on 02.11.15.
@@ -355,6 +352,25 @@ public class LocationRestService
         }
         return Response.serverError().build();
     }
+
+    @POST
+    @Path( "/{locationId}/uploadImage" )
+    @Consumes( MediaType.MULTIPART_FORM_DATA )
+    public Response uploadImage(@FormParam("file")InputStream uploadedInputStream,
+                                @FormParam("file")FormDataContentDisposition fileDetail) {
+
+        controller.saveToDisk(uploadedInputStream, fileDetail);
+
+        try {
+            return Response.ok( objectMapper.writeValueAsString( "File uploaded successfully" ) ).build();
+        } catch ( IOException e ) {
+            logger.error( e );
+        }
+        return Response.serverError().build();
+    }
+
+
+
 
 
 }

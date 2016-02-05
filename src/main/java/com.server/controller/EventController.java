@@ -304,7 +304,7 @@ public class EventController {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 1);
-        query.setParameter( "today", cal.getTimeInMillis() );
+        query.setParameter( "today", cal );
         query.setParameter("cityId", cityId);
         query.setMaxResults(postNum);
 

@@ -7,6 +7,7 @@ import com.server.entities.EventEntity;
 import com.server.entities.LocationEntity;
 import com.server.entities.LocationOwnerEntity;
 import com.server.entities.TagEntity;
+import com.sun.jersey.core.header.FormDataContentDisposition;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -14,6 +15,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +62,6 @@ public class LocationController {
 
     }
 
-    // noch kaputt
     public Location getLocationById(int id) {
         LocationEntity locationEntity = getLocationEntityById(id);
         return new Location(locationEntity);
@@ -287,5 +288,27 @@ public class LocationController {
         entityManager.merge(user);
 
         return isLike;
+    }
+
+    public void saveToDisk(InputStream uploadedInputStream, FormDataContentDisposition fileDetail) {
+        // wohin mit dem File muss noch geklärt werden
+        String uploadedFileLocation = fileDetail.getName();
+
+        try{
+            OutputStream out = new FileOutputStream( new File(uploadedFileLocation));
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            out = new FileOutputStream( new File(uploadedFileLocation));
+
+            while ((read = uploadedInputStream.read(bytes))!= -1){
+                out.write(bytes, 0, read);
+            }
+
+            out.flush();
+            out.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

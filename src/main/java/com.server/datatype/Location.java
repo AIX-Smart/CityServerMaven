@@ -20,6 +20,7 @@ public class Location {
     private String phoneNumber;
     private String gps;
     private String openHours;
+    private String imagePath;
     private String postalCode;
 
 
@@ -152,5 +153,13 @@ public class Location {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }
