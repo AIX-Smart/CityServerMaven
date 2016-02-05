@@ -290,25 +290,27 @@ public class LocationController {
         return isLike;
     }
 
-    public void saveToDisk(InputStream uploadedInputStream, FormDataContentDisposition fileDetail) {
+    public void saveToDisk(InputStream uploadedInputStream, FormDataContentDisposition fileDetail, int locationId) {
         // wohin mit dem File muss noch geklärt werden
-        String uploadedFileLocation = fileDetail.getName();
+        String uploadedFileLocation = "/home/glassfish/pictures" + locationId +".png";
 
-        try{
-            OutputStream out = new FileOutputStream( new File(uploadedFileLocation));
+        try {
+            OutputStream out = new FileOutputStream(new File(uploadedFileLocation));
             int read = 0;
             byte[] bytes = new byte[1024];
 
-            out = new FileOutputStream( new File(uploadedFileLocation));
+            out = new FileOutputStream(new File(uploadedFileLocation));
 
-            while ((read = uploadedInputStream.read(bytes))!= -1){
+            while ((read = uploadedInputStream.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
 
             out.flush();
             out.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 }

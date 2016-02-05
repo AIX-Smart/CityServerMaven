@@ -4,6 +4,7 @@ import com.server.controller.LocationController;
 import com.server.datatype.Event;
 import com.server.datatype.Location;
 import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -12,6 +13,7 @@ import javax.interceptor.Interceptors;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -357,9 +359,10 @@ public class LocationRestService
     @Path( "/{locationId}/uploadImage" )
     @Consumes( MediaType.MULTIPART_FORM_DATA )
     public Response uploadImage(@FormParam("file")InputStream uploadedInputStream,
-                                @FormParam("file")FormDataContentDisposition fileDetail) {
+                                @FormParam("file")FormDataContentDisposition fileDetail,
+                                @PathParam ("locationId") int locationId) {
 
-        controller.saveToDisk(uploadedInputStream, fileDetail);
+        controller.saveToDisk(uploadedInputStream, fileDetail, locationId);
 
         try {
             return Response.ok( objectMapper.writeValueAsString( "File uploaded successfully" ) ).build();
@@ -370,6 +373,18 @@ public class LocationRestService
     }
 
 
+    @GET
+    @Path( "/{locationId}/downloadImage" )
+    @Produces( "image/png" )
+    public Response downloadImage( @PathParam( "locationId") int locationId) {
+
+        File file = new File( "/home/glassfish/pictures" + locationId +".png");
+        Response.ResponseBuilder responseBuilder = Response.ok( (Object) file );
+        responseBuilder.header("Content-Disposition",
+                "attachment; filename=DisplayName-" + locationId + ".png");
+        return responseBuilder.build();
+
+    }
 
 
 
