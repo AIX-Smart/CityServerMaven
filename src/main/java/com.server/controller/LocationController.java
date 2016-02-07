@@ -7,7 +7,10 @@ import com.server.entities.EventEntity;
 import com.server.entities.LocationEntity;
 import com.server.entities.LocationOwnerEntity;
 import com.server.entities.TagEntity;
+import com.sun.jersey.core.header.ContentDisposition;
 import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -290,34 +293,38 @@ public class LocationController {
         return isLike;
     }
 
-    public void saveToDisk(InputStream uploadedInputStream, FormDataContentDisposition fileDetail, int locationId) {
-        // wohin mit dem File muss noch geklärt werden
-        String uploadedFileLocation = "/home/glassfish/pictures" + locationId +".png";
+    public Location saveToDisk(int locationId, FormDataMultiPart form) {
+
+        LocationEntity locationEntity = getLocationEntityById(locationId);
+
+        FormDataBodyPart frmUpload = form.getField("fileUpload");
+        ContentDisposition headerOfFile = form.getContentDisposition();
+
+        InputStream fileInput = frmUpload.getValueAs(InputStream.class);
+
+
+        String filePath = "/home/glassfish/imgs/" + locationId + ".png";
+        int size = 0;
 
         try {
-            OutputStream out = new FileOutputStream(new File(uploadedFileLocation));
+            OutputStream w = new FileOutputStream(new File(filePath));
             int read = 0;
-            byte[] bytes = new byte[1024];
-
-            out = new FileOutputStream(new File(uploadedFileLocation));
-
-            while ((read = uploadedInputStream.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
+            byte[] buff = new byte[1024];
+            while ((read = fileInput.read(buff)) > 0) {
+                w.write(buff, 0, read);
+                size += read;
             }
-
-            out.flush();
-            out.close();
-
-            LocationEntity locationEntity = getLocationEntityById(locationId);
-            locationEntity.setImagePath(uploadedFileLocation);
-
-            entityManager.merge(locationEntity);
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            w.flush();
+            w.close();
+        } catch (Exception ex) {
+            return null;
         }
-    }
+
+        locationEntity.setImagePath(filePath);
+        entityManager.merge(locationEntity);
+
+        return new Location(locationEntity);
+        }
 
 
     public Event[] getNextPostsOLocactionByPopularity(int id, int userId, int postNum) {
