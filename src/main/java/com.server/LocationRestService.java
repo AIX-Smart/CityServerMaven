@@ -3,18 +3,20 @@ package com.server;
 import com.server.controller.LocationController;
 import com.server.datatype.Event;
 import com.server.datatype.Location;
-import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.core.header.ContentDisposition;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
+import javax.servlet.ServletContext;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Created by jp on 02.11.15.
@@ -374,21 +376,41 @@ public class LocationRestService
         return Response.serverError().build();
     }
 
-//    @POST
-//    @Path( "/uploadImage" )
-//    @Consumes( MediaType.MULTIPART_FORM_DATA )
-//    public Response uploadImage(@FormParam("file")InputStream uploadedInputStream,
-//                                @FormParam("file")FormDataContentDisposition fileDetail) {
-//
-//        controller.saveToDisk(uploadedInputStream, fileDetail, 1);
-//
-//        try {
-//            return Response.ok( objectMapper.writeValueAsString( "File uploaded successfully" ) ).build();
-//        } catch ( IOException e ) {
-//            logger.error( e );
-//        }
-//        return Response.serverError().build();
-//    }
+    @POST
+    @Path( "/uploadImage" )
+    @Produces( MediaType.APPLICATION_XHTML_XML )
+    @Consumes( MediaType.MULTIPART_FORM_DATA )
+    public Response uploadImage(FormDataMultiPart form) {
+
+        FormDataBodyPart frmUpload = form.getField("fileUpload");
+
+        String answer = "" + form.getFields().isEmpty();
+
+        ContentDisposition headerOfFile = form.getContentDisposition();
+
+        InputStream fileInput = frmUpload.getValueAs(InputStream.class);
+
+
+        String filePath = "/home/glassfish/bla.png";
+        int size = 0;
+
+        try{
+            OutputStream w = new FileOutputStream( new File(filePath));
+            int read = 0;
+            byte[] buff = new byte[1024];
+            while((read = fileInput.read(buff))> 0){
+                w.write(buff, 0, read);
+                size += read;
+            }
+            w.flush();
+            w.close();
+        }catch(Exception ex){
+            answer = ex.toString();
+        }
+
+        return Response.ok( answer + size).build();
+
+    }
 
 
 //    @GET
