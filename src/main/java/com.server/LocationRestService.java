@@ -4,7 +4,6 @@ import com.server.controller.LocationController;
 import com.server.datatype.Event;
 import com.server.datatype.Location;
 import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
 import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
@@ -107,6 +106,26 @@ public class LocationRestService
             logger.error( e );
         }
         return Response.serverError().build();
+    }
+
+
+    //Get popular post
+    @GET
+    @Produces(MediaType.APPLICATION_XHTML_XML)
+    @Path("/{id}/{postNum}/{userId}/popular")
+    public Response getPostPopular(@PathParam("id") int id,
+                                   @PathParam("postNum") int postNum,
+                                   @PathParam("userId") int userId
+    ) {
+        Event[] events = controller.getNextPostsOLocactionByPopularity(id, userId, postNum);
+        try {
+            return Response.ok(mapper.writeValueAsString(events)).build();
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+        return Response.serverError().build();
+
     }
 
 
@@ -355,36 +374,35 @@ public class LocationRestService
         return Response.serverError().build();
     }
 
-    @POST
-    @Path( "/{locationId}/uploadImage" )
-    @Consumes( MediaType.MULTIPART_FORM_DATA )
-    public Response uploadImage(@FormParam("file")InputStream uploadedInputStream,
-                                @FormParam("file")FormDataContentDisposition fileDetail,
-                                @PathParam ("locationId") int locationId) {
+//    @POST
+//    @Path( "/uploadImage" )
+//    @Consumes( MediaType.MULTIPART_FORM_DATA )
+//    public Response uploadImage(@FormParam("file")InputStream uploadedInputStream,
+//                                @FormParam("file")FormDataContentDisposition fileDetail) {
+//
+//        controller.saveToDisk(uploadedInputStream, fileDetail, 1);
+//
+//        try {
+//            return Response.ok( objectMapper.writeValueAsString( "File uploaded successfully" ) ).build();
+//        } catch ( IOException e ) {
+//            logger.error( e );
+//        }
+//        return Response.serverError().build();
+//    }
 
-        controller.saveToDisk(uploadedInputStream, fileDetail, locationId);
 
-        try {
-            return Response.ok( objectMapper.writeValueAsString( "File uploaded successfully" ) ).build();
-        } catch ( IOException e ) {
-            logger.error( e );
-        }
-        return Response.serverError().build();
-    }
-
-
-    @GET
-    @Path( "/{locationId}/downloadImage" )
-    @Produces( "image/png" )
-    public Response downloadImage( @PathParam( "locationId") int locationId) {
-
-        File file = new File( "/home/glassfish/pictures" + locationId +".png");
-        Response.ResponseBuilder responseBuilder = Response.ok( (Object) file );
-        responseBuilder.header("Content-Disposition",
-                "attachment; filename=DisplayName-" + locationId + ".png");
-        return responseBuilder.build();
-
-    }
+//    @GET
+//    @Path( "/{locationId}/downloadImage" )
+//    @Produces( "image/png" )
+//    public Response downloadImage( @PathParam( "locationId") int locationId) {
+//
+//        File file = new File( "/home/glassfish/pictures" + locationId +".png");
+//        Response.ResponseBuilder responseBuilder = Response.ok( (Object) file );
+//        responseBuilder.header("Content-Disposition",
+//                "attachment; filename=DisplayName-" + locationId + ".png");
+//        return responseBuilder.build();
+//
+//    }
 
 
 

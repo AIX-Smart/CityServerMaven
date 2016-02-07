@@ -88,7 +88,6 @@ public class EventController {
     }
 
 
-
     public Event[] getAllPost() {
         return Utils.convertToDataEventArray(getAllPostEntity());
     }
@@ -122,9 +121,9 @@ public class EventController {
     public Event deletePost(int id, int userId) {
 
         EventEntity eventEntity = getEventEntityById(id);
-        Boolean isOwner = eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains( userController.getUserEntity( userId ) );
+        Boolean isOwner = eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains(userController.getUserEntity(userId));
 
-        if (userId == (eventEntity.getAppUserEntity().getId())  ||  isOwner) {
+        if (userId == (eventEntity.getAppUserEntity().getId()) || isOwner) {
             eventEntity.setDeleted(true);
         }
         entityManager.merge(eventEntity);
@@ -168,9 +167,9 @@ public class EventController {
 
         AppUserEntity appUserEntity = userController.getUserEntity(userId);
 
-        if ( eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains(appUserEntity)  ){
+        if (eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains(appUserEntity)) {
             eventEntity.setAuthenticated(true);
-        }else{
+        } else {
             eventEntity.setAuthenticated(false);
         }
 
@@ -230,8 +229,8 @@ public class EventController {
 
         boolean liked = false;
 
-        for (EventEntity eventEntity : user.getLikedEventEntities()){
-            if (eventEntity.getId() == eventId){
+        for (EventEntity eventEntity : user.getLikedEventEntities()) {
+            if (eventEntity.getId() == eventId) {
                 liked = true;
             }
         }
@@ -287,7 +286,7 @@ public class EventController {
         boolean isUpToDate = true;
 
         CommentEntity commentEntity = commentController.getFirstComments(id, 1).get(0);
-        if (commentId < commentEntity.getId() ){
+        if (commentId < commentEntity.getId()) {
             isUpToDate = false;
         }
 
@@ -295,8 +294,7 @@ public class EventController {
     }
 
 
-
-    public  List<EventEntity> getNextPostsOfCityByPopularity( int cityId, int postNum ) {
+    public List<EventEntity> getNextPostsOfCityByPopularity(int cityId, int postNum) {
         TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETBYPOPULARITY, EventEntity.class);
 
         Calendar cal = Calendar.getInstance();
@@ -304,7 +302,7 @@ public class EventController {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 1);
-        query.setParameter( "today", cal );
+        query.setParameter("today", cal);
         query.setParameter("cityId", cityId);
         query.setMaxResults(postNum);
 
@@ -314,7 +312,7 @@ public class EventController {
         return eventEntityList;
     }
 
-    public Event[] getNextPostsOfCityByPopularity (int cityId, int userId, int postNum) {
+    public Event[] getNextPostsOfCityByPopularity(int cityId, int userId, int postNum) {
         List<EventEntity> eventEntityList = getNextPostsOfCityByPopularity(cityId, postNum);
 
         AppUserEntity user = userController.getUserEntity(userId);
@@ -324,10 +322,47 @@ public class EventController {
 
     public boolean isAuthenticatedPost(int id) {
         EventEntity eventEntity = getEventEntityById(id);
-        if (eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains(eventEntity.getAppUserEntity())){
+        if (eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains(eventEntity.getAppUserEntity())) {
             return true;
-        }else{
+        } else {
             return false;
         }
+    }
+
+    public Event[] getTagEventsByPopularity(int tagId, int cityId, int userId, int postNum) {
+
+        return Utils.convertToDataEventArray(getTagEventsByPopularity(tagId, cityId, postNum), userController.getUserEntity(userId));
+
+    }
+
+    public List<EventEntity> getTagEventsByPopularity(int tagId, int cityId, int postNum) {
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETWITHTAGBYPOPULARITY, EventEntity.class);
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 1);
+        query.setParameter("today", cal);
+        query.setParameter("cityId", cityId);
+        query.setParameter("tagId", tagId);
+
+        query.setMaxResults(postNum);
+
+
+        return query.getResultList();
+    }
+
+    public Event[] getNextPostsOfLocationByPopularity(int locationId, int userId, int postNum) {
+        return Utils.convertToDataEventArray(getNextPostsOfLocationByPopularity(locationId, postNum), userController.getUserEntity(userId));
+    }
+
+    public List<EventEntity> getNextPostsOfLocationByPopularity(int locationId, int postNum){
+        TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETLOCATIONBYPOPULARITY, EventEntity.class);
+        query.setParameter("locationId", locationId);
+
+        query.setMaxResults(postNum);
+
+
+        return query.getResultList();
     }
 }

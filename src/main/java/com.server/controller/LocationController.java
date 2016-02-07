@@ -307,10 +307,20 @@ public class LocationController {
 
             out.flush();
             out.close();
+
+            LocationEntity locationEntity = getLocationEntityById(locationId);
+            locationEntity.setImagePath(uploadedFileLocation);
+
+            entityManager.merge(locationEntity);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 
+    public Event[] getNextPostsOLocactionByPopularity(int id, int userId, int postNum) {
+        return eventController.getNextPostsOfLocationByPopularity(id, userId, postNum);
+    }
 }

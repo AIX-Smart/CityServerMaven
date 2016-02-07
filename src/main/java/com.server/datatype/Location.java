@@ -35,6 +35,7 @@ public class Location {
         this.phoneNumber = locationEntity.getPhoneNumber();
         this.openHours = locationEntity.getOpenHours();
         this.postalCode = locationEntity.getPostalCode();
+        this.imagePath = locationEntity.getImagePath();
 
         setTagArray(locationEntity.getTags());
 

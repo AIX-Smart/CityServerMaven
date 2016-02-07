@@ -43,6 +43,18 @@ import java.util.List;
                 "FROM EventEntity d JOIN d.locationEntity lc " +
                 "WHERE d.date > :today and lc.cityEntity.id = :cityId and d.deleted = false " +
                 "ORDER BY d.likes DESC"),
+        @NamedQuery(name = EventEntity.GETWITHTAGBYPOPULARITY, query =
+                "SELECT d  " +
+                        "FROM EventEntity d join d.locationEntity l join l.tags lt " +
+                        "WHERE d.date > :today AND d.deleted = false AND lt.id = :tagId AND l.cityEntity.id = :cityId " +
+                        // "WHERE d.id < :lastId AND l.id = :locationid " +
+                        "ORDER BY d.likes DESC"),
+        @NamedQuery(name = EventEntity.GETLOCATIONBYPOPULARITY, query =
+                "SELECT d  " +
+                        "FROM EventEntity d join d.locationEntity l " +
+                        "WHERE l.cityEntity.id = :cityId AND  l.id = :locationId and d.deleted = false " +
+                        // "WHERE d.id < :lastId AND l.id = :locationid " +
+                        "ORDER BY d.likes DESC"),
 
 })
 @Entity
@@ -56,6 +68,9 @@ public class EventEntity {
     public static final String GETEVENTLIKE = "EventEntity.getEventLike";
     public static final String GETWITHTAG = "EventEntity.getWithTag";
     public static final String GETBYPOPULARITY = "EventEntity.getByPopularity";
+    public static final String GETWITHTAGBYPOPULARITY= "EventEntity.getWithTagByPopularity";
+    public static final String GETLOCATIONBYPOPULARITY= "EventEntity.getLocationByPopularity";
+
 
 
     @Id

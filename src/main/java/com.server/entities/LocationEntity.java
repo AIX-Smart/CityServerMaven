@@ -64,6 +64,8 @@ public class LocationEntity {
 
     private String postalCode;
 
+    private String imagePath;
+
     @ManyToOne( optional = false )
     private LocationOwnerEntity locationOwnerEntity;
 
@@ -251,5 +253,13 @@ public class LocationEntity {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

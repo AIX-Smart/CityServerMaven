@@ -103,4 +103,8 @@ public class TagController {
 
         return isUpToDate;
     }
+
+    public Event[] getNextTagEventsByPopularity(int id, int cityId, int userId, int postNum) {
+        return eventController.getTagEventsByPopularity(id, cityId, userId, postNum);
+    }
 }
