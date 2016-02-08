@@ -9,18 +9,16 @@ import com.server.entities.EventEntity;
 @JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public class Event {
 
-        private int id;
-        private String content;
-        private long creationTime;
-        private int likeCount;
-        private int authorId;
-        private boolean liked; //current user has already liked this post
+    private int     id;
+    private String  content;
+    private long    creationTime;
+    private int     likeCount;
+    private int     authorId;
+    private boolean liked; //current user has already liked this post
+    private boolean isAuthenticated;
 
-
-    private boolean isAuthenticatedPost;
-
-        private int locationId;
-        private int commentCount;
+    private int locationId;
+    private int commentCount;
 
 
 
@@ -43,7 +41,7 @@ public class Event {
         this.authorId = eventEntity.getAppUserEntity().getId();
         this.liked = true;
         this.locationId = eventEntity.getLocationEntity().getId();
-        this.isAuthenticatedPost = eventEntity.isAuthenticated();
+        this.isAuthenticated = eventEntity.isAuthenticated();
     }
 
     public Event(EventEntity eventEntity, boolean liked){
@@ -55,7 +53,7 @@ public class Event {
         this.liked = liked;
         this.locationId = eventEntity.getLocationEntity().getId();
         this.commentCount = eventEntity.getCommentEntities().size();
-        this.isAuthenticatedPost = eventEntity.isAuthenticated();
+        this.isAuthenticated = eventEntity.isAuthenticated();
     }
 
 
@@ -124,12 +122,12 @@ public class Event {
         this.commentCount = commentCount;
     }
 
-    public boolean isAuthenticatedPost() {
-        return isAuthenticatedPost;
+    public boolean isAuthenticated() {
+        return isAuthenticated;
     }
 
-    public void setAuthenticatedPost(boolean authenticatedPost) {
-        isAuthenticatedPost = authenticatedPost;
+    public void setAuthenticated(boolean authenticated) {
+        isAuthenticated = authenticated;
     }
 
 

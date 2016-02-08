@@ -1,6 +1,7 @@
 package com.server.datatype;
 
 import com.server.entities.AppUserEntity;
+import com.server.entities.LocationOwnerEntity;
 
 import java.util.List;
 
@@ -10,14 +11,13 @@ import java.util.List;
 public class User {
 
     private int            id;
-    private List<Location> ownLocations;
+    private List<Integer> ownLocationIds;
 
 
 
     public User( AppUserEntity user ) {
         this.id = user.getId();
     }
-
 
 
     public User( int id ) {
@@ -37,13 +37,13 @@ public class User {
     }
 
 
-    public List<Location> getOwnLocations() {
-        return ownLocations;
+    public List<Integer> getOwnLocationIds() {
+        return ownLocationIds;
     }
 
 
 
-    public void setOwnLocations( List<Location> ownLocations ) {
-        this.ownLocations = ownLocations;
+    public void setOwnLocationIds(List<Integer> ownLocationIds) {
+        this.ownLocationIds = ownLocationIds;
     }
 }
