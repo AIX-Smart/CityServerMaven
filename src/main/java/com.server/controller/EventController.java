@@ -322,12 +322,10 @@ public class EventController {
     }
 
     public boolean isAuthenticatedPost(int id) {
+
         EventEntity eventEntity = getEventEntityById(id);
-        if (eventEntity.getLocationEntity().getLocationOwnerEntity().getAppUserEntityList().contains(eventEntity.getAppUserEntity())) {
-            return true;
-        } else {
-            return false;
-        }
+        return eventEntity.isAuthenticated();
+
     }
 
     public Event[] getTagEventsByPopularity(int tagId, int cityId, int userId, int postNum) {

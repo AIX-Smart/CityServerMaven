@@ -140,7 +140,7 @@ public class EventRestService
     //Get liked
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{userId}")
+    @Path("/{id}/{userId}/isLiked")
     public Response isLiked(@PathParam("id") int id,
                              @PathParam("userId") int userId
     ) {

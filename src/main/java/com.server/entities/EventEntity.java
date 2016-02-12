@@ -22,7 +22,7 @@ import java.util.List;
         @NamedQuery(name = EventEntity.GETCITY, query =
                 "SELECT d " +
                         "FROM EventEntity d JOIN d.locationEntity lc " +
-                        "WHERE d.id < :lastId AND lc.cityEntity.id = :cityId and d.deleted = false " +
+                        "WHERE d.id < :lastId AND lc.cityEntity.id = :cityId and d.deleted = false AND d.isAuthenticated = true " +
                         "ORDER BY d.id DESC"),
         @NamedQuery(name = EventEntity.GET, query = "SELECT d FROM EventEntity d WHERE d.id = :id"),
         @NamedQuery(name = EventEntity.GETUSER, query = "SELECT d FROM EventEntity d WHERE d.appUserEntity.id = :appuserid and d.deleted = false ORDER BY d.id DESC"),
@@ -30,30 +30,26 @@ import java.util.List;
                 "SELECT d  " +
                         "FROM EventEntity d join d.locationEntity l " +
                         "WHERE d.id < :lastId AND l.id = :locationId and d.deleted = false " +
-                        // "WHERE d.id < :lastId AND l.id = :locationid " +
                         "ORDER BY d.id DESC"),
         @NamedQuery(name = EventEntity.GETWITHTAG, query =
                 "SELECT d  " +
                         "FROM EventEntity d join d.locationEntity l join l.tags lt " +
-                        "WHERE d.id < :lastId AND d.deleted = false AND lt.id = :tagId AND l.cityEntity.id = :cityId " +
-                        // "WHERE d.id < :lastId AND l.id = :locationid " +
+                        "WHERE d.id < :lastId AND d.deleted = false AND lt.id = :tagId AND l.cityEntity.id = :cityId AND d.isAuthenticated = true " +
                         "ORDER BY d.id DESC"),
         @NamedQuery(name = EventEntity.GETBYPOPULARITY, query =
                 "SELECT d " +
                 "FROM EventEntity d JOIN d.locationEntity lc " +
-                "WHERE d.date > :today and lc.cityEntity.id = :cityId and d.deleted = false " +
+                "WHERE d.date > :today and lc.cityEntity.id = :cityId and d.deleted = false AND d.isAuthenticated = true " +
                 "ORDER BY d.likes DESC"),
         @NamedQuery(name = EventEntity.GETWITHTAGBYPOPULARITY, query =
                 "SELECT d  " +
                         "FROM EventEntity d join d.locationEntity l join l.tags lt " +
-                        "WHERE d.date > :today AND d.deleted = false AND lt.id = :tagId AND l.cityEntity.id = :cityId " +
-                        // "WHERE d.id < :lastId AND l.id = :locationid " +
+                        "WHERE d.date > :today AND d.deleted = false AND lt.id = :tagId AND l.cityEntity.id = :cityId  AND d.isAuthenticated = true " +
                         "ORDER BY d.likes DESC"),
         @NamedQuery(name = EventEntity.GETLOCATIONBYPOPULARITY, query =
                 "SELECT d  " +
                         "FROM EventEntity d join d.locationEntity l " +
                         "WHERE l.id = :locationId and d.deleted = false " +
-                        // "WHEREcityId d.id < :lastId AND l.id = :locationid " +
                         "ORDER BY d.likes DESC"),
 
 })
@@ -94,7 +90,6 @@ public class EventEntity {
     private int likes;
 
     private boolean deleted;
-
 
     private boolean isAuthenticated;
 

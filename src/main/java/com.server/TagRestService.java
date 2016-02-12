@@ -107,7 +107,7 @@ public class TagRestService
     //Get popular post
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{postNum}/{userId}/popular")
+    @Path("/{id}/{cityId}/{postNum}/{userId}/popular")
     public Response getPostPopular(@PathParam("id") int id,
                                    @PathParam("cityId") int cityId,
                                    @PathParam("postNum") int postNum,
