@@ -2,12 +2,17 @@ package com.server.controller;
 
 import com.server.datatype.User;
 import com.server.entities.AppUserEntity;
+import com.server.entities.LocationEntity;
+import com.server.entities.LocationOwnerEntity;
+import org.apache.log4j.Logger;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +24,10 @@ public class UserController {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @EJB
+    private LocationController locationController;
+
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
 
 
@@ -66,10 +75,27 @@ public class UserController {
 
     public AppUserEntity getUserEntity(int userId ) {
 
+
+
         TypedQuery<AppUserEntity> query = entityManager.createNamedQuery( AppUserEntity.GET, AppUserEntity.class );
         query.setParameter( "id", userId );
         AppUserEntity appUserEntity = query.getSingleResult();
         return appUserEntity;
+
+    }
+
+
+    public void addLocationOwnerEntityToUser(LocationOwnerEntity locationOwnerEntity, int userId) {
+
+        AppUserEntity appUser = getUserEntity(userId);
+
+        if (appUser.getOwnerEntityList() == null){
+            appUser.setOwnerEntityList(new ArrayList<LocationOwnerEntity>());
+        }
+
+        appUser.getOwnerEntityList().add(locationOwnerEntity);
+
+        entityManager.merge(appUser);
 
     }
 }

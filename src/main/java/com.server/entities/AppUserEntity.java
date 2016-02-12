@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,11 +32,12 @@ public class AppUserEntity {
 
     private String deviceId;
 
-
-
     private int businessId;
 
     private boolean deleted;
+
+    @OneToMany
+    private List<LocationOwnerEntity> ownerEntityList;
 
     @OneToMany
     private List<EventEntity> likedEventEntities;
@@ -128,5 +130,14 @@ public class AppUserEntity {
 
     public void setDeleted( boolean deleted ) {
         this.deleted = deleted;
+    }
+
+
+    public List<LocationOwnerEntity> getOwnerEntityList() {
+        return ownerEntityList;
+    }
+
+    public void setOwnerEntityList(List<LocationOwnerEntity> ownerEntityList) {
+        this.ownerEntityList = ownerEntityList;
     }
 }

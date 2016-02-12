@@ -3,6 +3,7 @@ package com.server.controller;
 import com.server.entities.AppUserEntity;
 import com.server.entities.LocationEntity;
 import com.server.entities.LocationOwnerEntity;
+import org.apache.log4j.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -26,6 +27,8 @@ public class LocationOwnerController {
     private UserController userController;
 
 
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+
 
     public Boolean authenticateUser( int locationId, int userId, String userMail, String password ) {
 
@@ -37,10 +40,14 @@ public class LocationOwnerController {
             if (!locationOwnerEntity.getAppUserEntityList().contains( user )) {
 
                 locationOwnerEntity.addAppUser( user );
+                userController.addLocationOwnerEntityToUser(locationOwnerEntity, userId);
                 entityManager.merge( locationOwnerEntity );
             }
 
+            logger.info(true);
+
             return true;
+
 
 
         }else{

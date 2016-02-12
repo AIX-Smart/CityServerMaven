@@ -52,8 +52,8 @@ import java.util.List;
         @NamedQuery(name = EventEntity.GETLOCATIONBYPOPULARITY, query =
                 "SELECT d  " +
                         "FROM EventEntity d join d.locationEntity l " +
-                        "WHERE l.cityEntity.id = :cityId AND  l.id = :locationId and d.deleted = false " +
-                        // "WHERE d.id < :lastId AND l.id = :locationid " +
+                        "WHERE l.id = :locationId and d.deleted = false " +
+                        // "WHEREcityId d.id < :lastId AND l.id = :locationid " +
                         "ORDER BY d.likes DESC"),
 
 })

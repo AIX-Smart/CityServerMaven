@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jp on 02.11.15.
@@ -131,7 +132,7 @@ public class CommentController {
 
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setContent(text);
-        commentEntity.setDate(Calendar.getInstance());
+        commentEntity.setDate(Calendar.getInstance(Locale.GERMAN));
         commentEntity.setAppUserEntity(appUserEntity);
 
         EventEntity eventEntity = eventController.getEventEntityById(eventId);

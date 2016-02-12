@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jp on 02.11.15.
@@ -159,7 +160,7 @@ public class EventController {
 
         EventEntity eventEntity = new EventEntity();
         eventEntity.setContent(text);
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance(Locale.GERMAN);
         eventEntity.setDate(calendar);
         eventEntity.setAppUserEntity(userController.getUserEntity(userId));
         eventEntity.setLocationEntity(locationController.getLocationEntityById(id));
@@ -297,7 +298,7 @@ public class EventController {
     public List<EventEntity> getNextPostsOfCityByPopularity(int cityId, int postNum) {
         TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETBYPOPULARITY, EventEntity.class);
 
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance(Locale.GERMAN);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
@@ -337,7 +338,7 @@ public class EventController {
 
     public List<EventEntity> getTagEventsByPopularity(int tagId, int cityId, int postNum) {
         TypedQuery<EventEntity> query = entityManager.createNamedQuery(EventEntity.GETWITHTAGBYPOPULARITY, EventEntity.class);
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance(Locale.GERMAN);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);

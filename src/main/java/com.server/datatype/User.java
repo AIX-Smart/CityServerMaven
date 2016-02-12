@@ -1,8 +1,12 @@
 package com.server.datatype;
 
+import com.server.controller.Utils;
 import com.server.entities.AppUserEntity;
+import com.server.entities.LocationEntity;
 import com.server.entities.LocationOwnerEntity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,6 +21,19 @@ public class User {
 
     public User( AppUserEntity user ) {
         this.id = user.getId();
+
+        List<Integer> locationIds = new ArrayList<Integer>();
+
+        if (user.getOwnerEntityList()!= null) {
+            for (LocationOwnerEntity locationOwnerEntity : user.getOwnerEntityList()) {
+                for (LocationEntity locationEntity : locationOwnerEntity.getLocationEntities()){
+                    locationIds.add( locationEntity.getId());
+                }
+            }
+        }
+
+        this.ownLocationIds = locationIds;
+
     }
 
 

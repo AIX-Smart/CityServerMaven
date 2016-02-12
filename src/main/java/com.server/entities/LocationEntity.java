@@ -28,7 +28,7 @@ public class LocationEntity {
 
 
     public static final String GET                     = "Location.get";
-    public static final String GETBYNAME               = "Locaiton.getByName";
+    public static final String GETBYNAME               = "Location.getByName";
     public static final String GETCITYLOCATIONS        = "Location.getCityLocations";
     public static final String GETCITYLOCATIONSWITHTAG = "Location.getCityLocationsWithTag";
     public static final String GETALL                  = "Location.getAll";

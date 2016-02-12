@@ -279,9 +279,12 @@ public class LocationRestService
                                      String password) {
 
         Boolean success = controller.authenticateUser(id, userId, userMail, password);
+        Boolean isAdmin = false;
+        Boolean [] rights = new Boolean[]{success, isAdmin};
+        logger.info("Restservice");
 
         try {
-            return Response.ok(objectMapper.writeValueAsString(success)).build();
+            return Response.ok(objectMapper.writeValueAsString(rights)).build();
         } catch (IOException e) {
             logger.error(e);
         }
