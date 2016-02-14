@@ -47,7 +47,7 @@ public class TagRestService
     //get isUpToDate
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{cityId}/{eventId}/new")
+    @Path("/{cityId}/{id}/{eventId}/new")
     public Response isUpToDate(@PathParam("id") int id,
                                @PathParam("cityId") int cityId,
                                @PathParam("eventId") int eventId) {
@@ -65,7 +65,7 @@ public class TagRestService
 
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{cityId}/{postNum}/{userId}/new")
+    @Path("/{cityId}/{id}/{postNum}/{userId}/new")
     public Response getPost(@PathParam("id") int id,
                             @PathParam("cityId") int cityId,
                             @PathParam("postNum") int postNum,
@@ -86,7 +86,7 @@ public class TagRestService
     //Get following post from last PostId on with tag
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{cityId}/{postNum}/{userId}/{lastPostId}/new")
+    @Path("/{cityId}/{id}/{postNum}/{userId}/{lastPostId}/new")
     public Response getPost(@PathParam("id") int id,
                             @PathParam("cityId") int cityId,
                             @PathParam("postNum") int postNum,
@@ -107,7 +107,7 @@ public class TagRestService
     //Get popular post
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{cityId}/{postNum}/{userId}/popular")
+    @Path("/{cityId}/{id}/{postNum}/{userId}/popular")
     public Response getPostPopular(@PathParam("id") int id,
                                    @PathParam("cityId") int cityId,
                                    @PathParam("postNum") int postNum,
@@ -128,7 +128,7 @@ public class TagRestService
     //Get first Location with tag
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{cityId}/location/{locationNum}/")
+    @Path("/{cityId}/{id}/location/{locationNum}/")
     public Response getLocation(@PathParam("id") int id,
                                 @PathParam("cityId") int cityId,
                                 @PathParam("locationNum") int locationNum
@@ -147,7 +147,7 @@ public class TagRestService
     //Get following Location from lastLocationId on with tag
     @GET
     @Produces(MediaType.APPLICATION_XHTML_XML)
-    @Path("/{id}/{cityId}/location/{locationNum}/{lastLocationId}")
+    @Path("/{cityId}/{id}/location/{locationNum}/{lastLocationId}")
     public Response getLocation(@PathParam("id") int id,
                                 @PathParam("cityId") int cityId,
                                 @PathParam("locationNum") int locationNum,
